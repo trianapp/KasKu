@@ -9,10 +9,12 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import app.trian.kasku.common.getAppVersion
 import app.trian.kasku.ui.Routes
 import app.trian.kasku.ui.theme.KasKuTheme
 import kotlinx.coroutines.delay
@@ -31,10 +33,16 @@ fun PageSplashScreen(
     router: NavHostController
 ) {
     val scope = rememberCoroutineScope()
+    val ctx = LocalContext.current
     LaunchedEffect(key1 = Unit, block = {
         scope.launch {
             delay(1000)
-            router.navigate(Routes.ONBOARD)
+            router.navigate(Routes.ONBOARD){
+                popUpTo(Routes.SPLASH){
+                    inclusive = true
+                }
+                launchSingleTop=true
+            }
         }
     })
     //todo
@@ -61,8 +69,19 @@ fun PageSplashScreen(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(text = "KasKu")
-            Text(text = "Version 0.0.1")
+            Text(
+                text = "KasKu",
+                style = MaterialTheme.typography.subtitle2.copy(
+                    color = MaterialTheme.colors.surface
+                )
+            )
+            Spacer(modifier = modifier.height(10.dp))
+            Text(
+                text = "version ${ctx.getAppVersion()}",
+                style = MaterialTheme.typography.caption.copy(
+                    color = MaterialTheme.colors.surface
+                )
+            )
         }
     }
 }

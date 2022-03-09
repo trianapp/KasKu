@@ -12,10 +12,15 @@ import androidx.compose.ui.Modifier
 import app.trian.kasku.ui.Routes
 import app.trian.kasku.ui.pages.auth.PageLogin
 import app.trian.kasku.ui.pages.auth.PageOnboard
+import app.trian.kasku.ui.pages.auth.PageRegister
 import app.trian.kasku.ui.pages.auth.PageSplashScreen
+import app.trian.kasku.ui.pages.bank.PageAddBank
+import app.trian.kasku.ui.pages.bank.PageAddBankSuccess
+import app.trian.kasku.ui.pages.dashboard.PageHome
 import app.trian.kasku.ui.theme.KasKuTheme
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
+import com.google.accompanist.navigation.animation.navigation
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
@@ -75,6 +80,61 @@ class MainActivity : ComponentActivity() {
                                color = uiColor,
                                darkIcons = true
                            )
+                           PageRegister(router = router)
+                       }
+                       composable(Routes.ADD_BANK){
+                           val uiColor = MaterialTheme.colors.surface
+                           systemUI.setSystemBarsColor(
+                               color = uiColor,
+                               darkIcons = true
+                           )
+                           PageAddBank(router = router)
+                       }
+                       composable(Routes.ADD_BANK_SUCCESS){
+                           val uiColor = MaterialTheme.colors.surface
+                           systemUI.setSystemBarsColor(
+                               color = uiColor,
+                               darkIcons = true
+                           )
+                           PageAddBankSuccess(router = router)
+                       }
+                       navigation(
+                           route = Routes.DASHBOARD,
+                           startDestination = Routes.Dashboard.HOME
+                       ){
+
+                           composable(Routes.Dashboard.HOME){
+                               val uiColor = MaterialTheme.colors.surface
+                               systemUI.setSystemBarsColor(
+                                   color = uiColor,
+                                   darkIcons = true
+                               )
+                               PageHome(router = router)
+                           }
+                           composable(Routes.Dashboard.DAILY){
+                               val uiColor = MaterialTheme.colors.surface
+                               systemUI.setSystemBarsColor(
+                                   color = uiColor,
+                                   darkIcons = true
+                               )
+
+                           }
+                           composable(Routes.Dashboard.BUDGET){
+                               val uiColor = MaterialTheme.colors.surface
+                               systemUI.setSystemBarsColor(
+                                   color = uiColor,
+                                   darkIcons = true
+                               )
+
+                           }
+                           composable(Routes.Dashboard.PROFILE){
+                               val uiColor = MaterialTheme.colors.surface
+                               systemUI.setSystemBarsColor(
+                                   color = uiColor,
+                                   darkIcons = true
+                               )
+
+                           }
                        }
                    }
                 }

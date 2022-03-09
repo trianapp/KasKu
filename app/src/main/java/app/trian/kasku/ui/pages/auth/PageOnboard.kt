@@ -122,7 +122,12 @@ fun PageOnboard(
             )
         ) {
             ButtonPrimary("Get started"){
-                router.navigate(Routes.LOGIN)
+                router.navigate(Routes.LOGIN){
+                    popUpTo(Routes.ONBOARD){
+                        inclusive = true
+                    }
+                    launchSingleTop=true
+                }
             }
         }
         Spacer(modifier = modifier.height(5.dp))

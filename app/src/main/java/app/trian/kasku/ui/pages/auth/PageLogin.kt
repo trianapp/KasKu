@@ -14,6 +14,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import app.trian.kasku.R
+import app.trian.kasku.ui.Routes
 import app.trian.kasku.ui.component.AppbarAuth
 import app.trian.kasku.ui.component.ButtonSocial
 import app.trian.kasku.ui.component.FormInput
@@ -33,8 +34,8 @@ fun PageLogin(
 ) {
     Scaffold(
         topBar = {
-            AppbarAuth(){
-                //todo: navigate to n
+            AppbarAuth(navigationText = "Sign up"){
+                router.navigate(Routes.REGISTER)
             }
         }
     ) {
@@ -61,12 +62,17 @@ fun PageLogin(
                 )
                 FormInput(
                     placeholder = "name@trian.app",
+                    label = "Email",
                     singleLine = true
                 )
                 FormInputWithButton(
                     placeholder = "your password",
+                    label = "password",
                     showPasswordObsecure = true,
-                    singleLine = true
+                    singleLine = true,
+                    onSubmit = {
+                        router.navigate(Routes.ADD_BANK)
+                    }
                 )
             }
             Text(
