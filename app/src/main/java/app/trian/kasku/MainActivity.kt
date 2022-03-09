@@ -17,6 +17,7 @@ import app.trian.kasku.ui.pages.auth.PageRegister
 import app.trian.kasku.ui.pages.auth.PageSplashScreen
 import app.trian.kasku.ui.pages.bank.PageAddBank
 import app.trian.kasku.ui.pages.bank.PageAddBankSuccess
+import app.trian.kasku.ui.pages.budget.PageCreateBudget
 import app.trian.kasku.ui.pages.dashboard.PageBudget
 import app.trian.kasku.ui.pages.dashboard.PageDaily
 import app.trian.kasku.ui.pages.dashboard.PageHome
@@ -164,6 +165,16 @@ class MainActivity : ComponentActivity() {
                            PageStat(
                                router = router,
                                type = BudgetType.INCOME
+                           )
+                       }
+                       composable(Routes.CREATE_BUDGET){
+                           val uiColor = MaterialTheme.colors.surface
+                           systemUI.setSystemBarsColor(
+                               color = uiColor,
+                               darkIcons = true
+                           )
+                           PageCreateBudget(
+                               router = router,
                            )
                        }
                    }

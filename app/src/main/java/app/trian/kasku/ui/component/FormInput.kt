@@ -15,6 +15,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
@@ -72,14 +73,16 @@ fun FormInput(
                 backgroundColor = Color.Transparent,
             ),
             textStyle =MaterialTheme.typography.body2.copy(
-                color = MaterialTheme.colors.onBackground
+                color = MaterialTheme.colors.onBackground,
+                fontWeight = FontWeight.Bold
             ),
             modifier = modifier.fillMaxWidth(),
             placeholder = {
                 Text(
                     text = placeholder,
                     style = MaterialTheme.typography.body2.copy(
-                        color = MaterialTheme.colors.onSurface
+                        color = MaterialTheme.colors.onSurface,
+                        fontWeight = FontWeight.Bold
                     )
                 )
             },
@@ -151,14 +154,16 @@ fun FormInputWithButton(
                     backgroundColor = Color.Transparent,
                 ),
                 textStyle =MaterialTheme.typography.body2.copy(
-                    color = MaterialTheme.colors.onBackground
+                    color = MaterialTheme.colors.onBackground,
+                    fontWeight = FontWeight.Bold
                 ),
                 modifier = modifier.fillMaxWidth(fraction = 0.8f),
                 placeholder = {
                     Text(
                         text = placeholder,
                         style = MaterialTheme.typography.body2.copy(
-                            color = MaterialTheme.colors.onSurface
+                            color = MaterialTheme.colors.onSurface,
+                            fontWeight = FontWeight.Bold
                         )
                     )
                 },

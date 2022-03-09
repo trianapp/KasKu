@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import app.trian.kasku.domain.BudgetType
+import app.trian.kasku.ui.Routes
 import app.trian.kasku.ui.component.AppbarDashboard
 import app.trian.kasku.ui.component.ItemBudget
 import app.trian.kasku.ui.component.ItemStat
@@ -51,11 +52,27 @@ fun PageBudget(
                     MonthPicker()
                 },
                 actions = {
-                    IconToggleButton(checked = false, onCheckedChange = {}) {
-                        Icon(imageVector = Octicons.Plus24, contentDescription = "")
+                    IconToggleButton(
+                        checked = false,
+                        onCheckedChange = {
+                            router.navigate(Routes.CREATE_BUDGET)
+                        }
+                    ) {
+                        Icon(
+                            imageVector = Octicons.Plus24,
+                            contentDescription = "",
+                            tint = MaterialTheme.colors.onBackground
+                        )
                     }
-                    IconToggleButton(checked = false, onCheckedChange = {}) {
-                        Icon(imageVector = Octicons.Search24, contentDescription = "")
+                    IconToggleButton(
+                        checked = false,
+                        onCheckedChange = {}
+                    ) {
+                        Icon(
+                            imageVector = Octicons.Search24,
+                            contentDescription = "",
+                            tint = MaterialTheme.colors.onBackground
+                        )
                     }
                 }
             )

@@ -55,17 +55,19 @@ fun HeaderStat(
     ) {
         Box(
             modifier = modifier
-                .width(10.dp)
-                .height(currentWidth / 3)
                 .clip(
                     RoundedCornerShape(
                         bottomEndPercent = 100,
                         topEndPercent = 100
                     )
                 )
+                .width(10.dp)
+                .height(currentWidth / 3)
+
                 .background(
                     color = color
                 )
+
         ) {
 
         }
@@ -74,6 +76,11 @@ fun HeaderStat(
                 .width(currentWidth - 50.dp)
                 .height(currentWidth/3)
                 .clip(MaterialTheme.shapes.large)
+                .coloredShadow(
+                    color=color,
+                    alpha = 1f,
+                    shadowRadius = 6.dp
+                )
                 .background(
                     color = color
                 )
@@ -119,14 +126,14 @@ fun HeaderStat(
         }
         Box(
             modifier = modifier
-                .width(10.dp)
-                .height(currentWidth / 3)
                 .clip(
                     RoundedCornerShape(
                         bottomStartPercent = 100,
                         topStartPercent = 100
                     )
                 )
+                .width(10.dp)
+                .height(currentWidth / 3)
                 .background(
                     color = color
                 )

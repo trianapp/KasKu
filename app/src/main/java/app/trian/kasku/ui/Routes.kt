@@ -14,6 +14,8 @@ object Routes {
     const val STAT_INCOME = "STAT_INCOME"
     const val STAT_EXPENSE ="STAT_EXPENSE"
 
+    const val CREATE_BUDGET = "CREATE_BUDGET"
+
     object Dashboard{
         const val HOME="HOME"
         const val DAILY = "DAILY"

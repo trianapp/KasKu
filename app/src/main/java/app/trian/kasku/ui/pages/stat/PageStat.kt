@@ -1,12 +1,8 @@
 package app.trian.kasku.ui.pages.stat
 
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.Icon
-import androidx.compose.material.IconToggleButton
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -14,10 +10,9 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import app.trian.kasku.domain.BudgetType
-import app.trian.kasku.ui.component.AppbarDashboard
-import app.trian.kasku.ui.component.HeaderStat
-import app.trian.kasku.ui.component.MonthPicker
+import app.trian.kasku.ui.component.*
 import app.trian.kasku.ui.theme.KasKuTheme
+import app.trian.kasku.R
 import compose.icons.Octicons
 import compose.icons.octicons.ArrowLeft24
 import compose.icons.octicons.Search24
@@ -68,6 +63,49 @@ fun PageStat(
                     HeaderStat(
                         type = type
                     )
+                }
+                item {
+                    Box(
+                        modifier = modifier
+                            .fillMaxWidth()
+                            .padding(
+                                vertical = 20.dp,
+                                horizontal = 20.dp
+                            ),
+                    ) {
+                        Text(
+                            text = "Transactions",
+                            style = MaterialTheme.typography.body2.copy(
+                                color = MaterialTheme.colors.onSurface
+                            )
+                        )
+                    }
+                }
+                items(count = 3){
+                    index->
+                    ItemTransactionStat(
+                        type = type
+                    )
+                }
+                item {
+                    Spacer(modifier = modifier.height(20.dp))
+                    Row (
+                        modifier = modifier
+                            .fillMaxWidth()
+                            .padding(
+                                horizontal = 20.dp
+                            ),
+                        horizontalArrangement = Arrangement.SpaceEvenly
+                    ){
+                     ItemOptionStat(
+                         name = "Export",
+                         icon = R.drawable.ic_hotel
+                     ){}
+                     ItemOptionStat(
+                         name = "Share",
+                         icon = R.drawable.ic_cutlery
+                     ){}
+                    }
                 }
             }
         )
