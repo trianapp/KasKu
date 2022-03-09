@@ -9,6 +9,7 @@ import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import app.trian.kasku.ui.theme.KasKuTheme
@@ -49,8 +50,9 @@ fun AppbarDashboard(
             title = {
                 Text(
                     text = title,
-                    style = MaterialTheme.typography.body2.copy(
-                        color = MaterialTheme.colors.onBackground
+                    style = MaterialTheme.typography.h4.copy(
+                        color = MaterialTheme.colors.onBackground,
+                        fontWeight = FontWeight.Bold
                     )
                 )
             }
@@ -58,7 +60,7 @@ fun AppbarDashboard(
         Box(modifier = modifier.padding(horizontal = 16.dp)){
             content.invoke()
         }
-        Spacer(modifier = modifier.height(10.dp))
+        Spacer(modifier = modifier.height(16.dp))
     }
 }
 

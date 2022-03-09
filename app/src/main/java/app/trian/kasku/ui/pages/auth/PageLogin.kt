@@ -83,7 +83,9 @@ fun PageLogin(
                 modifier = modifier.fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                ButtonSocial("Login with Google")
+                ButtonSocial("Login with Google"){
+                    router.navigate(Routes.DASHBOARD)
+                }
                 Spacer(modifier = modifier.height(20.dp))
                 Text(
                     text = "Forgot password?",

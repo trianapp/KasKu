@@ -1,6 +1,7 @@
 package app.trian.kasku.ui.component
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
@@ -16,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import app.trian.kasku.ui.Routes
 import app.trian.kasku.ui.theme.DisableColor
 import app.trian.kasku.ui.theme.DisableContentColor
 import app.trian.kasku.ui.theme.KasKuTheme
@@ -55,7 +57,7 @@ fun KasKuBottomNavigation(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .background(Color.Transparent)
+            .background(MaterialTheme.colors.surface)
             .padding(horizontal = 16.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
@@ -70,7 +72,14 @@ fun KasKuBottomNavigation(
                         .width(currentWidth / 6)
                         .padding(
                             vertical = 4.dp
-                        ),
+                        )
+                        .clickable {
+                                   if(menu.route != ""){
+                                       router.navigate(menu.route){
+                                           launchSingleTop = true
+                                       }
+                                   }
+                        },
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.SpaceBetween
                 ) {
@@ -111,12 +120,12 @@ sealed class BottomNavigationModel(
     object Daily:BottomNavigationModel(
         icon = Octicons.Megaphone16,
         title = "Daily",
-        route = ""
+        route = Routes.Dashboard.DAILY
     )
     object Home:BottomNavigationModel(
         icon = Octicons.Star16,
         title = "Home",
-        route = ""
+        route = Routes.Dashboard.HOME
     )
     object Center:BottomNavigationModel(
         icon = Octicons.Plus16,
@@ -126,12 +135,12 @@ sealed class BottomNavigationModel(
     object Budget:BottomNavigationModel(
         icon = Octicons.Star16,
         title = "Budget",
-        route = ""
+        route = Routes.Dashboard.BUDGET
     )
     object Profile:BottomNavigationModel(
         icon = Octicons.Star16,
         title = "Profile",
-        route = ""
+        route = Routes.Dashboard.PROFILE
     )
 }
 

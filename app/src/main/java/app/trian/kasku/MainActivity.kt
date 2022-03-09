@@ -16,7 +16,10 @@ import app.trian.kasku.ui.pages.auth.PageRegister
 import app.trian.kasku.ui.pages.auth.PageSplashScreen
 import app.trian.kasku.ui.pages.bank.PageAddBank
 import app.trian.kasku.ui.pages.bank.PageAddBankSuccess
+import app.trian.kasku.ui.pages.dashboard.PageBudget
+import app.trian.kasku.ui.pages.dashboard.PageDaily
 import app.trian.kasku.ui.pages.dashboard.PageHome
+import app.trian.kasku.ui.pages.dashboard.PageProfile
 import app.trian.kasku.ui.theme.KasKuTheme
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
@@ -117,6 +120,7 @@ class MainActivity : ComponentActivity() {
                                    color = uiColor,
                                    darkIcons = true
                                )
+                               PageDaily(router = router)
 
                            }
                            composable(Routes.Dashboard.BUDGET){
@@ -126,6 +130,7 @@ class MainActivity : ComponentActivity() {
                                    darkIcons = true
                                )
 
+                               PageBudget(router = router)
                            }
                            composable(Routes.Dashboard.PROFILE){
                                val uiColor = MaterialTheme.colors.surface
@@ -133,6 +138,7 @@ class MainActivity : ComponentActivity() {
                                    color = uiColor,
                                    darkIcons = true
                                )
+                               PageProfile(router = router)
 
                            }
                        }

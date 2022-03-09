@@ -12,7 +12,7 @@ val Background = Color(0xFFFCFCFC)
 val Surface = Color(0xFFFFFFFF)
 val OnBackground = Color(0xFF1C202E)
 val OnSurface = Color(0xFFAEB1B8)
-val BackgroundDashboard = Color(0xFFF2F2F2)
+val BackgroundDashboard = Color(0xFFFCFCFC)
 
 val DisableColor = Color(0xFFDCDFE5)
 val DisableContentColor = Color(0xFF8D8E8F)

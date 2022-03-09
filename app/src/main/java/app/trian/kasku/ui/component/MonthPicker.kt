@@ -1,6 +1,7 @@
 package app.trian.kasku.ui.component
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -23,7 +24,8 @@ import app.trian.kasku.ui.theme.KasKuTheme
  */
 @Composable
 fun MonthPicker(
-    modifier:Modifier=Modifier
+    modifier:Modifier=Modifier,
+    onItemSelected:()->Unit = {}
 ) {
     val ctx = LocalContext.current
     val currentWidth = ctx
@@ -31,6 +33,7 @@ fun MonthPicker(
         .displayMetrics.widthPixels.dp /
             LocalDensity.current.density
     val cardWidth = ((currentWidth/6)-10.dp)
+
 
     Row(
         modifier = modifier.fillMaxWidth(),
@@ -54,15 +57,19 @@ fun MonthPicker(
                     modifier = modifier
                         .width(cardWidth)
                         .clip(MaterialTheme.shapes.medium)
-                        .background(BackgroundDashboard)
+                        .background(if(i == 2 ) MaterialTheme.colors.primary else BackgroundDashboard)
+                        .clickable {
+                            onItemSelected()
+                        }
                         .padding(
-                            all = 6.dp
+                            horizontal = 6.dp,
+                            vertical = 8.dp
                         )
                 ) {
                     Text(
                         text = "Jan",
                         style = MaterialTheme.typography.caption.copy(
-                            color = MaterialTheme.colors.onBackground
+                            color = if(i == 2 ) MaterialTheme.colors.surface else MaterialTheme.colors.onBackground
                         ),
                         modifier = modifier.align(Alignment.Center)
                     )

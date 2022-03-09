@@ -1,14 +1,13 @@
 package app.trian.kasku.ui.component
 
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
@@ -38,7 +37,9 @@ fun ButtonPrimary(
     Button(
         enabled=enabled,
         onClick = onClick,
-        modifier=modifier.fillMaxWidth().height(50.dp),
+        modifier= modifier
+            .fillMaxWidth()
+            .height(50.dp),
         colors = ButtonDefaults.buttonColors(
             backgroundColor = MaterialTheme.colors.primary,
             contentColor = MaterialTheme.colors.onPrimary,
@@ -66,7 +67,9 @@ fun ButtonSecondary(
     OutlinedButton(
         enabled=enabled,
         onClick = onClick,
-        modifier = modifier.fillMaxWidth().height(50.dp),
+        modifier = modifier
+            .fillMaxWidth()
+            .height(50.dp),
         colors = ButtonDefaults.outlinedButtonColors(
             backgroundColor = Color.Transparent,
             contentColor = MaterialTheme.colors.primary,
@@ -125,7 +128,8 @@ fun ButtonSocial(
 ) {
     OutlinedButton(
         modifier= modifier
-            .fillMaxWidth().height(50.dp),
+            .fillMaxWidth()
+            .height(50.dp),
         enabled=enabled,
         contentPadding= PaddingValues(
             vertical = 6.dp
@@ -143,7 +147,9 @@ fun ButtonSocial(
         ),
     ) {
         Box(
-            modifier = modifier.fillMaxWidth().padding(horizontal = 6.dp)
+            modifier = modifier
+                .fillMaxWidth()
+                .padding(horizontal = 6.dp)
         ) {
             Image(
                 painter = painterResource(id = R.drawable.ic_google_normal),
@@ -161,18 +167,70 @@ fun ButtonSocial(
 }
 
 @Composable
-fun ButtonSmall() {
+fun ButtonSmall(
+    text: String="",
+    textColor:Color=MaterialTheme.colors.onPrimary,
+    backgroundColor:Color=MaterialTheme.colors.primary,
+    modifier: Modifier=Modifier,
+    enabled:Boolean=true,
+    onClick: () -> Unit={}
 
+) {
+    Box(modifier =modifier
+        .clip(MaterialTheme.shapes.medium)
+        .background(backgroundColor)
+        .clickable(enabled = enabled, onClick = onClick)
+        .padding(all = 10.dp)
+    ) {
+        Text(
+            text = text,
+            style = MaterialTheme.typography.button.copy(
+                color = if(enabled) textColor else DisableContentColor
+            ),
+            modifier = modifier.align(Alignment.Center)
+        )
+    }
 }
 
+@Composable
+fun ButtonSmallSecondary(
+    text: String="",
+    textColor:Color=MaterialTheme.colors.onPrimary,
+    backgroundColor:Color=MaterialTheme.colors.primary,
+    modifier: Modifier=Modifier,
+    enabled:Boolean=true,
+    onClick: () -> Unit={}
+
+) {
+    Box(modifier =modifier
+        .clip(MaterialTheme.shapes.medium)
+        .border(
+            width=1.dp,
+            shape = MaterialTheme.shapes.medium,
+            color = backgroundColor
+        )
+        .clickable(enabled = enabled, onClick = onClick)
+        .padding(all = 10.dp)
+    ) {
+        Text(
+            text = text,
+            style = MaterialTheme.typography.button.copy(
+                color = if(enabled) textColor else DisableContentColor
+            ),
+            modifier = modifier.align(Alignment.Center)
+        )
+    }
+}
 @Preview
 @Composable
 fun PreviewComponentButton(){
     KasKuTheme {
         Column(
-            modifier = Modifier.background(MaterialTheme.colors.background).padding(
-                horizontal = 16.dp
-            )
+            modifier = Modifier
+                .background(MaterialTheme.colors.background)
+                .padding(
+                    horizontal = 16.dp
+                )
         ) {
             ButtonPrimary(text = "Save")
             ButtonPrimary(text = "Save", enabled = false)
@@ -187,7 +245,8 @@ fun PreviewComponentButton(){
             ButtonSocial("Continue With Google")
             ButtonSocial("Continue With Google", enabled = false)
 
-            ButtonSmall()
+            ButtonSmall("Update"){}
+            ButtonSmallSecondary("Update"){}
         }
     }
 }

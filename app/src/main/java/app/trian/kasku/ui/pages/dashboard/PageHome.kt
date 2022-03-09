@@ -11,6 +11,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import app.trian.kasku.ui.component.AppbarDashboard
+import app.trian.kasku.ui.component.CardChartHome
 import app.trian.kasku.ui.component.ItemStat
 import app.trian.kasku.ui.component.MonthPicker
 import app.trian.kasku.ui.theme.ExpensesColor
@@ -41,6 +42,14 @@ fun PageHome(
             Column (
                 modifier = modifier.padding(vertical = 10.dp)
                     ){
+                Box(
+                    modifier = modifier.padding(
+                        horizontal = 30.dp
+                    )
+                ) {
+                    CardChartHome()
+                }
+                Spacer(modifier = modifier.height(30.dp))
                 Row(
                     modifier = modifier
                         .fillMaxWidth()

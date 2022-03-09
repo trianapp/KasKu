@@ -1,6 +1,7 @@
 package app.trian.kasku.ui.component
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Icon
@@ -34,6 +35,7 @@ fun ItemStat(
     iconColor:Color = MaterialTheme.colors.primary,
     name:String="",
     value:String="",
+    onClick:()->Unit={}
 ) {
     val ctx = LocalContext.current
     val currentWidth = ctx
@@ -48,6 +50,9 @@ fun ItemStat(
             .height(cardWidth + 30.dp)
             .clip(MaterialTheme.shapes.large)
             .background(MaterialTheme.colors.surface)
+            .clickable {
+                onClick()
+            }
             .padding(all = 20.dp)
 
     ) {
