@@ -10,6 +10,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import app.trian.kasku.ui.Routes
 import app.trian.kasku.ui.component.AppbarDashboard
 import app.trian.kasku.ui.component.CardChartHome
 import app.trian.kasku.ui.component.ItemStat
@@ -61,12 +62,16 @@ fun PageHome(
                         name = "Income",
                         value = "Rp 1.000.00",
                         iconColor = MaterialTheme.colors.secondary
-                    )
+                    ){
+                        router.navigate(Routes.STAT_INCOME)
+                    }
                     ItemStat(
                         name = "Expense",
                         value = "Rp 1.000.00",
                         iconColor = ExpensesColor
-                    )
+                    ){
+                        router.navigate(Routes.STAT_EXPENSE)
+                    }
                 }
             }
         }

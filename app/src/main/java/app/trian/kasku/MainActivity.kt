@@ -9,6 +9,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import app.trian.kasku.domain.BudgetType
 import app.trian.kasku.ui.Routes
 import app.trian.kasku.ui.pages.auth.PageLogin
 import app.trian.kasku.ui.pages.auth.PageOnboard
@@ -20,6 +21,7 @@ import app.trian.kasku.ui.pages.dashboard.PageBudget
 import app.trian.kasku.ui.pages.dashboard.PageDaily
 import app.trian.kasku.ui.pages.dashboard.PageHome
 import app.trian.kasku.ui.pages.dashboard.PageProfile
+import app.trian.kasku.ui.pages.stat.PageStat
 import app.trian.kasku.ui.theme.KasKuTheme
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
@@ -141,6 +143,28 @@ class MainActivity : ComponentActivity() {
                                PageProfile(router = router)
 
                            }
+                       }
+                       composable(Routes.STAT_EXPENSE){
+                           val uiColor = MaterialTheme.colors.surface
+                           systemUI.setSystemBarsColor(
+                               color = uiColor,
+                               darkIcons = true
+                           )
+                           PageStat(
+                               router = router,
+                               type = BudgetType.EXPENSE
+                           )
+                       }
+                       composable(Routes.STAT_INCOME){
+                           val uiColor = MaterialTheme.colors.surface
+                           systemUI.setSystemBarsColor(
+                               color = uiColor,
+                               darkIcons = true
+                           )
+                           PageStat(
+                               router = router,
+                               type = BudgetType.INCOME
+                           )
                        }
                    }
                 }
