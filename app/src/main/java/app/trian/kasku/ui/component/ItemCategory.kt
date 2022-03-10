@@ -11,6 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
@@ -41,7 +42,7 @@ fun ItemCategory(
         .resources
         .displayMetrics.widthPixels.dp /
             LocalDensity.current.density
-    val cardWidth = currentWidth / 2 - (currentWidth/9)
+    val cardWidth = currentWidth / 2 - (currentWidth/10)
 
    Row(
        modifier = modifier.padding(
@@ -81,7 +82,11 @@ fun ItemCategory(
                Image(
                    painter = painterResource(id = icon) ,
                    contentDescription = "",
-                   modifier = modifier.align(Alignment.Center).fillMaxWidth().fillMaxHeight()
+                   modifier = modifier
+                       .align(Alignment.Center)
+                       .size(cardWidth / 2-10.dp)
+                       .padding(all = 16.dp),
+                   contentScale = ContentScale.FillWidth
                )
            }
            Text(

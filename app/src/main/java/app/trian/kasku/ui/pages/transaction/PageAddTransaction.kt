@@ -150,10 +150,16 @@ fun PageAddTransaction(
                             horizontalAlignment = Alignment.Start,
                             verticalArrangement = Arrangement.SpaceBetween
                         ) {
-                            Image(
-                                painter = painterResource(id = R.drawable.bg_onboard_3),
-                                contentDescription = ""
-                            )
+                            Column(
+                                modifier = modifier.fillMaxWidth(),
+                                horizontalAlignment = Alignment.CenterHorizontally
+                            ) {
+                                Image(
+                                    painter = painterResource(id = R.drawable.bg_onboard_3),
+                                    contentDescription = "",
+                                    modifier = modifier.fillMaxWidth(fraction = 0.5f)
+                                )
+                            }
                             Text(
                                 text = "What kind of transaction it is?",
                                 style = MaterialTheme.typography.h4.copy(

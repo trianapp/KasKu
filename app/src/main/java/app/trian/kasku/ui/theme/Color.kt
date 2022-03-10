@@ -17,7 +17,7 @@ val BackgroundDashboard = Color(0xFFFCFCFC)
 val DisableColor = Color(0xFFDCDFE5)
 val DisableContentColor = Color(0xFF8D8E8F)
 
-val CircleIconCategory = Color(0xFFD4D7D9)
+val CircleIconCategory = Color(0xFFF7F7F7)
 
 val ExpensesColor = Color(0xFFFF2525)
 

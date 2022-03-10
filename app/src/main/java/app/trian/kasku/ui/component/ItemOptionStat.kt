@@ -34,7 +34,7 @@ import app.trian.kasku.ui.theme.DisableContentColor
 fun ItemOptionStat(
     modifier: Modifier=Modifier,
     name:String="",
-    icon:Int=R.drawable.ic_hotel,
+    icon:Int=R.drawable.ic_category_hotel,
     onClick:()->Unit={}
 ) {
     val ctx = LocalContext.current
@@ -70,11 +70,12 @@ fun ItemOptionStat(
                     .size(40.dp)
                     .clip(CircleShape)
                     .background(DisableColor)
-                    .padding(all = 6.dp)
+                    .padding(all = 4.dp)
             ) {
                 Image(
                     painter = painterResource(id =icon),
-                    contentDescription = ""
+                    contentDescription = "",
+                    modifier = modifier.align(Alignment.Center)
                 )
             }
             Text(

@@ -48,8 +48,9 @@ fun PageLogin(
         ) {
             Column {
                 Image(
-                    painter = painterResource(id = R.drawable.bg_onboard_3),
-                    contentDescription = ""
+                    painter = painterResource(id = R.drawable.bg_onboard_2),
+                    contentDescription = "",
+                    modifier = modifier.fillMaxWidth(fraction = 0.5f)
                 )
             }
             Column(

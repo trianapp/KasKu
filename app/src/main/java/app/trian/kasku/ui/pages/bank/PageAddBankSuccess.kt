@@ -104,7 +104,8 @@ fun PageAddBankSuccess(
                     .padding(all = 20.dp)
             ) {
                 Image(
-                    painter = painterResource(id = R.drawable.ic_hotel),
+                    painter = painterResource(
+                        id = R.drawable.ic_category_hotel),
                     contentDescription = "",
                     modifier = modifier
                         .fillMaxSize(fraction = 0.1f)
