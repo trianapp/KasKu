@@ -49,7 +49,7 @@ fun FormInput(
     masked:VisualTransformation= VisualTransformation.None,
     keyboardOptions: KeyboardOptions=KeyboardOptions.Default,
     keyboardActions: KeyboardActions= KeyboardActions.Default,
-    leading:@Composable ()->Unit ={},
+    leading:@Composable (() -> Unit)? = null,
     onChange:(String)->Unit ={},
     ) {
     var value by remember {
@@ -99,9 +99,7 @@ fun FormInput(
             singleLine = singleLine,
             keyboardOptions = keyboardOptions,
             keyboardActions = keyboardActions,
-            leadingIcon = {
-               leading.invoke()
-            },
+            leadingIcon = leading,
             trailingIcon = {
                 if(showPasswordObsecure){
                     IconToggleButton(checked = visibleObsecure, onCheckedChange = {
@@ -142,7 +140,7 @@ fun FormInputWithButton(
     keyboardOptions: KeyboardOptions=KeyboardOptions.Default,
     keyboardActions: KeyboardActions= KeyboardActions.Default,
     maxLength:Int=500,
-    leading:@Composable ()->Unit ={},
+    leading:@Composable (() -> Unit)? = null,
     onSubmit:()->Unit={}
 ) {
 
@@ -198,9 +196,7 @@ fun FormInputWithButton(
                 singleLine = singleLine,
                 keyboardOptions = keyboardOptions,
                 keyboardActions = keyboardActions,
-                leadingIcon = {
-                    leading.invoke()
-                },
+                leadingIcon = leading,
                 trailingIcon = {
                     if(showPasswordObsecure){
                         IconToggleButton(checked = visibleObsecure, onCheckedChange = {

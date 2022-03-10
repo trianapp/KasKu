@@ -33,7 +33,8 @@ fun ItemCategory(
     modifier: Modifier=Modifier,
     icon:Int= R.drawable.ic_car,
     name:String="",
-    selected:Boolean = false
+    selected:Boolean = false,
+    onClick:()->Unit={}
 ) {
     val ctx = LocalContext.current
     val currentWidth = ctx
@@ -62,7 +63,7 @@ fun ItemCategory(
                    color = if(selected) MaterialTheme.colors.primary else Color.Transparent,
                    shape = MaterialTheme.shapes.large)
                .background(MaterialTheme.colors.surface)
-               .clickable(onClick = {})
+               .clickable(onClick = {onClick()})
                .padding(
                    all = 16.dp
                ),

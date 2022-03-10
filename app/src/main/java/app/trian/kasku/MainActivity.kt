@@ -23,6 +23,8 @@ import app.trian.kasku.ui.pages.dashboard.PageDaily
 import app.trian.kasku.ui.pages.dashboard.PageHome
 import app.trian.kasku.ui.pages.dashboard.PageProfile
 import app.trian.kasku.ui.pages.stat.PageStat
+import app.trian.kasku.ui.pages.transaction.PageAddTransaction
+import app.trian.kasku.ui.pages.transaction.PageAddTransactionSuccess
 import app.trian.kasku.ui.pages.transaction.PageDetailTransaction
 import app.trian.kasku.ui.theme.KasKuTheme
 import com.google.accompanist.navigation.animation.AnimatedNavHost
@@ -185,6 +187,22 @@ class MainActivity : ComponentActivity() {
                                darkIcons = true
                            )
                            PageDetailTransaction(router = router)
+                       }
+                       composable(Routes.ADD_TRANSACTION){
+                           val uiColor = MaterialTheme.colors.surface
+                           systemUI.setSystemBarsColor(
+                               color = uiColor,
+                               darkIcons = true
+                           )
+                           PageAddTransaction(router = router)
+                       }
+                       composable(Routes.ADD_TRANSACTION_SUCCESS){
+                           val uiColor = MaterialTheme.colors.surface
+                           systemUI.setSystemBarsColor(
+                               color = uiColor,
+                               darkIcons = true
+                           )
+                           PageAddTransactionSuccess(router = router)
                        }
                    }
                 }

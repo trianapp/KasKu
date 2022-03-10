@@ -11,6 +11,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import app.trian.kasku.ui.Routes
 import app.trian.kasku.ui.component.KasKuBottomNavigation
 import app.trian.kasku.ui.theme.BackgroundDashboard
 import app.trian.kasku.ui.theme.KasKuTheme
@@ -47,7 +48,9 @@ fun PageBaseDashboard(
         isFloatingActionButtonDocked = true,
         floatingActionButton = {
             FloatingActionButton(
-                onClick = { /*TODO*/ },
+                onClick = {
+                          router.navigate(Routes.ADD_TRANSACTION)
+                },
                 backgroundColor = MaterialTheme.colors.primary
             ) {
                 Icon(

@@ -17,6 +17,8 @@ object Routes {
     const val CREATE_BUDGET = "CREATE_BUDGET"
 
     const val DETAIL_TRANSACTION = "DETAIL_TRANSACTION"
+    const val ADD_TRANSACTION = "ADD_TRANSACTION"
+    const val ADD_TRANSACTION_SUCCESS = "ADD_TRANSACTION_SUCCESS"
 
     object Dashboard{
         const val HOME="HOME"
