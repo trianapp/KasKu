@@ -31,7 +31,6 @@ fun Modifier.coloredShadow(
     val transparent = color.copy(alpha= 0f).toArgb()
 
     this.drawBehind {
-
         this.drawIntoCanvas {
             val paint = Paint()
             val frameworkPaint = paint.asFrameworkPaint()

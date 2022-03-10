@@ -5,6 +5,8 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -16,6 +18,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
@@ -42,14 +45,18 @@ fun FormInput(
     showPasswordObsecure:Boolean=false,
     singleLine:Boolean=true,
     maxLine:Int=1,
+    maxLength:Int=500,
+    masked:VisualTransformation= VisualTransformation.None,
+    keyboardOptions: KeyboardOptions=KeyboardOptions.Default,
+    keyboardActions: KeyboardActions= KeyboardActions.Default,
+    leading:@Composable ()->Unit ={},
     onChange:(String)->Unit ={},
-
-) {
+    ) {
     var value by remember {
         mutableStateOf(TextFieldValue(text = initialValue))
     }
     var visibleObsecure by remember {
-        mutableStateOf(!showPasswordObsecure)
+        mutableStateOf(false)
     }
     Column(
         modifier = modifier.fillMaxWidth(),
@@ -66,8 +73,10 @@ fun FormInput(
         TextField(
             value = value,
             onValueChange = {
-                value = it
-                onChange(it.text)
+                if(it.text.length <= maxLength) {
+                    value = it
+                    onChange(it.text)
+                }
             },
             colors = TextFieldDefaults.textFieldColors(
                 backgroundColor = Color.Transparent,
@@ -88,6 +97,11 @@ fun FormInput(
             },
             maxLines = maxLine,
             singleLine = singleLine,
+            keyboardOptions = keyboardOptions,
+            keyboardActions = keyboardActions,
+            leadingIcon = {
+               leading.invoke()
+            },
             trailingIcon = {
                 if(showPasswordObsecure){
                     IconToggleButton(checked = visibleObsecure, onCheckedChange = {
@@ -101,7 +115,13 @@ fun FormInput(
                     }
                 }
             },
-            visualTransformation=if(visibleObsecure) VisualTransformation.None else PasswordVisualTransformation(),
+            visualTransformation=
+            if(showPasswordObsecure)
+                if(visibleObsecure)
+                    VisualTransformation.None
+                else
+                    PasswordVisualTransformation()
+            else masked,
         )
     }
 }
@@ -118,6 +138,11 @@ fun FormInputWithButton(
     buttonEnabled:Boolean=true,
     singleLine:Boolean=true,
     maxLine:Int=1,
+    masked:VisualTransformation=VisualTransformation.None,
+    keyboardOptions: KeyboardOptions=KeyboardOptions.Default,
+    keyboardActions: KeyboardActions= KeyboardActions.Default,
+    maxLength:Int=500,
+    leading:@Composable ()->Unit ={},
     onSubmit:()->Unit={}
 ) {
 
@@ -125,7 +150,7 @@ fun FormInputWithButton(
         mutableStateOf(TextFieldValue(text = initialValue))
     }
     var visibleObsecure by remember {
-        mutableStateOf(!showPasswordObsecure)
+        mutableStateOf(false)
     }
     Column(
         modifier = modifier.fillMaxWidth(),
@@ -147,8 +172,10 @@ fun FormInputWithButton(
             TextField(
                 value = value,
                 onValueChange = {
-                    value = it
-                    onChange(it.text)
+                    if(it.text.length <= maxLength) {
+                        value = it
+                        onChange(it.text)
+                    }
                 },
                 colors = TextFieldDefaults.textFieldColors(
                     backgroundColor = Color.Transparent,
@@ -169,6 +196,11 @@ fun FormInputWithButton(
                 },
                 maxLines = maxLine,
                 singleLine = singleLine,
+                keyboardOptions = keyboardOptions,
+                keyboardActions = keyboardActions,
+                leadingIcon = {
+                    leading.invoke()
+                },
                 trailingIcon = {
                     if(showPasswordObsecure){
                         IconToggleButton(checked = visibleObsecure, onCheckedChange = {
@@ -182,7 +214,13 @@ fun FormInputWithButton(
                         }
                     }
                 },
-                visualTransformation=if(visibleObsecure) VisualTransformation.None else PasswordVisualTransformation(),
+                visualTransformation=
+                if(showPasswordObsecure)
+                    if(visibleObsecure)
+                        VisualTransformation.None
+                    else
+                        PasswordVisualTransformation()
+                else masked,
             )
             ButtonIcon(
                 icon = icon,

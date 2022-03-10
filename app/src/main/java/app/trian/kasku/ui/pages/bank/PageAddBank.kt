@@ -16,11 +16,14 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import app.trian.kasku.R
+import app.trian.kasku.common.CurrencyTransformation
+import app.trian.kasku.common.numberKeyboardOption
 import app.trian.kasku.ui.Routes
 import app.trian.kasku.ui.component.*
 import app.trian.kasku.ui.theme.HexToJetpackColor
@@ -88,8 +91,8 @@ fun PageAddBank(
                 )
                 FormInput(
                     initialValue = "",
-                    placeholder = "Account name",
-                    label = "Account name here",
+                    placeholder = "Account name here",
+                    label = "Account name",
                     singleLine = true,
                     onChange = {
 
@@ -97,9 +100,20 @@ fun PageAddBank(
                 )
                 FormInputWithButton(
                     initialValue = "",
-                    placeholder = "Starter amount",
-                    label = "Rp 0000",
+                    placeholder = "0",
+                    label = "Starter amount",
                     singleLine = true,
+                    masked = CurrencyTransformation("#.###.###.###.###"),
+                    keyboardOptions = numberKeyboardOption,
+                    maxLength = 13,
+                    leading = {
+                       Text(
+                           text = "Rp",
+                           style = MaterialTheme.typography.body1.copy(
+                               fontWeight = FontWeight.Bold
+                           )
+                       )
+                    },
                     onChange = {
 
                     },

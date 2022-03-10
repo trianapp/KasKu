@@ -8,9 +8,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -18,6 +20,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import app.trian.kasku.R
 import app.trian.kasku.ui.Routes
+import app.trian.kasku.ui.component.coloredShadow
 import app.trian.kasku.ui.theme.DisableContentColor
 import app.trian.kasku.ui.theme.HexToJetpackColor
 import app.trian.kasku.ui.theme.KasKuTheme
@@ -117,7 +120,8 @@ fun PageAddBankSuccess(
                         Text(
                             text = "United Bank Asia",
                             style = MaterialTheme.typography.body2.copy(
-                                color = Color.White
+                                color = Color.White,
+                                fontWeight = FontWeight.Bold
                             )
                         )
                     }
@@ -138,7 +142,8 @@ fun PageAddBankSuccess(
                             Text(
                                 text = "Rp 2.000.000",
                                 style = MaterialTheme.typography.body2.copy(
-                                    color = Color.White
+                                    color = Color.White,
+                                    fontWeight = FontWeight.Bold
                                 )
                             )
                         }
@@ -163,7 +168,8 @@ fun PageAddBankSuccess(
                             Text(
                                 text = "04-16-19",
                                 style = MaterialTheme.typography.body2.copy(
-                                    color = Color.White
+                                    color = Color.White,
+                                    fontWeight = FontWeight.Bold
                                 )
                             )
                         }
