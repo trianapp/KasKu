@@ -12,6 +12,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import app.trian.kasku.ui.Routes
 import app.trian.kasku.ui.component.AppbarDashboard
 import app.trian.kasku.ui.component.ItemTotalTransaction
 import app.trian.kasku.ui.component.ItemTransaction
@@ -50,7 +51,9 @@ fun PageDaily(
                 content = {
                     items(count = 7){
                         index->
-                        ItemTransaction()
+                        ItemTransaction(){
+                            router.navigate(Routes.DETAIL_TRANSACTION)
+                        }
                     }
                     item {
                         ItemTotalTransaction()

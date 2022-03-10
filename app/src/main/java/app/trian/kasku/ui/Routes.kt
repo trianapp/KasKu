@@ -16,6 +16,8 @@ object Routes {
 
     const val CREATE_BUDGET = "CREATE_BUDGET"
 
+    const val DETAIL_TRANSACTION = "DETAIL_TRANSACTION"
+
     object Dashboard{
         const val HOME="HOME"
         const val DAILY = "DAILY"

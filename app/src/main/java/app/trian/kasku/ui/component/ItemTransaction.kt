@@ -2,6 +2,7 @@ package app.trian.kasku.ui.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Divider
@@ -32,7 +33,8 @@ import app.trian.kasku.ui.theme.KasKuTheme
 
 @Composable
 fun ItemTransaction(
-    modifier: Modifier=Modifier
+    modifier: Modifier=Modifier,
+    onClick:()->Unit={}
 ) {
     val ctx = LocalContext.current
     val currentWidth = ctx
@@ -42,6 +44,9 @@ fun ItemTransaction(
     val cardHeight = currentWidth / 5 - 10.dp
     Row(
         modifier = modifier
+            .clickable {
+                onClick()
+            }
             .padding(
                 horizontal = 30.dp,
                 vertical = 10.dp

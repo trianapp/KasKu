@@ -13,6 +13,7 @@ import app.trian.kasku.domain.BudgetType
 import app.trian.kasku.ui.component.*
 import app.trian.kasku.ui.theme.KasKuTheme
 import app.trian.kasku.R
+import app.trian.kasku.ui.Routes
 import compose.icons.Octicons
 import compose.icons.octicons.ArrowLeft24
 import compose.icons.octicons.Search24
@@ -85,7 +86,9 @@ fun PageStat(
                     index->
                     ItemTransactionStat(
                         type = type
-                    )
+                    ){
+                        router.navigate(Routes.DETAIL_TRANSACTION)
+                    }
                 }
                 item {
                     Spacer(modifier = modifier.height(20.dp))

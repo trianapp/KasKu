@@ -64,7 +64,7 @@ fun PageProfile(
                     Spacer(modifier = modifier.height(30.dp))
                     Row(
                         modifier = modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceEvenly,
+                        horizontalArrangement = Arrangement.Start,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Image(
@@ -76,6 +76,7 @@ fun PageProfile(
                                 .size(currentWidth / 4)
                                 .clip(CircleShape)
                         )
+                        Spacer(modifier = modifier.width(16.dp))
                         Column {
                             Text(
                                 text = "Trian Damai",
