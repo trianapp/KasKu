@@ -31,7 +31,7 @@ import app.trian.kasku.ui.theme.KasKuTheme
 @Composable
 fun ItemCategory(
     modifier: Modifier=Modifier,
-    icon:Int= R.drawable.ic_car,
+    icon:Int= R.drawable.ic_category_bank,
     name:String="",
     selected:Boolean = false,
     onClick:()->Unit={}
@@ -107,10 +107,10 @@ fun PreviewItemCategory(){
             "Transportation"
         )
         val itemsIcon = listOf(
-            R.drawable.ic_car,
-            R.drawable.ic_cutlery,
-            R.drawable.ic_hotel,
-            R.drawable.ic_cutlery
+            R.drawable.ic_category_van,
+            R.drawable.ic_category_van,
+            R.drawable.ic_category_van,
+            R.drawable.ic_category_van
         )
         LazyRow(
             modifier = Modifier.background(MaterialTheme.colors.background),

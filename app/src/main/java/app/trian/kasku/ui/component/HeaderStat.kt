@@ -115,7 +115,7 @@ fun HeaderStat(
                 )
             }
             Image(
-                painter = painterResource(id =R.drawable.ic_coin),
+                painter = painterResource(id =R.drawable.ic_stat_coin),
                 contentDescription = "",
                 modifier = modifier
                     .align(

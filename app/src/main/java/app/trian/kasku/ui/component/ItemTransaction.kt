@@ -65,7 +65,7 @@ fun ItemTransaction(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Image(
-                painter = painterResource(id = R.drawable.ic_car),
+                painter = painterResource(id = R.drawable.ic_category_autonomous_car),
                 contentDescription ="",
                 modifier = modifier
                     .size(cardHeight - cardHeight / 3)

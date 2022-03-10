@@ -65,7 +65,7 @@ fun PageAddTransactionSuccess(
             verticalArrangement = Arrangement.SpaceEvenly
         ) {
             Image(
-                painter = painterResource(id = R.drawable.bg_onboard_2),
+                painter = painterResource(id = R.drawable.bg_congratulations),
                 contentDescription = ""
             )
             Spacer(modifier = modifier.height(20.dp))

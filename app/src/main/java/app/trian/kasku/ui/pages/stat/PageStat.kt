@@ -102,11 +102,11 @@ fun PageStat(
                     ){
                      ItemOptionStat(
                          name = "Export",
-                         icon = R.drawable.ic_hotel
+                         icon = R.drawable.ic_stat_export
                      ){}
                      ItemOptionStat(
                          name = "Share",
-                         icon = R.drawable.ic_cutlery
+                         icon = R.drawable.ic_stat_share
                      ){}
                     }
                 }
