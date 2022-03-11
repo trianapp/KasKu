@@ -17,8 +17,8 @@ android {
         applicationId = Version.applicationId
         minSdk =21
         targetSdk =30
-        versionCode =31
-        versionName = "1.0.3(5)"
+        versionCode =1
+        versionName = "0.0.0(10)"
         multiDexEnabled = true
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
