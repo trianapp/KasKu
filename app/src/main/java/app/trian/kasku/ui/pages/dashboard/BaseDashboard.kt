@@ -5,18 +5,23 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import app.trian.kasku.ui.Routes
 import app.trian.kasku.ui.component.KasKuBottomNavigation
+import app.trian.kasku.ui.component.NavDrawer
 import app.trian.kasku.ui.theme.BackgroundDashboard
 import app.trian.kasku.ui.theme.KasKuTheme
 import compose.icons.Octicons
 import compose.icons.octicons.Plus24
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 /**
  *
@@ -25,54 +30,89 @@ import compose.icons.octicons.Plus24
  * site https://trian.app
  */
 
+@ExperimentalMaterialApi
 @Composable
 fun PageBaseDashboard(
     modifier: Modifier = Modifier,
     router: NavHostController,
+    drawerState: DrawerState,
     topAppbar: @Composable ()->Unit = {},
     content:@Composable ()->Unit={}
 ) {
-    Scaffold(
-        bottomBar = {
-            BottomAppBar(
-                cutoutShape = CircleShape,
-                elevation=0.dp,
-                backgroundColor = BackgroundDashboard,
-            ) {
-                KasKuBottomNavigation(router = router)
-            }
-        },
-        topBar = {
-            topAppbar.invoke()
-        },
-        isFloatingActionButtonDocked = true,
-        floatingActionButton = {
-            FloatingActionButton(
+
+    val scope = rememberCoroutineScope()
+    ModalDrawer(
+        drawerState = drawerState ,
+        drawerContent = {
+            NavDrawer(
                 onClick = {
-                          router.navigate(Routes.ADD_TRANSACTION)
+                    scope.launch {
+                        drawerState.close()
+                        delay(400)
+
+                    }
                 },
-                backgroundColor = MaterialTheme.colors.primary
-            ) {
-                Icon(
-                    imageVector = Octicons.Plus24,
-                    contentDescription = "",
-                    tint = MaterialTheme.colors.onPrimary
-                )
-            }
+                onNavigate = {
+                    scope.launch {
+                        drawerState.close()
+                        delay(400)
+                        router.navigate(it)
+                    }
+                }
+            )
         },
-        backgroundColor= BackgroundDashboard,
-        floatingActionButtonPosition = FabPosition.Center
+        drawerShape = RectangleShape,
+        drawerElevation = 0.dp,
+        scrimColor = MaterialTheme.colors.primary.copy(
+            alpha = 0.3f
+        )
     ) {
+        Scaffold(
+            bottomBar = {
+                BottomAppBar(
+                    cutoutShape = CircleShape,
+                    elevation=0.dp,
+                    backgroundColor = BackgroundDashboard,
+                ) {
+                    KasKuBottomNavigation(router = router)
+                }
+            },
+            topBar = {
+                topAppbar.invoke()
+            },
+            isFloatingActionButtonDocked = true,
+            floatingActionButton = {
+                FloatingActionButton(
+                    onClick = {
+                        router.navigate(Routes.ADD_TRANSACTION)
+                    },
+                    backgroundColor = MaterialTheme.colors.primary
+                ) {
+                    Icon(
+                        imageVector = Octicons.Plus24,
+                        contentDescription = "",
+                        tint = MaterialTheme.colors.onPrimary
+                    )
+                }
+            },
+            backgroundColor= BackgroundDashboard,
+            floatingActionButtonPosition = FabPosition.Center
+        ) {
 
-        content.invoke()
+            content.invoke()
 
+        }
     }
 }
 
+@ExperimentalMaterialApi
 @Preview
 @Composable
 fun PreviewBaseDashboard() {
     KasKuTheme {
-        PageBaseDashboard(router = rememberNavController())
+        PageBaseDashboard(
+            router = rememberNavController(),
+            drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
+        )
     }
 }

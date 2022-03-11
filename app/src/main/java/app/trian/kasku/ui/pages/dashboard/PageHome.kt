@@ -1,9 +1,9 @@
 package app.trian.kasku.ui.pages.dashboard
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -17,6 +17,10 @@ import app.trian.kasku.ui.component.ItemStat
 import app.trian.kasku.ui.component.MonthPicker
 import app.trian.kasku.ui.theme.ExpensesColor
 import app.trian.kasku.ui.theme.KasKuTheme
+import compose.icons.Octicons
+import compose.icons.octicons.Question24
+import compose.icons.octicons.Quote24
+import kotlinx.coroutines.launch
 
 /**
  *
@@ -24,16 +28,36 @@ import app.trian.kasku.ui.theme.KasKuTheme
  * created_at 09/03/22 - 21.21
  * site https://trian.app
  */
+@ExperimentalMaterialApi
 @Composable
 fun PageHome(
     modifier: Modifier = Modifier,
     router: NavHostController
 ) {
+    val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
+    val scope = rememberCoroutineScope()
     PageBaseDashboard(
+        drawerState=drawerState,
         router = router,
         topAppbar = {
                     AppbarDashboard(
                         title = "Home",
+                        navigationIcon = {
+                            IconToggleButton(
+                                checked = false,
+                                onCheckedChange = {
+                                    scope.launch {
+                                        drawerState.open()
+                                    }
+                                }
+                            ) {
+                                Icon(
+                                    imageVector = Octicons.Quote24,
+                                    contentDescription = "",
+                                    tint = MaterialTheme.colors.onBackground
+                                )
+                            }
+                        },
                         content = {
                             MonthPicker()
                         }
@@ -78,6 +102,7 @@ fun PageHome(
     )
 }
 
+@ExperimentalMaterialApi
 @Preview
 @Composable
 fun PreviewPageHome() {

@@ -4,7 +4,9 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
@@ -18,6 +20,10 @@ import app.trian.kasku.ui.component.ItemTotalTransaction
 import app.trian.kasku.ui.component.ItemTransaction
 import app.trian.kasku.ui.component.MonthPicker
 import app.trian.kasku.ui.theme.KasKuTheme
+import compose.icons.Octicons
+import compose.icons.octicons.Question24
+import compose.icons.octicons.Quote24
+import kotlinx.coroutines.launch
 
 /**
  *
@@ -25,22 +31,36 @@ import app.trian.kasku.ui.theme.KasKuTheme
  * created_at 09/03/22 - 21.58
  * site https://trian.app
  */
+@ExperimentalMaterialApi
 @Composable
 fun PageDaily(
     modifier: Modifier = Modifier,
     router: NavHostController
 ) {
-    val ctx = LocalContext.current
-    val currentWidth = ctx
-        .resources
-        .displayMetrics.widthPixels.dp /
-            LocalDensity.current.density
-    val cardHeight = currentWidth / 5 - 10.dp
+    val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
+    val scope = rememberCoroutineScope()
     PageBaseDashboard(
+        drawerState=drawerState,
         router = router,
         topAppbar = {
             AppbarDashboard(
                 title = "Daily",
+                navigationIcon = {
+                    IconToggleButton(
+                        checked = false,
+                        onCheckedChange = {
+                            scope.launch {
+                                drawerState.open()
+                            }
+                        }
+                    ) {
+                        Icon(
+                            imageVector = Octicons.Quote24,
+                            contentDescription = "",
+                            tint = MaterialTheme.colors.onBackground
+                        )
+                    }
+                },
                 content = {
                     MonthPicker()
                 }
@@ -59,7 +79,7 @@ fun PageDaily(
                         ItemTotalTransaction()
                     }
                     item {
-                        Spacer(modifier = modifier.height(cardHeight))
+                        Spacer(modifier = modifier.height(60.dp))
                     }
                 }
             )
@@ -67,6 +87,7 @@ fun PageDaily(
     )
 }
 
+@ExperimentalMaterialApi
 @Preview
 @Composable
 fun PreviewPageDaily() {

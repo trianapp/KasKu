@@ -47,25 +47,38 @@ fun PageAddTransaction(
     modifier: Modifier = Modifier,
     router: NavHostController
 ) {
+    var scope = rememberCoroutineScope()
+
     var pagerState = rememberPagerState(
         initialPage = 0
     )
     var transactionType by remember {
         mutableStateOf(BudgetType.INCOME)
     }
+    val pageCount = 6
 
-    var scope = rememberCoroutineScope()
 
-    //handle system back pressed
-    BackHandler {
+
+    fun nextPage(){
+        scope.launch {
+            pagerState.scrollToPage(pagerState.currentPage + 1)
+        }
+
+    }
+    fun prevPage(){
         scope.launch {
             if(pagerState.currentPage > 0){
-                delay(900)
-                pagerState.animateScrollToPage(pagerState.currentPage-1)
+                pagerState.scrollToPage(pagerState.currentPage-1)
             }else{
                 router.popBackStack()
             }
         }
+
+    }
+
+    //handle system back pressed
+    BackHandler {
+            prevPage()
     }
     Scaffold(
         topBar = {
@@ -74,14 +87,7 @@ fun PageAddTransaction(
                     IconToggleButton(
                         checked = false,
                         onCheckedChange = {
-                            scope.launch {
-                                if(pagerState.currentPage > 0){
-                                    delay(900)
-                                    pagerState.animateScrollToPage(pagerState.currentPage-1)
-                                }else{
-                                    router.popBackStack()
-                                }
-                            }
+                               prevPage()
                         }
                     ) {
                         Icon(
@@ -117,7 +123,7 @@ fun PageAddTransaction(
 
         HorizontalPager(
             state = pagerState,
-            count = 6,
+            count = pageCount,
             userScrollEnabled = false
         ) {
             /**
@@ -179,22 +185,17 @@ fun PageAddTransaction(
                                     name = "Income",
                                     iconColor = MaterialTheme.colors.secondary
                                 ){
-                                    scope.launch {
-                                        transactionType = BudgetType.INCOME
-                                        delay(600)
-                                        pagerState.animateScrollToPage(page=pagerState.currentPage+1)
-                                    }
+                                    transactionType = BudgetType.INCOME
+                                    nextPage()
 
                                 }
                                 ItemStat(
                                     name = "Expense",
                                     iconColor = MaterialTheme.colors.primary
                                 ){
-                                    scope.launch {
-                                        transactionType = BudgetType.EXPENSE
-                                        delay(600)
-                                        pagerState.animateScrollToPage(page=pagerState.currentPage+1)
-                                    }
+
+                                    transactionType = BudgetType.EXPENSE
+                                    nextPage()
                                 }
                             }
                         }
@@ -224,10 +225,7 @@ fun PageAddTransaction(
                                     label = "payee name",
                                     placeholder = "Enter payee name"
                                 ){
-                                    scope.launch {
-                                        delay(600)
-                                        pagerState.animateScrollToPage(page=pagerState.currentPage+1)
-                                    }
+                                   nextPage()
                                 }
                             }
                         }
@@ -278,10 +276,7 @@ fun PageAddTransaction(
                                         ItemCategory(
                                             name = "Tabungan",
                                         ){
-                                            scope.launch {
-                                                delay(600)
-                                                pagerState.animateScrollToPage(page=pagerState.currentPage+1)
-                                            }
+                                            nextPage()
                                         }
                                     }
                                 })
@@ -339,10 +334,7 @@ fun PageAddTransaction(
                                         ItemCategory(
                                             name = "Bank"
                                         ){
-                                            scope.launch {
-                                                delay(600)
-                                                pagerState.animateScrollToPage(page=pagerState.currentPage+1)
-                                            }
+                                            nextPage()
                                         }
                                     }
                                 })
@@ -404,10 +396,7 @@ fun PageAddTransaction(
                                     singleLine = true,
                                     keyboardOptions = numberKeyboardOption
                                 ){
-                                    scope.launch {
-                                        delay(600)
-                                        pagerState.animateScrollToPage(page=pagerState.currentPage+1)
-                                    }
+                                    nextPage()
                                 }
                             }
                         }

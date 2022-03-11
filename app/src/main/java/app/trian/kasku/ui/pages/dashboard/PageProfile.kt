@@ -5,9 +5,9 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -22,6 +22,10 @@ import androidx.navigation.compose.rememberNavController
 import app.trian.kasku.R
 import app.trian.kasku.ui.component.*
 import app.trian.kasku.ui.theme.KasKuTheme
+import compose.icons.Octicons
+import compose.icons.octicons.Question24
+import compose.icons.octicons.Quote24
+import kotlinx.coroutines.launch
 
 /**
  *
@@ -29,22 +33,44 @@ import app.trian.kasku.ui.theme.KasKuTheme
  * created_at 09/03/22 - 21.58
  * site https://trian.app
  */
+@ExperimentalMaterialApi
 @Composable
 fun PageProfile(
     modifier: Modifier = Modifier,
     router: NavHostController
 ) {
+
+
     val ctx = LocalContext.current
     val currentWidth = ctx
         .resources
         .displayMetrics.widthPixels.dp /
             LocalDensity.current.density
 
-
+    val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
+    val scope = rememberCoroutineScope()
     PageBaseDashboard(
+        drawerState=drawerState,
         router = router,
         topAppbar = {
-            AppbarProfile()
+            AppbarProfile(
+                navigationIcon = {
+                    IconToggleButton(
+                        checked = false,
+                        onCheckedChange = {
+                            scope.launch {
+                                drawerState.open()
+                            }
+                        }
+                    ) {
+                        Icon(
+                            imageVector = Octicons.Quote24,
+                            contentDescription = "",
+                            tint = MaterialTheme.colors.onBackground
+                        )
+                    }
+                }
+            )
         },
         content = {
             Column {
@@ -164,6 +190,7 @@ fun PageProfile(
     )
 }
 
+@ExperimentalMaterialApi
 @Preview
 @Composable
 fun PreviewPageProfile() {

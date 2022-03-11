@@ -22,9 +22,7 @@ import app.trian.kasku.ui.theme.DisableColor
 import app.trian.kasku.ui.theme.DisableContentColor
 import app.trian.kasku.ui.theme.KasKuTheme
 import compose.icons.Octicons
-import compose.icons.octicons.Megaphone16
-import compose.icons.octicons.Plus16
-import compose.icons.octicons.Star16
+import compose.icons.octicons.*
 
 /**
  *
@@ -58,14 +56,16 @@ fun KasKuBottomNavigation(
         modifier = modifier
             .fillMaxWidth()
             .background(MaterialTheme.colors.surface)
-            .padding(horizontal = 16.dp),
+            .padding(
+                horizontal = 16.dp
+            ),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
         items.forEachIndexed {
                 index,menu ->
             if(index == 2){
-                Spacer(modifier = modifier.width(10.dp))
+                Spacer(modifier = modifier.width(50.dp))
             }else{
                 Column(
                     modifier = modifier
@@ -74,33 +74,25 @@ fun KasKuBottomNavigation(
                             vertical = 4.dp
                         )
                         .clickable {
-                                   if(menu.route != ""){
-                                       router.navigate(menu.route){
-                                           launchSingleTop = true
-                                       }
-                                   }
+                            if (menu.route != "") {
+                                router.navigate(menu.route) {
+                                    launchSingleTop = true
+                                }
+                            }
                         },
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.SpaceBetween
                 ) {
-                    Column(
-                        modifier = modifier
-                            .height(6.dp)
-                            .width(10.dp)
-                            .background(if (currentRoute?.route == menu.route) MaterialTheme.colors.primary else Color.Transparent)
-                    ) {
-
-                    }
                     Icon(
                         imageVector = menu.icon,
                         contentDescription = "",
-                        tint = if(currentRoute?.route == menu.route) DisableColor else DisableContentColor
+                        tint = if(currentRoute?.route == menu.route) MaterialTheme.colors.primary else DisableContentColor
                     )
                     Spacer(modifier = modifier.height(16.dp))
                     Text(
                         text = menu.title,
                         style = MaterialTheme.typography.overline.copy(
-                            color = if(currentRoute?.route == menu.route) DisableColor else DisableContentColor
+                            color = if(currentRoute?.route == menu.route) MaterialTheme.colors.primary else DisableContentColor
                         )
                     )
                     Spacer(modifier = modifier.height(6.dp))
@@ -118,12 +110,12 @@ sealed class BottomNavigationModel(
     var route:String
 ){
     object Daily:BottomNavigationModel(
-        icon = Octicons.Megaphone16,
+        icon = Octicons.Calendar16,
         title = "Daily",
         route = Routes.Dashboard.DAILY
     )
     object Home:BottomNavigationModel(
-        icon = Octicons.Star16,
+        icon = Octicons.Project16,
         title = "Home",
         route = Routes.Dashboard.HOME
     )
@@ -133,12 +125,12 @@ sealed class BottomNavigationModel(
         route = ""
     )
     object Budget:BottomNavigationModel(
-        icon = Octicons.Star16,
+        icon = Octicons.Flame16,
         title = "Budget",
         route = Routes.Dashboard.BUDGET
     )
     object Profile:BottomNavigationModel(
-        icon = Octicons.Star16,
+        icon = Octicons.Person16,
         title = "Profile",
         route = Routes.Dashboard.PROFILE
     )

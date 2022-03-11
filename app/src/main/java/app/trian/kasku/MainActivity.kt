@@ -5,19 +5,19 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import app.trian.kasku.domain.BudgetType
 import app.trian.kasku.ui.Routes
-import app.trian.kasku.ui.pages.auth.PageLogin
-import app.trian.kasku.ui.pages.auth.PageOnboard
-import app.trian.kasku.ui.pages.auth.PageRegister
-import app.trian.kasku.ui.pages.auth.PageSplashScreen
+import app.trian.kasku.ui.pages.auth.*
 import app.trian.kasku.ui.pages.bank.PageAddBank
 import app.trian.kasku.ui.pages.bank.PageAddBankSuccess
 import app.trian.kasku.ui.pages.budget.PageCreateBudget
+import app.trian.kasku.ui.pages.category.PageAddCategory
+import app.trian.kasku.ui.pages.category.PageListCategory
 import app.trian.kasku.ui.pages.dashboard.PageBudget
 import app.trian.kasku.ui.pages.dashboard.PageDaily
 import app.trian.kasku.ui.pages.dashboard.PageHome
@@ -37,6 +37,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import logcat.LogPriority
 import logcat.logcat
 
+@ExperimentalMaterialApi
 @ExperimentalPagerApi
 @ExperimentalAnimationApi
 @AndroidEntryPoint
@@ -91,6 +92,23 @@ class MainActivity : ComponentActivity() {
                            )
                            PageRegister(router = router)
                        }
+                       composable(Routes.CHANGE_PASSWORD){
+                           val uiColor = MaterialTheme.colors.surface
+                           systemUI.setSystemBarsColor(
+                               color = uiColor,
+                               darkIcons = true
+                           )
+                           PageChangePassword(router = router)
+                       }
+                       composable(Routes.RESET_PASSWORD){
+                           val uiColor = MaterialTheme.colors.surface
+                           systemUI.setSystemBarsColor(
+                               color = uiColor,
+                               darkIcons = true
+                           )
+                           PageResetPassword(router = router)
+                       }
+
                        composable(Routes.ADD_BANK){
                            val uiColor = MaterialTheme.colors.surface
                            systemUI.setSystemBarsColor(
@@ -203,6 +221,22 @@ class MainActivity : ComponentActivity() {
                                darkIcons = true
                            )
                            PageAddTransactionSuccess(router = router)
+                       }
+                       composable(Routes.LIST_CATEGORY){
+                           val uiColor = MaterialTheme.colors.surface
+                           systemUI.setSystemBarsColor(
+                               color = uiColor,
+                               darkIcons = true
+                           )
+                           PageListCategory(router = router)
+                       }
+                       composable(Routes.ADD_CATEGORY){
+                           val uiColor = MaterialTheme.colors.surface
+                           systemUI.setSystemBarsColor(
+                               color = uiColor,
+                               darkIcons = true
+                           )
+                           PageAddCategory(router = router)
                        }
                    }
                 }

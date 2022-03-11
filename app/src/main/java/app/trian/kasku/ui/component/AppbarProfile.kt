@@ -21,10 +21,13 @@ import compose.icons.octicons.Gear24
  */
 
 @Composable
-fun AppbarProfile() {
+fun AppbarProfile(
+    navigationIcon:@Composable ()->Unit={}
+) {
     TopAppBar(
         elevation = 0.dp,
         backgroundColor = MaterialTheme.colors.surface,
+        navigationIcon = navigationIcon,
         title = {
                 Row {
                     Spacer(modifier = Modifier.width(10.dp))

@@ -2,6 +2,7 @@ package app.trian.kasku.ui.pages.auth
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
@@ -9,16 +10,21 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import app.trian.kasku.R
+import app.trian.kasku.ui.Routes
 import app.trian.kasku.ui.component.AppbarAuth
 import app.trian.kasku.ui.component.ButtonSocial
 import app.trian.kasku.ui.component.FormInput
 import app.trian.kasku.ui.component.FormInputWithButton
 import app.trian.kasku.ui.theme.KasKuTheme
+import app.trian.kasku.ui.theme.fontFamily
 
 /**
  * Page Register
@@ -31,6 +37,38 @@ fun PageRegister(
     modifier: Modifier = Modifier,
     router: NavHostController
 ) {
+    val annotatedSignIn = buildAnnotatedString {
+        withStyle(
+            style = SpanStyle(
+                color = MaterialTheme.colors.onBackground,
+                fontFamily = fontFamily
+            )
+        ){
+            append("Please read our ")
+        }
+        append(" ")
+        pushStringAnnotation(
+            tag = "accept",
+            annotation = "accept"
+        )
+        withStyle(
+            style = SpanStyle(
+                color = MaterialTheme.colors.primary,
+                fontFamily = fontFamily
+            )
+        ){
+            append("privacy policy")
+        }
+        withStyle(
+            style = SpanStyle(
+                color = MaterialTheme.colors.onBackground,
+                fontFamily = fontFamily
+            )
+        ){
+            append(" before continue")
+        }
+        pop()
+    }
     Scaffold(
         topBar = {
             AppbarAuth(
@@ -59,13 +97,15 @@ fun PageRegister(
                 horizontalAlignment = Alignment.Start
             ) {
                 Text(
-                    text = "Login to your account",
+                    text = "Create your account",
                     style = MaterialTheme.typography.body1
                 )
                 Spacer(modifier = modifier.height(10.dp))
                 Text(
                     text = "Keep your financial data store to our server so that you can access from anywhere you want",
-                    style = MaterialTheme.typography.caption
+                    style = MaterialTheme.typography.caption.copy(
+                        color = MaterialTheme.colors.onSurface
+                    )
                 )
                 FormInput(
                     placeholder = "Your name",
@@ -94,9 +134,19 @@ fun PageRegister(
             ) {
                 ButtonSocial("Login with Google")
                 Spacer(modifier = modifier.height(20.dp))
-                Text(
-                    text = "Forgot password?",
-                    style = MaterialTheme.typography.subtitle2
+                ClickableText(
+                    text = annotatedSignIn,
+                    onClick = {
+                            offset->
+                        annotatedSignIn.getStringAnnotations(
+                            tag = "accept",
+                            start = offset,
+                            end = offset
+                        ).firstOrNull()?.let { _ ->
+
+
+                        }
+                    }
                 )
             }
         }

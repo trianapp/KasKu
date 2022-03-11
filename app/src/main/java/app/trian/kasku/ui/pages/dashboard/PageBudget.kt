@@ -2,10 +2,9 @@ package app.trian.kasku.ui.pages.dashboard
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.Icon
-import androidx.compose.material.IconToggleButton
-import androidx.compose.material.MaterialTheme
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -23,8 +22,8 @@ import app.trian.kasku.ui.component.MonthPicker
 import app.trian.kasku.ui.theme.ExpensesColor
 import app.trian.kasku.ui.theme.KasKuTheme
 import compose.icons.Octicons
-import compose.icons.octicons.Plus24
-import compose.icons.octicons.Search24
+import compose.icons.octicons.*
+import kotlinx.coroutines.launch
 
 /**
  *
@@ -32,24 +31,40 @@ import compose.icons.octicons.Search24
  * created_at 09/03/22 - 21.58
  * site https://trian.app
  */
+@ExperimentalMaterialApi
 @Composable
 fun PageBudget(
     modifier: Modifier = Modifier,
     router: NavHostController
 ) {
-    val ctx = LocalContext.current
-    val currentWidth = ctx
-        .resources
-        .displayMetrics.widthPixels.dp /
-            LocalDensity.current.density
-    val cardHeight = currentWidth / 5 - 10.dp
+    val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
+    val scope = rememberCoroutineScope()
+
+
     PageBaseDashboard(
+        drawerState=drawerState,
         router = router,
         topAppbar = {
             AppbarDashboard(
                 title = "Budget",
                 content = {
                     MonthPicker()
+                },
+                navigationIcon = {
+                    IconToggleButton(
+                        checked = false,
+                        onCheckedChange = {
+                            scope.launch {
+                                drawerState.open()
+                            }
+                        }
+                    ) {
+                        Icon(
+                            imageVector = Octicons.Quote24,
+                            contentDescription = "",
+                            tint = MaterialTheme.colors.onBackground
+                        )
+                    }
                 },
                 actions = {
                     IconToggleButton(
@@ -91,13 +106,14 @@ fun PageBudget(
                     )
                 }
                 item {
-                    Spacer(modifier = modifier.height(cardHeight))
+                    Spacer(modifier = modifier.height(60.dp))
                 }
             })
         }
     )
 }
 
+@ExperimentalMaterialApi
 @Preview
 @Composable
 fun PreviewPageBudget() {
