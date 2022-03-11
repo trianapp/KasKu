@@ -61,9 +61,7 @@ fun PageAddBank(
                         )
                     }
                 }
-            ){
-                router.popBackStack()
-            }
+            )
         },
         backgroundColor = MaterialTheme.colors.background
     ) {
