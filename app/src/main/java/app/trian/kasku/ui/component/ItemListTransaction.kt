@@ -13,17 +13,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import app.trian.kasku.R
 import app.trian.kasku.domain.BudgetType
 import app.trian.kasku.ui.theme.DisableColor
-import app.trian.kasku.ui.theme.DisableContentColor
 import app.trian.kasku.ui.theme.ExpensesColor
 import app.trian.kasku.ui.theme.KasKuTheme
 
@@ -35,7 +32,7 @@ import app.trian.kasku.ui.theme.KasKuTheme
  */
 
 @Composable
-fun ItemTransactionStat(
+fun ItemListTransaction(
     modifier: Modifier=Modifier,
     type: BudgetType=BudgetType.INCOME,
     onClick:()->Unit={}
@@ -131,7 +128,7 @@ fun ItemTransactionStat(
 fun PreviewItemTransactionStat() {
     KasKuTheme {
         Column {
-            ItemTransactionStat()
+            ItemListTransaction()
 
         }
 

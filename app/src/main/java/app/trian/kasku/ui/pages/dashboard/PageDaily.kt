@@ -2,26 +2,22 @@ package app.trian.kasku.ui.pages.dashboard
 
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import app.trian.kasku.ui.Routes
 import app.trian.kasku.ui.component.AppbarDashboard
-import app.trian.kasku.ui.component.ItemTotalTransaction
-import app.trian.kasku.ui.component.ItemTransaction
+import app.trian.kasku.ui.component.ItemTotalDailyTransaction
+import app.trian.kasku.ui.component.ItemListDailyTransaction
 import app.trian.kasku.ui.component.MonthPicker
 import app.trian.kasku.ui.theme.KasKuTheme
 import compose.icons.Octicons
-import compose.icons.octicons.Question24
 import compose.icons.octicons.Quote24
 import kotlinx.coroutines.launch
 
@@ -71,12 +67,12 @@ fun PageDaily(
                 content = {
                     items(count = 7){
                         index->
-                        ItemTransaction(){
+                        ItemListDailyTransaction(){
                             router.navigate(Routes.DETAIL_TRANSACTION)
                         }
                     }
                     item {
-                        ItemTotalTransaction()
+                        ItemTotalDailyTransaction()
                     }
                     item {
                         Spacer(modifier = modifier.height(60.dp))

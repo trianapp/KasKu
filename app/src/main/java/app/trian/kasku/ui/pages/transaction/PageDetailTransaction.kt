@@ -11,11 +11,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import app.trian.kasku.ui.Routes
+import app.trian.kasku.ui.component.AppbarBasic
 import app.trian.kasku.ui.component.ButtonSmallSecondary
 import app.trian.kasku.ui.component.DottedLine
 import app.trian.kasku.ui.theme.KasKuTheme
 import compose.icons.Octicons
 import compose.icons.octicons.ArrowLeft24
+import compose.icons.octicons.Plus24
 
 /**
  *
@@ -31,20 +34,14 @@ fun PageDetailTransaction(
 ) {
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = {
-                    Text(
-                        text = "Transaction",
-                        style = MaterialTheme.typography.h4.copy(
-                            color = MaterialTheme.colors.onBackground,
-                            fontWeight = FontWeight.Bold
-                        )
-                    )
-                },
+            AppbarBasic(
+                title = "Transaction",
                 navigationIcon = {
                     IconToggleButton(
                         checked = false,
-                        onCheckedChange = {}
+                        onCheckedChange = {
+                            router.popBackStack()
+                        }
                     ) {
                         Icon(
                             imageVector = Octicons.ArrowLeft24,
@@ -53,8 +50,6 @@ fun PageDetailTransaction(
                         )
                     }
                 },
-                backgroundColor = MaterialTheme.colors.surface,
-                elevation = 0.dp
             )
         }
     ) {

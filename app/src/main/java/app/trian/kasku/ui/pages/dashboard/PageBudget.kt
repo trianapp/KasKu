@@ -5,10 +5,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
@@ -16,10 +13,8 @@ import androidx.navigation.compose.rememberNavController
 import app.trian.kasku.domain.BudgetType
 import app.trian.kasku.ui.Routes
 import app.trian.kasku.ui.component.AppbarDashboard
-import app.trian.kasku.ui.component.ItemBudget
-import app.trian.kasku.ui.component.ItemStat
+import app.trian.kasku.ui.component.ItemListBudget
 import app.trian.kasku.ui.component.MonthPicker
-import app.trian.kasku.ui.theme.ExpensesColor
 import app.trian.kasku.ui.theme.KasKuTheme
 import compose.icons.Octicons
 import compose.icons.octicons.*
@@ -96,7 +91,7 @@ fun PageBudget(
             LazyColumn(content = {
                 items(count = 3){
                     index->
-                    ItemBudget(
+                    ItemListBudget(
                         name = "Budget name",
                         amount = if(index / 2 == 0) "Rp 500.000" else "Rp 1.000.000",
                         percent = 50,

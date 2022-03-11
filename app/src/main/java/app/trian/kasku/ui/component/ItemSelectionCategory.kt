@@ -30,7 +30,7 @@ import app.trian.kasku.ui.theme.KasKuTheme
  * site https://trian.app
  */
 @Composable
-fun ItemCategory(
+fun ItemSelectionBudgetAndCategory(
     modifier: Modifier=Modifier,
     icon:Int= R.drawable.ic_category_bank,
     name:String="",
@@ -122,7 +122,7 @@ fun PreviewItemCategory(){
             content = {
             items(count = 4){
                 index ->
-                ItemCategory(
+                ItemSelectionBudgetAndCategory(
                     name=itemsName[index],
                     icon=itemsIcon[index],
                     selected = index ==0

@@ -25,7 +25,7 @@ import app.trian.kasku.ui.theme.KasKuTheme
  * site https://trian.app
  */
 @Composable
-fun ItemBudget(
+fun ItemListBudget(
     modifier: Modifier=Modifier,
     name:String="",
     amount:String="",
@@ -119,7 +119,7 @@ fun ItemBudget(
 @Composable
 fun PreviewItemBudget() {
     KasKuTheme {
-        ItemBudget(
+        ItemListBudget(
             name = "Budget name",
             amount = "Rp 1.000.000",
             percent = 50,

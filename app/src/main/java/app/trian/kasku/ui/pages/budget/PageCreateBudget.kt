@@ -2,20 +2,20 @@ package app.trian.kasku.ui.pages.budget
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import app.trian.kasku.ui.component.AppbarBudget
+import app.trian.kasku.ui.component.AppbarBasic
 import app.trian.kasku.ui.component.FormInput
 import app.trian.kasku.ui.component.FormInputWithButton
-import app.trian.kasku.ui.component.ItemCategory
+import app.trian.kasku.ui.component.ItemSelectionBudgetAndCategory
 import app.trian.kasku.ui.theme.KasKuTheme
+import compose.icons.Octicons
+import compose.icons.octicons.ArrowLeft24
 
 /**
  *
@@ -30,7 +30,23 @@ fun PageCreateBudget(
 ) {
     Scaffold(
         topBar ={
-            AppbarBudget(title = "Create Budget") {
+            AppbarBasic(
+                title = "Create Budget",
+                navigationIcon = {
+                    IconToggleButton(
+                        checked = false,
+                        onCheckedChange = {
+                            router.popBackStack()
+                        }
+                    ) {
+                        Icon(
+                            imageVector = Octicons.ArrowLeft24,
+                            contentDescription = "",
+                            tint = MaterialTheme.colors.onBackground
+                        )
+                    }
+                }
+            ) {
                 
             }
         }
@@ -49,7 +65,7 @@ fun PageCreateBudget(
             }
             LazyRow(content = {
                 items(count = 3){
-                    ItemCategory(
+                    ItemSelectionBudgetAndCategory(
                         name = "Cash"
                     )
                 }

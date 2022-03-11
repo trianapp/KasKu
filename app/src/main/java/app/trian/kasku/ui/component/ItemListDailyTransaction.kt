@@ -32,7 +32,7 @@ import app.trian.kasku.ui.theme.KasKuTheme
  */
 
 @Composable
-fun ItemTransaction(
+fun ItemListDailyTransaction(
     modifier: Modifier=Modifier,
     onClick:()->Unit={}
 ) {
@@ -113,7 +113,7 @@ fun ItemTransaction(
 }
 
 @Composable
-fun ItemTotalTransaction(
+fun ItemTotalDailyTransaction(
     modifier: Modifier=Modifier
 ) {
     val ctx = LocalContext.current
@@ -171,8 +171,8 @@ fun ItemTotalTransaction(
 fun PreviewItemTransaction() {
     KasKuTheme {
         Column {
-            ItemTransaction()
-            ItemTotalTransaction()
+            ItemListDailyTransaction()
+            ItemTotalDailyTransaction()
         }
 
     }

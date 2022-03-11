@@ -84,7 +84,7 @@ fun PageStat(
                 }
                 items(count = 3){
                     index->
-                    ItemTransactionStat(
+                    ItemListTransaction(
                         type = type
                     ){
                         router.navigate(Routes.DETAIL_TRANSACTION)

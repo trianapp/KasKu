@@ -5,9 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -49,7 +47,20 @@ fun PageAddBank(
         topBar = {
             AppbarBasic(
                 title = "Add account",
-                icon = Octicons.ArrowLeft24
+                navigationIcon = {
+                    IconToggleButton(
+                        checked = false,
+                        onCheckedChange = {
+                            router.popBackStack()
+                        }
+                    ) {
+                        Icon(
+                            imageVector = Octicons.ArrowLeft24,
+                            contentDescription = "",
+                            tint = MaterialTheme.colors.onBackground
+                        )
+                    }
+                }
             ){
                 router.popBackStack()
             }

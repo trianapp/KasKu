@@ -39,12 +39,13 @@ fun PageListCategory(
     }
     Scaffold(
         topBar = {
-            TopAppBar(
+            AppbarBasic(
+                title = "Categories",
                 navigationIcon = {
                     IconToggleButton(
                         checked = false,
                         onCheckedChange = {
-
+                            router.popBackStack()
                         }
                     ) {
                         Icon(
@@ -54,25 +55,6 @@ fun PageListCategory(
                         )
                     }
                 },
-                title = {
-                    Text(
-                        text = "Categories",
-                        style = MaterialTheme.typography.h4.copy(
-                            fontWeight = FontWeight.Bold,
-                            color = MaterialTheme.colors.onBackground
-                        )
-                    )
-                },
-                modifier = modifier
-                    .fillMaxWidth()
-                    .clip(
-                        RoundedCornerShape(
-                            bottomEnd = 20.dp,
-                            bottomStart = 20.dp
-                        )
-                    ),
-                elevation = 0.dp,
-                backgroundColor = MaterialTheme.colors.surface,
                 actions = {
                     IconToggleButton(
                         checked = false,
@@ -88,6 +70,7 @@ fun PageListCategory(
                     }
                 }
             )
+
         },
         backgroundColor = BackgroundDashboard,
     ) {

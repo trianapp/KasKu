@@ -15,10 +15,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import app.trian.kasku.domain.CategoryIconModel
 import app.trian.kasku.domain.listIconCategory
-import app.trian.kasku.ui.component.ButtonPrimary
-import app.trian.kasku.ui.component.FormInput
-import app.trian.kasku.ui.component.ItemIconCategory
-import app.trian.kasku.ui.component.gridItems
+import app.trian.kasku.ui.component.*
 import app.trian.kasku.ui.theme.BackgroundDashboard
 import app.trian.kasku.ui.theme.KasKuTheme
 import compose.icons.Octicons
@@ -36,12 +33,13 @@ fun PageAddCategory(
     }
     Scaffold(
         topBar = {
-            TopAppBar(
+            AppbarBasic(
+                title = "Add category",
                 navigationIcon = {
                     IconToggleButton(
                         checked = false,
                         onCheckedChange = {
-
+                            router.popBackStack()
                         }
                     ) {
                         Icon(
@@ -50,26 +48,7 @@ fun PageAddCategory(
                             tint = MaterialTheme.colors.onBackground
                         )
                     }
-                },
-                title = {
-                    Text(
-                        text = "Add Category",
-                        style = MaterialTheme.typography.h4.copy(
-                            fontWeight = FontWeight.Bold,
-                            color = MaterialTheme.colors.onBackground
-                        )
-                    )
-                },
-                modifier = modifier
-                    .fillMaxWidth()
-                    .clip(
-                        RoundedCornerShape(
-                            bottomEnd = 20.dp,
-                            bottomStart = 20.dp
-                        )
-                    ),
-                elevation = 0.dp,
-                backgroundColor = MaterialTheme.colors.surface
+                }
             )
         },
         backgroundColor = BackgroundDashboard,

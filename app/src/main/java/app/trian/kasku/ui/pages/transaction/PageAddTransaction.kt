@@ -2,10 +2,8 @@ package app.trian.kasku.ui.pages.transaction
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
@@ -25,14 +23,13 @@ import app.trian.kasku.domain.BudgetType
 import app.trian.kasku.ui.Routes
 import app.trian.kasku.ui.component.*
 import app.trian.kasku.ui.theme.BackgroundDashboard
-import app.trian.kasku.ui.theme.ExpensesColor
 import app.trian.kasku.ui.theme.KasKuTheme
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
 import compose.icons.Octicons
 import compose.icons.octicons.ArrowLeft24
-import kotlinx.coroutines.delay
+import compose.icons.octicons.Plus24
 import kotlinx.coroutines.launch
 
 /**
@@ -82,12 +79,13 @@ fun PageAddTransaction(
     }
     Scaffold(
         topBar = {
-            TopAppBar(
+            AppbarBasic(
+                title = "Add transaction",
                 navigationIcon = {
                     IconToggleButton(
                         checked = false,
                         onCheckedChange = {
-                               prevPage()
+                            router.popBackStack()
                         }
                     ) {
                         Icon(
@@ -96,26 +94,7 @@ fun PageAddTransaction(
                             tint = MaterialTheme.colors.onBackground
                         )
                     }
-                },
-                title = {
-                    Text(
-                        text = "Add Transaction",
-                        style = MaterialTheme.typography.h4.copy(
-                            fontWeight = FontWeight.Bold,
-                            color = MaterialTheme.colors.onBackground
-                        )
-                    )
-                },
-                modifier = modifier
-                    .fillMaxWidth()
-                    .clip(
-                        RoundedCornerShape(
-                            bottomEnd = 20.dp,
-                            bottomStart = 20.dp
-                        )
-                    ),
-                elevation = 0.dp,
-                backgroundColor = MaterialTheme.colors.surface
+                }
             )
         },
         backgroundColor = BackgroundDashboard
@@ -273,7 +252,7 @@ fun PageAddTransaction(
                                 )
                                 LazyRow(content = {
                                     items(count = 4){
-                                        ItemCategory(
+                                        ItemSelectionBudgetAndCategory(
                                             name = "Tabungan",
                                         ){
                                             nextPage()
@@ -331,7 +310,7 @@ fun PageAddTransaction(
                                 )
                                 LazyRow(content = {
                                     items(count = 4){
-                                        ItemCategory(
+                                        ItemSelectionBudgetAndCategory(
                                             name = "Bank"
                                         ){
                                             nextPage()
