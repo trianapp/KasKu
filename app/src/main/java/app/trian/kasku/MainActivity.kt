@@ -22,6 +22,7 @@ import app.trian.kasku.ui.pages.dashboard.PageBudget
 import app.trian.kasku.ui.pages.dashboard.PageDaily
 import app.trian.kasku.ui.pages.dashboard.PageHome
 import app.trian.kasku.ui.pages.dashboard.PageProfile
+import app.trian.kasku.ui.pages.settings.PageSetting
 import app.trian.kasku.ui.pages.stat.PageStat
 import app.trian.kasku.ui.pages.transaction.PageAddTransaction
 import app.trian.kasku.ui.pages.transaction.PageAddTransactionSuccess
@@ -237,6 +238,14 @@ class MainActivity : ComponentActivity() {
                                darkIcons = true
                            )
                            PageAddCategory(router = router)
+                       }
+                       composable(Routes.SETTINGS){
+                           val uiColor = MaterialTheme.colors.surface
+                           systemUI.setSystemBarsColor(
+                               color = uiColor,
+                               darkIcons = true
+                           )
+                           PageSetting(router = router)
                        }
                    }
                 }
