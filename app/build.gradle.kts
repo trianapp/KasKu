@@ -57,13 +57,12 @@ android {
 
 dependencies {
 
-    implementation("io.github.boguszpawlowski.composecalendar:composecalendar:0.3.0")
     implementation ("com.google.android.material:material:1.5.0")
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.1.5")
-    implementation("com.google.accompanist:accompanist-pager:0.24.3-alpha")
+    implementation("com.google.accompanist:accompanist-pager:0.18.0")
 
     // If using indicators, also depend on
-    implementation("com.google.accompanist:accompanist-pager-indicators:0.24.3-alpha")
+    implementation("com.google.accompanist:accompanist-pager-indicators:0.18.0")
 
     implementation(Libs.AndroidX.Multidex.multidex)
     implementation(Libs.AndroidX.Core.coreKtx)

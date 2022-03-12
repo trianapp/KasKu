@@ -226,6 +226,84 @@ fun FormInputWithButton(
         }
     }
 }
+@Composable
+fun FormPickerWithButton(
+    initialValue:String="",
+    label:String="",
+    placeholder:String="",
+    modifier: Modifier=Modifier,
+    icon:ImageVector = Octicons.ArrowRight24,
+    buttonEnabled:Boolean=true,
+    masked:VisualTransformation=VisualTransformation.None,
+    keyboardOptions: KeyboardOptions=KeyboardOptions.Default,
+    keyboardActions: KeyboardActions= KeyboardActions.Default,
+    leading:@Composable (() -> Unit)? = null,
+    onClick:()->Unit={},
+    onSubmit:()->Unit={}
+) {
+
+    var value by remember {
+        mutableStateOf(TextFieldValue(text = initialValue))
+    }
+
+    Column(
+        modifier = modifier.fillMaxWidth(),
+        horizontalAlignment = Alignment.Start,
+        verticalArrangement = Arrangement.SpaceBetween
+    ) {
+        Spacer(modifier = modifier.height(10.dp))
+        Text(
+            text = label,
+            style = MaterialTheme.typography.caption.copy(
+                color = MaterialTheme.colors.onSurface
+            )
+        )
+        Row (
+            modifier = modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ){
+                TextField(
+                    value = value,
+                    onValueChange = { },
+                    colors = TextFieldDefaults.textFieldColors(
+                        backgroundColor = Color.Transparent,
+                    ),
+                    textStyle =MaterialTheme.typography.body2.copy(
+                        color = MaterialTheme.colors.onBackground,
+                        fontWeight = FontWeight.Bold
+                    ),
+                    modifier = modifier.fillMaxWidth(fraction = 0.8f).clickable {
+                        onClick()
+                    },
+                    placeholder = {
+                        Text(
+                            text = placeholder,
+                            style = MaterialTheme.typography.body2.copy(
+                                color = MaterialTheme.colors.onSurface,
+                                fontWeight = FontWeight.Bold
+                            )
+                        )
+                    },
+                    maxLines = 100,
+                    singleLine = true,
+                    keyboardOptions = keyboardOptions,
+                    keyboardActions = keyboardActions,
+                    leadingIcon = leading,
+                    visualTransformation= masked,
+                    readOnly = true,
+                    enabled = false
+                )
+
+
+            ButtonIcon(
+                icon = icon,
+                onClick = onSubmit,
+                enabled = buttonEnabled
+            )
+        }
+    }
+}
 
 @Composable
 fun FormInputPickColor(

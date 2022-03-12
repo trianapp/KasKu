@@ -26,6 +26,7 @@ import app.trian.kasku.common.numberKeyboardOption
 import app.trian.kasku.domain.BudgetType
 import app.trian.kasku.ui.Routes
 import app.trian.kasku.ui.component.*
+import app.trian.kasku.ui.component.calendar.DialogCalendarPicker
 import app.trian.kasku.ui.theme.BackgroundDashboard
 import app.trian.kasku.ui.theme.KasKuTheme
 import com.google.accompanist.pager.ExperimentalPagerApi
@@ -48,16 +49,19 @@ fun PageAddTransaction(
     modifier: Modifier = Modifier,
     router: NavHostController
 ) {
-    var scope = rememberCoroutineScope()
+    val scope = rememberCoroutineScope()
 
-    var pagerState = rememberPagerState(
-        initialPage = 0
+    val pagerState = rememberPagerState(
+        pageCount = 6,
+        initialPage = 0,
+        infiniteLoop = false
     )
     var transactionType by remember {
         mutableStateOf(BudgetType.INCOME)
     }
-    val pageCount = 6
-    val density = LocalDensity.current
+    var dialogCalendarPicker by remember {
+        mutableStateOf(false)
+    }
 
 
     fun nextPage(){
@@ -76,6 +80,15 @@ fun PageAddTransaction(
         }
 
     }
+
+    //pick calendar
+    DialogCalendarPicker(
+        show = dialogCalendarPicker,
+        onDismiss = {
+            dialogCalendarPicker = false
+        },
+        onDateSelected = {}
+    )
 
     //handle system back pressed
     BackHandler {
@@ -106,8 +119,7 @@ fun PageAddTransaction(
 
         HorizontalPager(
             state = pagerState,
-            count = pageCount,
-            userScrollEnabled = false
+            dragEnabled = false
         ) {
             page->
             /**
@@ -137,13 +149,7 @@ fun PageAddTransaction(
                             easing = LinearEasing
                         )
                     ),
-                    exit = slideOutHorizontally(
-                        targetOffsetX = { it },
-                        animationSpec = tween(
-                            durationMillis = 300,
-                            easing = LinearEasing
-                        )
-                    )
+
                 ) {
                     when (page) {
                         0 -> {
@@ -225,7 +231,7 @@ fun PageAddTransaction(
                                 Column {
                                     FormInputWithButton(
                                         label = "payee name",
-                                        placeholder = "Enter payee name"
+                                        placeholder = "Enter payee name",
                                     ){
                                         nextPage()
                                     }
@@ -449,20 +455,23 @@ fun PageAddTransaction(
 
                                 }
                                 Column {
-                                    FormInputWithButton(
-                                        label = "Amount",
+                                    FormPickerWithButton(
+                                        label = "Date",
                                         placeholder = "Select date",
-                                        singleLine = true
-                                    ){
-                                        scope.launch {
-                                            router.navigate(Routes.ADD_TRANSACTION_SUCCESS){
-                                                popUpTo(Routes.ADD_TRANSACTION){
-                                                    inclusive=true
+                                        onClick = {
+                                            dialogCalendarPicker = true
+                                        },
+                                        onSubmit = {
+                                            scope.launch {
+                                                router.navigate(Routes.ADD_TRANSACTION_SUCCESS){
+                                                    popUpTo(Routes.ADD_TRANSACTION){
+                                                        inclusive=true
+                                                    }
+                                                    launchSingleTop = true
                                                 }
-                                                launchSingleTop = true
                                             }
                                         }
-                                    }
+                                    )
                                 }
                             }
                         }

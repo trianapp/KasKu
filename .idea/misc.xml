@@ -7,9 +7,13 @@
         <entry key="../../../../layout/compose-model-1647093341062.xml" value="0.19907407407407407" />
         <entry key="../../../../layout/compose-model-1647094150481.xml" value="0.19907407407407407" />
         <entry key="../../../../layout/compose-model-1647094984461.xml" value="0.19907407407407407" />
+        <entry key="../../../../layout/compose-model-1647102490035.xml" value="0.18425925925925926" />
+        <entry key="../../../../layout/compose-model-1647104134640.xml" value="0.18425925925925926" />
+        <entry key="../../../../layout/compose-model-1647104268137.xml" value="0.24028716216216217" />
+        <entry key="../../../../layout/compose-model-1647104766054.xml" value="0.1" />
       </map>
     </option>
   </component>
   <component name="ExternalStorageConfigurationManager" enabled="true" />
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="11" project-jdk-type="JavaSDK" />
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK" />
 </project>

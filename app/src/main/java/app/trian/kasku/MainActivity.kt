@@ -12,6 +12,8 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import app.trian.kasku.domain.BudgetType
 import app.trian.kasku.ui.Routes
+import app.trian.kasku.ui.component.calendar.Calendar
+import app.trian.kasku.ui.component.calendar.rememberCalendarState
 import app.trian.kasku.ui.pages.auth.*
 import app.trian.kasku.ui.pages.bank.PageAddBank
 import app.trian.kasku.ui.pages.bank.PageAddBankSuccess
@@ -56,7 +58,6 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-
                    AnimatedNavHost(
                        navController = router,
                        startDestination = Routes.SPLASH
