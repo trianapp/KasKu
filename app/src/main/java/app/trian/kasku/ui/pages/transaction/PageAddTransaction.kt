@@ -1,6 +1,9 @@
 package app.trian.kasku.ui.pages.transaction
 
 import androidx.activity.compose.BackHandler
+import androidx.compose.animation.*
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
@@ -10,6 +13,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -53,7 +57,7 @@ fun PageAddTransaction(
         mutableStateOf(BudgetType.INCOME)
     }
     val pageCount = 6
-
+    val density = LocalDensity.current
 
 
     fun nextPage(){
@@ -105,6 +109,7 @@ fun PageAddTransaction(
             count = pageCount,
             userScrollEnabled = false
         ) {
+            page->
             /**
              * page:
              * 0 make decision expense or income
@@ -122,325 +127,352 @@ fun PageAddTransaction(
                 verticalArrangement = Arrangement.SpaceBetween,
                 horizontalAlignment = Alignment.Start
             ) {
-                when (pagerState.currentPage) {
-                    0 -> {
-                        Column(
-                            modifier = modifier
-                                .fillMaxWidth()
-                                .fillMaxHeight()
-                                .padding(
-                                    vertical = 30.dp,
-                                    horizontal = 30.dp
-                                ),
-                            horizontalAlignment = Alignment.Start,
-                            verticalArrangement = Arrangement.SpaceBetween
-                        ) {
-                            Column(
-                                modifier = modifier.fillMaxWidth(),
-                                horizontalAlignment = Alignment.CenterHorizontally
-                            ) {
-                                Image(
-                                    painter = painterResource(id = R.drawable.bg_onboard_3),
-                                    contentDescription = "",
-                                    modifier = modifier.fillMaxWidth(fraction = 0.5f)
-                                )
-                            }
-                            Text(
-                                text = "What kind of transaction it is?",
-                                style = MaterialTheme.typography.h4.copy(
-                                    fontWeight = FontWeight.Bold,
-                                    color = MaterialTheme.colors.onBackground
-                                ),
-                                modifier = modifier
-                                    .fillMaxWidth(fraction = 0.8f)
-                            )
-                            Row(
-                                modifier = modifier
-                                    .fillMaxWidth(),
-                                horizontalArrangement = Arrangement.SpaceBetween,
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                ItemStat(
-                                    name = "Income",
-                                    iconColor = MaterialTheme.colors.secondary
-                                ){
-                                    transactionType = BudgetType.INCOME
-                                    nextPage()
 
-                                }
-                                ItemStat(
-                                    name = "Expense",
-                                    iconColor = MaterialTheme.colors.primary
-                                ){
-
-                                    transactionType = BudgetType.EXPENSE
-                                    nextPage()
-                                }
-                            }
-                        }
-
-                    }
-                    1 -> {
-                        Column(
-                            modifier = modifier
-                                .fillMaxWidth()
-                                .fillMaxHeight()
-                                .padding(
-                                    vertical = 30.dp,
-                                    horizontal = 30.dp
-                                ),
-                            verticalArrangement = Arrangement.SpaceBetween,
-                            horizontalAlignment = Alignment.Start
-                        ) {
-                            Column {
-                                ItemAddTransaction(
-                                    budgetType = transactionType,
-                                    amount = ""
-                                )
-
-                            }
-                            Column {
-                                FormInputWithButton(
-                                    label = "payee name",
-                                    placeholder = "Enter payee name"
-                                ){
-                                   nextPage()
-                                }
-                            }
-                        }
-                    }
-                    2 -> {
-                        Column(
-                            modifier = modifier
-                                .fillMaxWidth()
-                                .fillMaxHeight(),
-                            verticalArrangement = Arrangement.SpaceBetween,
-                            horizontalAlignment = Alignment.Start
-                        ) {
+                AnimatedVisibility(
+                    visible = page== pagerState.currentPage,
+                    enter = slideInHorizontally(
+                        initialOffsetX = { it }, // it == fullWidth
+                        animationSpec = tween(
+                            durationMillis = 300,
+                            easing = LinearEasing
+                        )
+                    ),
+                    exit = slideOutHorizontally(
+                        targetOffsetX = { it },
+                        animationSpec = tween(
+                            durationMillis = 300,
+                            easing = LinearEasing
+                        )
+                    )
+                ) {
+                    when (page) {
+                        0 -> {
                             Column(
                                 modifier = modifier
+                                    .fillMaxWidth()
+                                    .fillMaxHeight()
                                     .padding(
                                         vertical = 30.dp,
                                         horizontal = 30.dp
-                                    )
-                            ) {
-
-                                ItemAddTransaction(
-                                    budgetType = transactionType,
-                                    amount = ""
-                                )
-                                Spacer(modifier = Modifier.height(30.dp))
-                                ItemAddTransaction(
-                                    name = "Payee name",
-                                    value = "Motorbike engine oil"
-                                )
-                            }
-                            Column(
-                                modifier = modifier.padding(
-                                    bottom = 30.dp
-                                )
-                            ) {
-                                Text(
-                                    text = "Choose Budget",
-                                    style = MaterialTheme.typography.h4.copy(
-                                        color=MaterialTheme.colors.onBackground,
-                                        fontWeight = FontWeight.Bold
                                     ),
-                                    modifier = modifier.padding(
-                                        horizontal = 30.dp
+                                horizontalAlignment = Alignment.Start,
+                                verticalArrangement = Arrangement.SpaceBetween
+                            ) {
+                                Column(
+                                    modifier = modifier.fillMaxWidth(),
+                                    horizontalAlignment = Alignment.CenterHorizontally
+                                ) {
+                                    Image(
+                                        painter = painterResource(id = R.drawable.bg_onboard_3),
+                                        contentDescription = "",
+                                        modifier = modifier.fillMaxWidth(fraction = 0.5f)
                                     )
+                                }
+                                Text(
+                                    text = "What kind of transaction it is?",
+                                    style = MaterialTheme.typography.h4.copy(
+                                        fontWeight = FontWeight.Bold,
+                                        color = MaterialTheme.colors.onBackground
+                                    ),
+                                    modifier = modifier
+                                        .fillMaxWidth(fraction = 0.8f)
                                 )
-                                LazyRow(content = {
-                                    items(count = 4){
-                                        ItemSelectionBudgetAndCategory(
-                                            name = "Tabungan",
-                                        ){
-                                            nextPage()
-                                        }
+                                Row(
+                                    modifier = modifier
+                                        .fillMaxWidth(),
+                                    horizontalArrangement = Arrangement.SpaceBetween,
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    ItemStat(
+                                        name = "Income",
+                                        iconColor = MaterialTheme.colors.secondary
+                                    ){
+                                        transactionType = BudgetType.INCOME
+                                        nextPage()
+
                                     }
-                                })
+                                    ItemStat(
+                                        name = "Expense",
+                                        iconColor = MaterialTheme.colors.primary
+                                    ){
+
+                                        transactionType = BudgetType.EXPENSE
+                                        nextPage()
+                                    }
+                                }
                             }
+
                         }
-                    }
-                    3 -> {
-                        Column(
-                            modifier = modifier
-                                .fillMaxWidth()
-                                .fillMaxHeight(),
-                            verticalArrangement = Arrangement.SpaceBetween,
-                            horizontalAlignment = Alignment.Start
-                        ) {
+                        1 -> {
                             Column(
                                 modifier = modifier
+                                    .fillMaxWidth()
+                                    .fillMaxHeight()
                                     .padding(
                                         vertical = 30.dp,
                                         horizontal = 30.dp
-                                    )
-                            ) {
-                                ItemAddTransaction(
-                                    budgetType = transactionType,
-                                    amount = ""
-                                )
-                                Spacer(modifier = Modifier.height(30.dp))
-                                ItemAddTransaction(
-                                    name = "Payee name",
-                                    value = "Motorbike engine oil"
-                                )
-                                Spacer(modifier = Modifier.height(30.dp))
-                                ItemAddTransaction(
-                                    name = "Budget name",
-                                    value = "Tabungan"
-                                )
-
-                            }
-                            Column(
-                                modifier = modifier.padding(
-                                    bottom = 30.dp
-                                )
-                            ) {
-                                Text(
-                                    text = "Choose Category",
-                                    style = MaterialTheme.typography.h4.copy(
-                                        color=MaterialTheme.colors.onBackground,
-                                        fontWeight = FontWeight.Bold
                                     ),
-                                    modifier = modifier.padding(
-                                        horizontal = 30.dp
+                                verticalArrangement = Arrangement.SpaceBetween,
+                                horizontalAlignment = Alignment.Start
+                            ) {
+                                Column {
+                                    ItemAddTransaction(
+                                        budgetType = transactionType,
+                                        amount = ""
                                     )
-                                )
-                                LazyRow(content = {
-                                    items(count = 4){
-                                        ItemSelectionBudgetAndCategory(
-                                            name = "Bank"
-                                        ){
-                                            nextPage()
-                                        }
+
+                                }
+                                Column {
+                                    FormInputWithButton(
+                                        label = "payee name",
+                                        placeholder = "Enter payee name"
+                                    ){
+                                        nextPage()
                                     }
-                                })
+                                }
                             }
                         }
-                    }
-                    4 -> {
-                        Column(
-                            modifier = modifier
-                                .fillMaxWidth()
-                                .fillMaxHeight()
-                                .padding(
-                                    vertical = 30.dp,
-                                    horizontal = 30.dp
-                                ),
-                            verticalArrangement = Arrangement.SpaceBetween,
-                            horizontalAlignment = Alignment.Start
-                        ) {
+                        2 -> {
                             Column(
                                 modifier = modifier
-
+                                    .fillMaxWidth()
+                                    .fillMaxHeight(),
+                                verticalArrangement = Arrangement.SpaceBetween,
+                                horizontalAlignment = Alignment.Start
                             ) {
-                                ItemAddTransaction(
-                                    budgetType = transactionType,
-                                    amount = ""
-                                )
-                                Spacer(modifier = Modifier.height(30.dp))
-                                ItemAddTransaction(
-                                    name = "Payee name",
-                                    value = "Motorbike engine oil"
-                                )
-                                Spacer(modifier = Modifier.height(30.dp))
-                                ItemAddTransaction(
-                                    name = "Budget name",
-                                    value = "Tabungan"
-                                )
-                                Spacer(modifier = Modifier.height(30.dp))
-                                ItemAddTransaction(
-                                    name = "Category",
-                                    value = "Bank"
-                                )
-
-                            }
-                            Column {
-                                FormInputWithButton(
-                                    label = "Amount",
-                                    placeholder = "0",
-                                    leading = {
-                                        Text(
-                                            text = "Rp",
-                                            style = MaterialTheme.typography.body1.copy(
-                                                fontWeight = FontWeight.Bold,
-                                                color = MaterialTheme.colors.onBackground
-                                            )
+                                Column(
+                                    modifier = modifier
+                                        .padding(
+                                            vertical = 30.dp,
+                                            horizontal = 30.dp
                                         )
-                                    },
-                                    masked = CurrencyTransformation("#.###.###.###.###"),
-                                    maxLength = 13,
-                                    singleLine = true,
-                                    keyboardOptions = numberKeyboardOption
-                                ){
-                                    nextPage()
+                                ) {
+
+                                    ItemAddTransaction(
+                                        budgetType = transactionType,
+                                        amount = ""
+                                    )
+                                    Spacer(modifier = Modifier.height(30.dp))
+                                    ItemAddTransaction(
+                                        name = "Payee name",
+                                        value = "Motorbike engine oil"
+                                    )
+                                }
+                                Column(
+                                    modifier = modifier.padding(
+                                        bottom = 30.dp
+                                    )
+                                ) {
+                                    Text(
+                                        text = "Choose Budget",
+                                        style = MaterialTheme.typography.h4.copy(
+                                            color=MaterialTheme.colors.onBackground,
+                                            fontWeight = FontWeight.Bold
+                                        ),
+                                        modifier = modifier.padding(
+                                            horizontal = 30.dp
+                                        )
+                                    )
+                                    LazyRow(content = {
+                                        item {
+                                            ItemAddSelectionBudgetAndCategory()
+                                        }
+                                        items(count = 4){
+                                            ItemSelectionBudgetAndCategory(
+                                                name = "Tabungan",
+                                            ){
+                                                nextPage()
+                                            }
+                                        }
+                                    })
                                 }
                             }
                         }
-                    }
-                    5 -> {
-
-                        Column(
-                            modifier = modifier
-                                .fillMaxWidth()
-                                .fillMaxHeight()
-                                .padding(
-                                    vertical = 30.dp,
-                                    horizontal = 30.dp
-                                ),
-                            verticalArrangement = Arrangement.SpaceBetween,
-                            horizontalAlignment = Alignment.Start
-                        ) {
+                        3 -> {
                             Column(
                                 modifier = modifier
-
+                                    .fillMaxWidth()
+                                    .fillMaxHeight(),
+                                verticalArrangement = Arrangement.SpaceBetween,
+                                horizontalAlignment = Alignment.Start
                             ) {
-                                ItemAddTransaction(
-                                    budgetType = transactionType,
-                                    amountName = "Amount",
-                                    amount = "1.000.000.000"
-                                )
-                                Spacer(modifier = Modifier.height(30.dp))
-                                ItemAddTransaction(
-                                    name = "Payee name",
-                                    value = "Motorbike engine oil"
-                                )
-                                Spacer(modifier = Modifier.height(30.dp))
-                                ItemAddTransaction(
-                                    name = "Budget name",
-                                    value = "Tabungan"
-                                )
-                                Spacer(modifier = Modifier.height(30.dp))
-                                ItemAddTransaction(
-                                    name = "Category",
-                                    value = "Bank"
-                                )
+                                Column(
+                                    modifier = modifier
+                                        .padding(
+                                            vertical = 30.dp,
+                                            horizontal = 30.dp
+                                        )
+                                ) {
+                                    ItemAddTransaction(
+                                        budgetType = transactionType,
+                                        amount = ""
+                                    )
+                                    Spacer(modifier = Modifier.height(30.dp))
+                                    ItemAddTransaction(
+                                        name = "Payee name",
+                                        value = "Motorbike engine oil"
+                                    )
+                                    Spacer(modifier = Modifier.height(30.dp))
+                                    ItemAddTransaction(
+                                        name = "Budget name",
+                                        value = "Tabungan"
+                                    )
 
-                            }
-                            Column {
-                                FormInputWithButton(
-                                    label = "Amount",
-                                    placeholder = "Select date",
-                                    singleLine = true
-                                ){
-                                    scope.launch {
-                                        router.navigate(Routes.ADD_TRANSACTION_SUCCESS){
-                                            popUpTo(Routes.ADD_TRANSACTION){
-                                                inclusive=true
+                                }
+                                Column(
+                                    modifier = modifier.padding(
+                                        bottom = 30.dp
+                                    )
+                                ) {
+                                    Text(
+                                        text = "Choose Category",
+                                        style = MaterialTheme.typography.h4.copy(
+                                            color=MaterialTheme.colors.onBackground,
+                                            fontWeight = FontWeight.Bold
+                                        ),
+                                        modifier = modifier.padding(
+                                            horizontal = 30.dp
+                                        )
+                                    )
+                                    LazyRow(content = {
+                                        item {
+                                            ItemAddSelectionBudgetAndCategory()
+                                        }
+                                        items(count = 4){
+                                            ItemSelectionBudgetAndCategory(
+                                                name = "Bank"
+                                            ){
+                                                nextPage()
                                             }
-                                            launchSingleTop = true
+                                        }
+                                    })
+                                }
+                            }
+                        }
+                        4 -> {
+                            Column(
+                                modifier = modifier
+                                    .fillMaxWidth()
+                                    .fillMaxHeight()
+                                    .padding(
+                                        vertical = 30.dp,
+                                        horizontal = 30.dp
+                                    ),
+                                verticalArrangement = Arrangement.SpaceBetween,
+                                horizontalAlignment = Alignment.Start
+                            ) {
+                                Column(
+                                    modifier = modifier
+
+                                ) {
+                                    ItemAddTransaction(
+                                        budgetType = transactionType,
+                                        amount = ""
+                                    )
+                                    Spacer(modifier = Modifier.height(30.dp))
+                                    ItemAddTransaction(
+                                        name = "Payee name",
+                                        value = "Motorbike engine oil"
+                                    )
+                                    Spacer(modifier = Modifier.height(30.dp))
+                                    ItemAddTransaction(
+                                        name = "Budget name",
+                                        value = "Tabungan"
+                                    )
+                                    Spacer(modifier = Modifier.height(30.dp))
+                                    ItemAddTransaction(
+                                        name = "Category",
+                                        value = "Bank"
+                                    )
+
+                                }
+                                Column {
+                                    FormInputWithButton(
+                                        label = "Amount",
+                                        placeholder = "0",
+                                        leading = {
+                                            Text(
+                                                text = "Rp",
+                                                style = MaterialTheme.typography.body1.copy(
+                                                    fontWeight = FontWeight.Bold,
+                                                    color = MaterialTheme.colors.onBackground
+                                                )
+                                            )
+                                        },
+                                        masked = CurrencyTransformation("#.###.###.###.###"),
+                                        maxLength = 13,
+                                        singleLine = true,
+                                        keyboardOptions = numberKeyboardOption
+                                    ){
+                                        nextPage()
+                                    }
+                                }
+                            }
+                        }
+                        5 -> {
+
+                            Column(
+                                modifier = modifier
+                                    .fillMaxWidth()
+                                    .fillMaxHeight()
+                                    .padding(
+                                        vertical = 30.dp,
+                                        horizontal = 30.dp
+                                    ),
+                                verticalArrangement = Arrangement.SpaceBetween,
+                                horizontalAlignment = Alignment.Start
+                            ) {
+                                Column(
+                                    modifier = modifier
+
+                                ) {
+                                    ItemAddTransaction(
+                                        budgetType = transactionType,
+                                        amountName = "Amount",
+                                        amount = "1.000.000.000"
+                                    )
+                                    Spacer(modifier = Modifier.height(30.dp))
+                                    ItemAddTransaction(
+                                        name = "Payee name",
+                                        value = "Motorbike engine oil"
+                                    )
+                                    Spacer(modifier = Modifier.height(30.dp))
+                                    ItemAddTransaction(
+                                        name = "Budget name",
+                                        value = "Tabungan"
+                                    )
+                                    Spacer(modifier = Modifier.height(30.dp))
+                                    ItemAddTransaction(
+                                        name = "Category",
+                                        value = "Bank"
+                                    )
+
+                                }
+                                Column {
+                                    FormInputWithButton(
+                                        label = "Amount",
+                                        placeholder = "Select date",
+                                        singleLine = true
+                                    ){
+                                        scope.launch {
+                                            router.navigate(Routes.ADD_TRANSACTION_SUCCESS){
+                                                popUpTo(Routes.ADD_TRANSACTION){
+                                                    inclusive=true
+                                                }
+                                                launchSingleTop = true
+                                            }
                                         }
                                     }
                                 }
                             }
                         }
-                    }
-                    else -> {
+                        else -> {
 
+                        }
                     }
                 }
+
+
             }
         }
     }

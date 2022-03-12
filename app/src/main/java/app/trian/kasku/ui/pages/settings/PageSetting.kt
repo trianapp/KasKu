@@ -21,16 +21,13 @@ import app.trian.kasku.R
 import app.trian.kasku.common.getAppVersion
 import app.trian.kasku.ui.Routes
 import app.trian.kasku.ui.component.AppbarBasic
-import app.trian.kasku.ui.component.ButtonSmallSecondary
 import app.trian.kasku.ui.component.ItemSetting
-import app.trian.kasku.ui.component.coloredShadow
+import app.trian.kasku.common.coloredShadow
 import app.trian.kasku.ui.theme.KasKuTheme
 import compose.icons.Octicons
 import compose.icons.octicons.ArrowLeft24
 import compose.icons.octicons.Info24
 import compose.icons.octicons.Key24
-import compose.icons.octicons.Quote24
-import kotlinx.coroutines.launch
 
 /**
  *
@@ -50,14 +47,14 @@ fun PageSetting(
             description="Change your password",
             icon = Octicons.Key24,
             action = "switch",
-            route = ""
+            route = Routes.CHANGE_PASSWORD
         ),
         SettingModel(
             name = "About app",
             description="More about app",
             icon = Octicons.Info24,
             action = "version",
-            route = Routes.CHANGE_PASSWORD
+            route =""
         )
     )
 

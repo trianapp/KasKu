@@ -3,7 +3,7 @@ package app.trian.kasku
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.*
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
@@ -69,7 +69,15 @@ class MainActivity : ComponentActivity() {
                            )
                            PageSplashScreen(router = router)
                        }
-                       composable(Routes.ONBOARD){
+                       composable(
+                           Routes.ONBOARD,
+                           enterTransition = {
+                               fadeIn()
+                           },
+                           exitTransition = {
+                               fadeOut()
+                           }
+                       ){
                            val uiColor = MaterialTheme.colors.surface
                            systemUI.setSystemBarsColor(
                                color = uiColor,
@@ -118,7 +126,17 @@ class MainActivity : ComponentActivity() {
                            )
                            PageAddBank(router = router)
                        }
-                       composable(Routes.ADD_BANK_SUCCESS){
+                       composable(
+                           Routes.ADD_BANK_SUCCESS,
+                           enterTransition = {
+                               slideInVertically {
+                                   it
+                               }
+                           },
+                           exitTransition = {
+                               slideOutVertically { it }
+                           }
+                       ){
                            val uiColor = MaterialTheme.colors.surface
                            systemUI.setSystemBarsColor(
                                color = uiColor,
@@ -207,7 +225,20 @@ class MainActivity : ComponentActivity() {
                            )
                            PageDetailTransaction(router = router)
                        }
-                       composable(Routes.ADD_TRANSACTION){
+                       composable(
+                           Routes.ADD_TRANSACTION,
+                           enterTransition = {
+                               slideInVertically {
+                                   it
+                               }
+
+                           },
+                           exitTransition = {
+                               slideOutVertically {
+                                   it
+                               }
+                           }
+                       ){
                            val uiColor = MaterialTheme.colors.surface
                            systemUI.setSystemBarsColor(
                                color = uiColor,
@@ -215,7 +246,17 @@ class MainActivity : ComponentActivity() {
                            )
                            PageAddTransaction(router = router)
                        }
-                       composable(Routes.ADD_TRANSACTION_SUCCESS){
+                       composable(
+                           Routes.ADD_TRANSACTION_SUCCESS,
+                           enterTransition = {
+                               slideInVertically {
+                                   it
+                               }
+                           },
+                           exitTransition = {
+                               slideOutVertically { it }
+                           }
+                       ){
                            val uiColor = MaterialTheme.colors.surface
                            systemUI.setSystemBarsColor(
                                color = uiColor,

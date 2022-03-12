@@ -48,7 +48,7 @@ fun ItemSetting(
         .resources
         .displayMetrics.widthPixels.dp /
             LocalDensity.current.density
-    val cardHeight = currentWidth / 5 - 10.dp
+    val cardHeight = currentWidth / 6
     Row(
         modifier = modifier
             .clickable {
@@ -59,17 +59,17 @@ fun ItemSetting(
                 vertical = 6.dp
             )
             .fillMaxWidth()
-            .height(cardHeight),
+            .height(cardHeight ),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.Top
     ) {
         Column(
             modifier = modifier
-                .size(currentWidth / 6)
+                .size(currentWidth / 7)
                 .clip(CircleShape)
                 .background(DisableColor)
                 .padding(
-                    all=6.dp
+                    all=10.dp
                 ),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
@@ -122,6 +122,9 @@ fun ItemSetting(
 @Composable
 fun PreviewItemSetting() {
     KasKuTheme {
-        ItemSetting()
+        ItemSetting(
+            name = "Yeah",
+            description = "yoo"
+        )
     }
 }

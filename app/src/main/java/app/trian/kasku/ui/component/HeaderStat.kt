@@ -22,6 +22,7 @@ import app.trian.kasku.domain.BudgetType
 import app.trian.kasku.ui.theme.ExpensesColor
 import app.trian.kasku.ui.theme.KasKuTheme
 import app.trian.kasku.R
+import app.trian.kasku.common.coloredShadow
 
 /**
  *
