@@ -9,6 +9,7 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import app.trian.kasku.domain.BudgetType
 import app.trian.kasku.ui.Routes
@@ -40,6 +41,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import logcat.LogPriority
 import logcat.logcat
 
+@ExperimentalComposeUiApi
 @ExperimentalMaterialApi
 @ExperimentalPagerApi
 @ExperimentalAnimationApi

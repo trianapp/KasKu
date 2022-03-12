@@ -45,7 +45,8 @@ fun DialogCalendarPicker(
         Dialog(
             onDismissRequest =onDismiss,
             properties = DialogProperties(
-                dismissOnClickOutside = true
+                dismissOnBackPress = true,
+                dismissOnClickOutside = true,
             )
         ) {
             Column(
