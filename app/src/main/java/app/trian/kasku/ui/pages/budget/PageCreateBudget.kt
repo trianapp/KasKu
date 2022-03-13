@@ -79,7 +79,8 @@ fun PageCreateBudget(
                     .padding(horizontal = 30.dp)
             ) {
                 FormInput(
-                    placeholder = "Enter budget name"
+                    placeholder = "Enter budget name",
+                    label = "Budget name"
                 )
 
                 FormInputWithButton(

@@ -115,10 +115,30 @@ dependencies {
         implementation(roomRuntime)
         implementation(roomPaging)
         implementation(roomKtx)
-//        annotationProcessor(roomCompiler)
         kapt(roomCompiler)
         testImplementation(roomTesting)
 
+    }
+
+    //firebase
+    with(Libs.Com.Google.Firebase){
+        implementation(platform(bom))
+        implementation(auth)
+        implementation(firestore)
+        implementation(storage)
+        implementation(messaging)
+        implementation(crashlytics)
+        implementation(analytics)
+
+    }
+    //google auth
+    with(Libs.Com.Google.Android.Gms){
+        implementation(auth)
+    }
+
+    //allow use await() in firebase task
+    with(Libs.Org.Jetbrains.Kotlinx){
+        implementation(googlePlayKotlinCoroutine)
     }
 
 
