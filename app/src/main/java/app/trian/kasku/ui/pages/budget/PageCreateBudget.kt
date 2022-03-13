@@ -9,10 +9,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import app.trian.kasku.ui.component.AppbarBasic
-import app.trian.kasku.ui.component.FormInput
-import app.trian.kasku.ui.component.FormInputWithButton
-import app.trian.kasku.ui.component.ItemSelectionBudgetAndCategory
+import app.trian.kasku.common.CurrencyTransformation
+import app.trian.kasku.common.numberKeyboardOption
+import app.trian.kasku.ui.component.*
 import app.trian.kasku.ui.theme.KasKuTheme
 import compose.icons.Octicons
 import compose.icons.octicons.ArrowLeft24
@@ -64,6 +63,9 @@ fun PageCreateBudget(
                 )
             }
             LazyRow(content = {
+                item {
+                    ItemAddSelectionBudgetAndCategory()
+                }
                 items(count = 3){
                     ItemSelectionBudgetAndCategory(
                         name = "Cash"
@@ -82,7 +84,11 @@ fun PageCreateBudget(
 
                 FormInputWithButton(
                     label = "Enter budget",
-                    placeholder = "Rp 0"
+                    placeholder = "Rp 0",
+                    singleLine = true,
+                    maxLength = 13,
+                    keyboardOptions = numberKeyboardOption,
+                    masked = CurrencyTransformation()
                 )
             }
         }
