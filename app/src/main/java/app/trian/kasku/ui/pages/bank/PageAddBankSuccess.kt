@@ -8,7 +8,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -20,8 +19,6 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import app.trian.kasku.R
 import app.trian.kasku.ui.Routes
-import app.trian.kasku.ui.component.coloredShadow
-import app.trian.kasku.ui.theme.DisableContentColor
 import app.trian.kasku.ui.theme.HexToJetpackColor
 import app.trian.kasku.ui.theme.KasKuTheme
 import app.trian.kasku.ui.theme.listGradient

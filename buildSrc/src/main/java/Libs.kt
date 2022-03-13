@@ -10,13 +10,16 @@ object Libs {
                 val messaging by lazy{"com.google.firebase:firebase-messaging-ktx"}
                 val crashlytics by lazy{"com.google.firebase:firebase-crashlytics-ktx"}
                 val analytics by lazy {"com.google.firebase:firebase-analytics-ktx"}
-                val installations by lazy {"com.google.firebase:firebase-installations:17.0.0"}
             }
             //for google authentication
             object Android{
                 object Gms{
                     val auth by lazy {"com.google.android.gms:play-services-auth:20.0.1"}
                 }
+                object Material{
+                    val material by lazy { "com.google.android.material:material:1.5.0" }
+                }
+
             }
 
             //accompanist(external library for jetpack compose)
@@ -25,7 +28,9 @@ object Libs {
 
                 val accompanistNavigationAnimation by lazy{"com.google.accompanist:accompanist-navigation-animation:0.24.2-alpha" }
 
-                val accompanistPager by lazy{"com.google.accompanist:accompanist-pager:0.24.3-alpha"}
+                val accompanistPager by lazy{"com.google.accompanist:accompanist-pager:0.18.0"}
+
+                val accompanistPagerIndicator by lazy { "com.google.accompanist:accompanist-pager-indicators:0.18.0" }
             }
 
             //dagger hilt
@@ -156,9 +161,6 @@ object Libs {
                 }
             }
         }
-    }
-    object JodaTime{
-        val jodaTime by lazy{"joda-time:joda-time:2.10.13"}
     }
     object Io{
         object CoilKt{

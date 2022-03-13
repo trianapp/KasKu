@@ -20,11 +20,10 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import app.trian.kasku.R
+import app.trian.kasku.common.coloredShadow
+import app.trian.kasku.ui.Routes
 import app.trian.kasku.ui.component.*
 import app.trian.kasku.ui.theme.KasKuTheme
-import compose.icons.Octicons
-import compose.icons.octicons.Question24
-import compose.icons.octicons.Quote24
 import kotlinx.coroutines.launch
 
 /**
@@ -54,21 +53,13 @@ fun PageProfile(
         router = router,
         topAppbar = {
             AppbarProfile(
-                navigationIcon = {
-                    IconToggleButton(
-                        checked = false,
-                        onCheckedChange = {
-                            scope.launch {
-                                drawerState.open()
-                            }
-                        }
-                    ) {
-                        Icon(
-                            imageVector = Octicons.Quote24,
-                            contentDescription = "",
-                            tint = MaterialTheme.colors.onBackground
-                        )
+                onNavigation = {
+                    scope.launch {
+                        drawerState.open()
                     }
+                },
+                onAction = {
+                    router.navigate(Routes.SETTINGS)
                 }
             )
         },

@@ -3,15 +3,18 @@ package app.trian.kasku
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.*
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import app.trian.kasku.domain.BudgetType
 import app.trian.kasku.ui.Routes
+import app.trian.kasku.ui.component.calendar.Calendar
+import app.trian.kasku.ui.component.calendar.rememberCalendarState
 import app.trian.kasku.ui.pages.auth.*
 import app.trian.kasku.ui.pages.bank.PageAddBank
 import app.trian.kasku.ui.pages.bank.PageAddBankSuccess
@@ -22,6 +25,7 @@ import app.trian.kasku.ui.pages.dashboard.PageBudget
 import app.trian.kasku.ui.pages.dashboard.PageDaily
 import app.trian.kasku.ui.pages.dashboard.PageHome
 import app.trian.kasku.ui.pages.dashboard.PageProfile
+import app.trian.kasku.ui.pages.settings.PageSetting
 import app.trian.kasku.ui.pages.stat.PageStat
 import app.trian.kasku.ui.pages.transaction.PageAddTransaction
 import app.trian.kasku.ui.pages.transaction.PageAddTransactionSuccess
@@ -37,6 +41,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import logcat.LogPriority
 import logcat.logcat
 
+@ExperimentalComposeUiApi
 @ExperimentalMaterialApi
 @ExperimentalPagerApi
 @ExperimentalAnimationApi
@@ -55,7 +60,6 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-
                    AnimatedNavHost(
                        navController = router,
                        startDestination = Routes.SPLASH
@@ -68,7 +72,15 @@ class MainActivity : ComponentActivity() {
                            )
                            PageSplashScreen(router = router)
                        }
-                       composable(Routes.ONBOARD){
+                       composable(
+                           Routes.ONBOARD,
+                           enterTransition = {
+                               fadeIn()
+                           },
+                           exitTransition = {
+                               fadeOut()
+                           }
+                       ){
                            val uiColor = MaterialTheme.colors.surface
                            systemUI.setSystemBarsColor(
                                color = uiColor,
@@ -117,7 +129,17 @@ class MainActivity : ComponentActivity() {
                            )
                            PageAddBank(router = router)
                        }
-                       composable(Routes.ADD_BANK_SUCCESS){
+                       composable(
+                           Routes.ADD_BANK_SUCCESS,
+                           enterTransition = {
+                               slideInVertically {
+                                   it
+                               }
+                           },
+                           exitTransition = {
+                               slideOutVertically { it }
+                           }
+                       ){
                            val uiColor = MaterialTheme.colors.surface
                            systemUI.setSystemBarsColor(
                                color = uiColor,
@@ -206,7 +228,20 @@ class MainActivity : ComponentActivity() {
                            )
                            PageDetailTransaction(router = router)
                        }
-                       composable(Routes.ADD_TRANSACTION){
+                       composable(
+                           Routes.ADD_TRANSACTION,
+                           enterTransition = {
+                               slideInVertically {
+                                   it
+                               }
+
+                           },
+                           exitTransition = {
+                               slideOutVertically {
+                                   it
+                               }
+                           }
+                       ){
                            val uiColor = MaterialTheme.colors.surface
                            systemUI.setSystemBarsColor(
                                color = uiColor,
@@ -214,7 +249,17 @@ class MainActivity : ComponentActivity() {
                            )
                            PageAddTransaction(router = router)
                        }
-                       composable(Routes.ADD_TRANSACTION_SUCCESS){
+                       composable(
+                           Routes.ADD_TRANSACTION_SUCCESS,
+                           enterTransition = {
+                               slideInVertically {
+                                   it
+                               }
+                           },
+                           exitTransition = {
+                               slideOutVertically { it }
+                           }
+                       ){
                            val uiColor = MaterialTheme.colors.surface
                            systemUI.setSystemBarsColor(
                                color = uiColor,
@@ -237,6 +282,14 @@ class MainActivity : ComponentActivity() {
                                darkIcons = true
                            )
                            PageAddCategory(router = router)
+                       }
+                       composable(Routes.SETTINGS){
+                           val uiColor = MaterialTheme.colors.surface
+                           systemUI.setSystemBarsColor(
+                               color = uiColor,
+                               darkIcons = true
+                           )
+                           PageSetting(router = router)
                        }
                    }
                 }

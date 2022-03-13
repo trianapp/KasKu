@@ -11,7 +11,6 @@ object Routes {
     const val ADD_BANK = "ADD_BANK"
     const val ADD_BANK_SUCCESS = "ADD_BANK_SUCCESS"
 
-    const val DASHBOARD = "DASHBOARD"
 
     const val STAT_INCOME = "STAT_INCOME"
     const val STAT_EXPENSE ="STAT_EXPENSE"
@@ -25,6 +24,9 @@ object Routes {
     const val LIST_CATEGORY = "LIST_CATEGORY"
     const val ADD_CATEGORY = "ADD_CATEGORY"
 
+    const val SETTINGS = "SETTINGS"
+
+    const val DASHBOARD = "DASHBOARD"
     object Dashboard{
         const val HOME="HOME"
         const val DAILY = "DAILY"

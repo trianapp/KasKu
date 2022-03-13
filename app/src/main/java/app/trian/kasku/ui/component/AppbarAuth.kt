@@ -14,6 +14,7 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import app.trian.kasku.common.coloredShadow
 import app.trian.kasku.ui.theme.DisableContentColor
 import app.trian.kasku.ui.theme.KasKuTheme
 

@@ -3,8 +3,7 @@ package app.trian.kasku.ui.pages.dashboard
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -19,6 +18,7 @@ import app.trian.kasku.ui.theme.KasKuTheme
 import compose.icons.Octicons
 import compose.icons.octicons.*
 import kotlinx.coroutines.launch
+import java.time.YearMonth
 
 /**
  *
@@ -34,7 +34,9 @@ fun PageBudget(
 ) {
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
-
+    var selectedMonth by remember {
+        mutableStateOf<YearMonth?>(null)
+    }
 
     PageBaseDashboard(
         drawerState=drawerState,
@@ -43,7 +45,12 @@ fun PageBudget(
             AppbarDashboard(
                 title = "Budget",
                 content = {
-                    MonthPicker()
+                    MonthPicker(
+                        selectedMonth = selectedMonth,
+                        onItemSelected = {
+                            selectedMonth=it
+                        }
+                    )
                 },
                 navigationIcon = {
                     IconToggleButton(

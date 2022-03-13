@@ -40,7 +40,11 @@ fun PageOnboard(
     modifier: Modifier = Modifier,
     router: NavHostController
 ) {
-    val pagerState = rememberPagerState(initialPage = 0)
+    val pagerState = rememberPagerState(
+        pageCount = 3,
+        initialPage = 0,
+        infiniteLoop = false
+    )
     val itemOnboard = listOf(
         PageOnboardModel.FIRST,
         PageOnboardModel.SECOND,
@@ -96,7 +100,6 @@ fun PageOnboard(
             )
         }
         HorizontalPager(
-            count = 3,
             state = pagerState
         ) {
             page->

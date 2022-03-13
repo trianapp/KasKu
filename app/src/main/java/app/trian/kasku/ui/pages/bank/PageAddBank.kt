@@ -19,7 +19,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import app.trian.kasku.R
+import app.trian.kasku.R 
 import app.trian.kasku.common.CurrencyTransformation
 import app.trian.kasku.common.numberKeyboardOption
 import app.trian.kasku.ui.Routes
@@ -112,7 +112,7 @@ fun PageAddBank(
                     placeholder = "0",
                     label = "Starter amount",
                     singleLine = true,
-                    masked = CurrencyTransformation("#.###.###.###.###"),
+                    masked = CurrencyTransformation(),
                     keyboardOptions = numberKeyboardOption,
                     maxLength = 13,
                     leading = {

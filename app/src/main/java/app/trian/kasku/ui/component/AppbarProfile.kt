@@ -12,6 +12,8 @@ import androidx.compose.ui.unit.dp
 import app.trian.kasku.ui.theme.KasKuTheme
 import compose.icons.Octicons
 import compose.icons.octicons.Gear24
+import compose.icons.octicons.Quote24
+import kotlinx.coroutines.launch
 
 /**
  *
@@ -22,12 +24,27 @@ import compose.icons.octicons.Gear24
 
 @Composable
 fun AppbarProfile(
-    navigationIcon:@Composable ()->Unit={}
+    onNavigation:()->Unit={},
+    onAction:()->Unit={}
 ) {
     TopAppBar(
         elevation = 0.dp,
         backgroundColor = MaterialTheme.colors.surface,
-        navigationIcon = navigationIcon,
+        navigationIcon = {
+                IconToggleButton(
+                    checked = false,
+                    onCheckedChange = {
+                        onNavigation()
+                    }
+                ) {
+                    Icon(
+                        imageVector = Octicons.Quote24,
+                        contentDescription = "",
+                        tint = MaterialTheme.colors.onBackground
+                    )
+                }
+
+        },
         title = {
                 Row {
                     Spacer(modifier = Modifier.width(10.dp))
@@ -43,7 +60,9 @@ fun AppbarProfile(
         actions = {
             IconToggleButton(
                 checked = false,
-                onCheckedChange = {}
+                onCheckedChange = {
+                    onAction()
+                }
             ) {
                 Icon(
                     imageVector = Octicons.Gear24,

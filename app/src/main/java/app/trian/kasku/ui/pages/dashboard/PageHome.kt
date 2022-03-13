@@ -2,8 +2,7 @@ package app.trian.kasku.ui.pages.dashboard
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -21,6 +20,7 @@ import compose.icons.Octicons
 import compose.icons.octicons.Question24
 import compose.icons.octicons.Quote24
 import kotlinx.coroutines.launch
+import java.time.YearMonth
 
 /**
  *
@@ -36,6 +36,9 @@ fun PageHome(
 ) {
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
+    var selectedMonth by remember {
+        mutableStateOf<YearMonth?>(null)
+    }
     PageBaseDashboard(
         drawerState=drawerState,
         router = router,
@@ -59,7 +62,12 @@ fun PageHome(
                             }
                         },
                         content = {
-                            MonthPicker()
+                            MonthPicker(
+                                selectedMonth = selectedMonth,
+                                onItemSelected = {
+                                    selectedMonth=it
+                                }
+                            )
                         }
                     )
         },
