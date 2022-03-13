@@ -11,6 +11,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalDensity
@@ -43,6 +44,7 @@ import kotlinx.coroutines.launch
  * created_at 10/03/22 - 17.14
  * site https://trian.app
  */
+@ExperimentalComposeUiApi
 @ExperimentalPagerApi
 @Composable
 fun PageAddTransaction(
@@ -84,10 +86,13 @@ fun PageAddTransaction(
     //pick calendar
     DialogCalendarPicker(
         show = dialogCalendarPicker,
+
         onDismiss = {
             dialogCalendarPicker = false
         },
-        onDateSelected = {}
+        onDateSelected = {
+            dialogCalendarPicker = false
+        }
     )
 
     //handle system back pressed
@@ -487,11 +492,14 @@ fun PageAddTransaction(
     }
 }
 
+@ExperimentalComposeUiApi
 @ExperimentalPagerApi
 @Preview
 @Composable
 fun PreviewPageAddTransaction() {
     KasKuTheme {
-        PageAddTransaction(router = rememberNavController())
+        PageAddTransaction(
+            router = rememberNavController()
+        )
     }
 }

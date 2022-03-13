@@ -12,10 +12,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import app.trian.kasku.ui.Routes
-import app.trian.kasku.ui.component.AppbarDashboard
-import app.trian.kasku.ui.component.ItemTotalDailyTransaction
-import app.trian.kasku.ui.component.ItemListDailyTransaction
-import app.trian.kasku.ui.component.MonthPicker
+import app.trian.kasku.ui.component.*
 import app.trian.kasku.ui.component.calendar.DialogCalendarPickerFullScreen
 import app.trian.kasku.ui.theme.KasKuTheme
 import com.google.accompanist.pager.ExperimentalPagerApi
@@ -23,6 +20,7 @@ import compose.icons.Octicons
 import compose.icons.octicons.Calendar24
 import compose.icons.octicons.Quote24
 import kotlinx.coroutines.launch
+import java.time.LocalDate
 
 /**
  *
@@ -43,6 +41,9 @@ fun PageDaily(
     var showDialogDatePicker by remember {
         mutableStateOf(false)
     }
+    var selectedDate by remember {
+        mutableStateOf<LocalDate?>(null)
+    }
 
     DialogCalendarPickerFullScreen(
         show = showDialogDatePicker,
@@ -50,7 +51,8 @@ fun PageDaily(
             showDialogDatePicker=false
         },
         onDateSelected = {
-
+            selectedDate = it
+            showDialogDatePicker = false
         }
     )
 
@@ -77,7 +79,12 @@ fun PageDaily(
                     }
                 },
                 content = {
-                    MonthPicker()
+                    MonthDayAppbar(
+                        selected = selectedDate,
+                        onItemSelected = {
+                            selectedDate = it
+                        }
+                    )
                 },
                 actions = {
                     IconToggleButton(

@@ -1,6 +1,3 @@
-import java.util.Properties
-import java.io.FileInputStream
-
 plugins {
     id("com.android.application")
     id("dagger.hilt.android.plugin")
@@ -12,7 +9,6 @@ plugins {
 
 android {
     compileSdk =32
-
     defaultConfig {
         applicationId = Version.applicationId
         minSdk =21
@@ -57,12 +53,8 @@ android {
 
 dependencies {
 
-    implementation ("com.google.android.material:material:1.5.0")
+    implementation (Libs.Com.Google.Android.Material.material)
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.1.5")
-    implementation("com.google.accompanist:accompanist-pager:0.18.0")
-
-    // If using indicators, also depend on
-    implementation("com.google.accompanist:accompanist-pager-indicators:0.18.0")
 
     implementation(Libs.AndroidX.Multidex.multidex)
     implementation(Libs.AndroidX.Core.coreKtx)
@@ -147,7 +139,8 @@ dependencies {
     with(Libs.Com.Google.Accompanist){
         implementation(accompanistSystemUiController)
         implementation(accompanistNavigationAnimation)
-//        implementation(accompanistPager)
+        implementation(accompanistPager)
+        implementation(accompanistPagerIndicator)
     }
     //image loader
     with(Libs.Io.CoilKt){

@@ -27,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.compose.ui.window.SecureFlagPolicy
+import app.trian.kasku.ui.component.calendar.day.DefaultDay
 import app.trian.kasku.ui.component.calendar.util.MonthHeaderPosition
 import com.google.accompanist.pager.ExperimentalPagerApi
 import compose.icons.Octicons
@@ -53,6 +54,7 @@ fun DialogCalendarPickerFullScreen(
         .resources
         .displayMetrics.heightPixels.dp /
             LocalDensity.current.density
+    val calendarState = rememberSelectableCalendarState()
 
 
 
@@ -66,7 +68,6 @@ fun DialogCalendarPickerFullScreen(
                 securePolicy = SecureFlagPolicy.SecureOn
             )
         ) {
-
             Box(
                 modifier = modifier
                     .fillMaxWidth()
@@ -124,7 +125,17 @@ fun DialogCalendarPickerFullScreen(
                         }
                         Spacer(modifier = modifier.height(16.dp))
                         SelectableCalendar(
-                            monthHeaderPosition = MonthHeaderPosition.BOTTOM
+                            monthHeaderPosition = MonthHeaderPosition.BOTTOM,
+                            calendarState = calendarState,
+                            dayContent = {
+                                day->
+                                DefaultDay(
+                                    state = day,
+                                    onClick = {
+                                        onDateSelected(it)
+                                    }
+                                )
+                            }
                         )
                     }
 

@@ -12,6 +12,7 @@ class CurrencyTransformation(
         mask[it] != '#'
     }
     override fun filter(text: AnnotatedString): TransformedText {
+
         var out = ""
         var maskIndex = 0
         text.forEach {
