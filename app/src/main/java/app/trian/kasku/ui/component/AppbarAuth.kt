@@ -10,10 +10,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import app.trian.kasku.R
 import app.trian.kasku.common.coloredShadow
 import app.trian.kasku.ui.theme.DisableContentColor
 import app.trian.kasku.ui.theme.KasKuTheme
@@ -32,25 +34,29 @@ fun AppbarAuth(
     onNavigate:()->Unit={}
 ) {
     Row(
-        modifier = modifier.fillMaxWidth()
-            .clip(RoundedCornerShape(
-                bottomEnd = 20.dp,
-                bottomStart = 20.dp
-            ))
+        modifier = modifier
+            .fillMaxWidth()
+            .clip(
+                RoundedCornerShape(
+                    bottomEnd = 20.dp,
+                    bottomStart = 20.dp
+                )
+            )
             .coloredShadow(
                 color = DisableContentColor
             )
             .height(70.dp)
             .background(
                 MaterialTheme.colors.surface
-            ).padding(
+            )
+            .padding(
                 horizontal = 30.dp
             ),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Text(
-            text = "Budget Tracker",
+            text = stringResource(R.string.app_name),
             style = MaterialTheme.typography.h6.copy(
                 fontStyle = FontStyle.Italic,
                 fontWeight = FontWeight.Light
@@ -61,9 +67,11 @@ fun AppbarAuth(
             style = MaterialTheme.typography.overline.copy(
                 color = MaterialTheme.colors.primary
             ),
-            modifier=modifier.padding(all = 4.dp).clickable {
-                onNavigate()
-            }
+            modifier= modifier
+                .padding(all = 4.dp)
+                .clickable {
+                    onNavigate()
+                }
         )
     }
 }

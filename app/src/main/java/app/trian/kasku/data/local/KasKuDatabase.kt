@@ -3,6 +3,7 @@ package app.trian.kasku.data.local
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import app.trian.kasku.data.local.entity.User
 
 /**
  * Local Database
@@ -12,7 +13,7 @@ import androidx.room.TypeConverters
  */
 @Database(
     entities = [
-
+        User::class
     ],
     version = 1,
     exportSchema = true

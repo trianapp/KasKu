@@ -5,6 +5,7 @@ import app.trian.kasku.common.DispatcherProvider
 import app.trian.kasku.data.local.entity.User
 import app.trian.kasku.data.repository.design.UserRepository
 import app.trian.kasku.domain.DataState
+import app.trian.kasku.domain.models.AuthenticationResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
@@ -50,7 +51,7 @@ class UserRepositoryImpl(
     override suspend fun loginBasic(
         email: String,
         password: String
-    ): Flow<DataState<FirebaseUser>> =flow{
+    ): Flow<DataState<AuthenticationResult>> =flow{
         emit(DataState.OnLoading)
         try {
             val authenticate = firebaseAuth
@@ -64,7 +65,10 @@ class UserRepositoryImpl(
                 firebaseAuth.signOut()
             }else{
                 if(user.isEmailVerified){
-                    emit(DataState.OnData(authenticate.user!!))
+                    emit(DataState.OnData(AuthenticationResult(
+                        isNewUser = authenticate.additionalUserInfo?.isNewUser ?: false,
+                        firebaseUser = authenticate.user!!
+                    )))
                 }else{
                     emit(DataState.OnFailure("Email not verify, Check your email inbox for verification"))
                 }
@@ -81,7 +85,7 @@ class UserRepositoryImpl(
     ): Flow<DataState<FirebaseUser>> =flow{
         emit(DataState.OnLoading)
         try {
-            val authenticate = firebaseAuth
+            firebaseAuth
                 .createUserWithEmailAndPassword(
                     email, password
                 )
@@ -97,7 +101,7 @@ class UserRepositoryImpl(
         }
     }.flowOn(dispatcher.io())
 
-    override suspend fun loginGoogle(idToken: String): Flow<DataState<FirebaseUser>> =flow{
+    override suspend fun loginGoogle(idToken: String): Flow<DataState<AuthenticationResult>> =flow{
         emit(DataState.OnLoading)
         try {
             val credential = GoogleAuthProvider
@@ -105,7 +109,13 @@ class UserRepositoryImpl(
             val authenticate = firebaseAuth
                 .signInWithCredential(credential)
                 .await()
-            emit(DataState.OnData(authenticate.user!!))
+
+            emit(DataState.OnData(
+                AuthenticationResult(
+                    isNewUser = authenticate.additionalUserInfo?.isNewUser ?: false,
+                    firebaseUser = authenticate.user!!
+                )
+            ))
         }catch (e:Exception){
             emit(DataState.OnFailure(e.message.toString()))
         }

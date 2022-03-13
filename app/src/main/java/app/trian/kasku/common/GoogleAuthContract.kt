@@ -14,6 +14,7 @@ import com.google.android.gms.tasks.Task
  * created_at 13/03/22 - 20.00
  * site https://trian.app
  */
+const val AUTH_GOOGLE_CODE = 111
 class GoogleAuthContract: ActivityResultContract<Int, Task<GoogleSignInAccount>?>() {
     override fun createIntent(context: Context, input: Int): Intent {
         val gso= getGoogleSignInClient(context)

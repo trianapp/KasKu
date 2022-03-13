@@ -14,7 +14,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 fun getGoogleSignInClient(context: Context): GoogleSignInClient {
     val signInOptions = GoogleSignInOptions.Builder(
         GoogleSignInOptions.DEFAULT_SIGN_IN
-    ).requestIdToken("496234949728-hdu85od2mv4gfvhbjff5ldbqkm7epcog.apps.googleusercontent.com")
+    ).requestIdToken("543201836893-2n95d496dc1o5s06u45okiv17mlcphlo.apps.googleusercontent.com")
         .requestEmail()
         .build()
 

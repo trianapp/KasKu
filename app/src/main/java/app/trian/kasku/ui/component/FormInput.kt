@@ -46,6 +46,7 @@ fun FormInput(
     singleLine:Boolean=true,
     maxLine:Int=1,
     maxLength:Int=500,
+    error:Boolean=false,
     masked:VisualTransformation= VisualTransformation.None,
     keyboardOptions: KeyboardOptions=KeyboardOptions.Default,
     keyboardActions: KeyboardActions= KeyboardActions.Default,
@@ -80,6 +81,7 @@ fun FormInput(
             },
             colors = TextFieldDefaults.textFieldColors(
                 backgroundColor = Color.Transparent,
+                errorIndicatorColor = ExpensesColor,
             ),
             textStyle =MaterialTheme.typography.body2.copy(
                 color = MaterialTheme.colors.onBackground,
@@ -120,6 +122,7 @@ fun FormInput(
                 else
                     PasswordVisualTransformation()
             else masked,
+            isError = error
         )
     }
 }
@@ -136,6 +139,7 @@ fun FormInputWithButton(
     buttonEnabled:Boolean=true,
     singleLine:Boolean=true,
     maxLine:Int=1,
+    error:Boolean=false,
     masked:VisualTransformation=VisualTransformation.None,
     keyboardOptions: KeyboardOptions=KeyboardOptions.Default,
     keyboardActions: KeyboardActions= KeyboardActions.Default,
@@ -177,6 +181,7 @@ fun FormInputWithButton(
                 },
                 colors = TextFieldDefaults.textFieldColors(
                     backgroundColor = Color.Transparent,
+                    errorIndicatorColor = ExpensesColor
                 ),
                 textStyle =MaterialTheme.typography.body2.copy(
                     color = MaterialTheme.colors.onBackground,
@@ -217,6 +222,7 @@ fun FormInputWithButton(
                     else
                         PasswordVisualTransformation()
                 else masked,
+                isError = error
             )
             ButtonIcon(
                 icon = icon,

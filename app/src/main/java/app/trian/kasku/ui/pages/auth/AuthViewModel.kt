@@ -38,7 +38,7 @@ class AuthViewModel @Inject constructor() : ViewModel() {
     fun loginWithEmailAndPassword(
         email:String,
         password:String,
-        callback:  (Boolean, String) -> Unit
+        callback:  (Boolean, Boolean,String) -> Unit
     )=viewModelScope.launch {
         userRepository
             .loginBasic(
@@ -47,10 +47,10 @@ class AuthViewModel @Inject constructor() : ViewModel() {
             .onEach {
                 when(it){
                     is DataState.OnData -> {
-                        callback(true,"Sign In Success!")
+                        callback(true,it.data.isNewUser,"Sign In Success!")
                     }
                     is DataState.OnFailure -> {
-                        callback(false,it.message)
+                        callback(false,false,it.message)
                     }
                     DataState.OnLoading -> {}
                 }
@@ -60,7 +60,7 @@ class AuthViewModel @Inject constructor() : ViewModel() {
 
     fun loginWithGoogle(
         credential:Task<GoogleSignInAccount>?,
-        callback: (Boolean, String) -> Unit
+        callback: (Boolean,Boolean, String) -> Unit
     )=viewModelScope.launch {
         try {
             if(credential != null){
@@ -72,17 +72,17 @@ class AuthViewModel @Inject constructor() : ViewModel() {
                     .onEach {
                         when(it){
                             is DataState.OnData -> {
-                                callback(true,"Sign in success")
+                                callback(true,it.data.isNewUser,"Sign in success")
                             }
                             is DataState.OnFailure -> {
-                                callback(false,it.message)
+                                callback(false,false,it.message)
                             }
                             DataState.OnLoading -> {}
                         }
                     }
                     .collect()
             }else{
-                callback(false,"User don't have credential")
+                callback(false,false,"User don't have credential")
             }
         }catch (e:Exception){
 
