@@ -5,10 +5,12 @@ import androidx.room.PrimaryKey
 import java.time.OffsetDateTime
 
 @Entity
-data class User(
+data class BankAccount(
     @PrimaryKey
     var uid:String,
-    var name:String,
-    var email:String,
-    var dateOfBirth:OffsetDateTime
+    var bankName:String,
+    var startAmount:Double,
+    var amount:Double,
+    var created_at:OffsetDateTime,
+    var updated_at:OffsetDateTime
 )

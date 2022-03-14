@@ -49,4 +49,15 @@
     <string name="labe_input_new_password">New password</string>
     <string name="placeholder_confirm_password">confirm new password</string>
     <string name="label_input_confirm_password">Confirm password</string>
+    <string name="appbar_title_create_bank">Add account</string>
+    <string name="bank_name_cannot_empty">Bank name cannot empty!</string>
+    <string name="amount_cannot_empty">Amount cannot empty!</string>
+    <string name="cannot_save_bank_account">Cannot save bank account, try again later</string>
+    <string name="content_description_image_page_bank_account">Image Page Create Bank Account</string>
+    <string name="title_page_create_bank_account">Add primary bank account</string>
+    <string name="label_select_color">Select color</string>
+    <string name="placeholder_bank_account_name">Account name here</string>
+    <string name="label_input_bank_account_name">Account name</string>
+    <string name="placeholder_amount">0</string>
+    <string name="label_input_amount">Starter amount</string>
 </resources>

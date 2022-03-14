@@ -11,6 +11,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import app.trian.kasku.ui.Routes
@@ -33,10 +34,12 @@ import kotlinx.coroutines.launch
 @ExperimentalMaterialApi
 @Composable
 fun PageBaseDashboard(
+    dashboardViewModel: DashboardViewModel,
     modifier: Modifier = Modifier,
     router: NavHostController,
     drawerState: DrawerState,
     topAppbar: @Composable ()->Unit = {},
+    onRestartActivity:()->Unit={},
     content:@Composable ()->Unit={}
 ) {
 
@@ -46,9 +49,17 @@ fun PageBaseDashboard(
         drawerContent = {
             NavDrawer(
                 onClick = {
+
                     scope.launch {
                         drawerState.close()
                         delay(400)
+                        when(it.route){
+                            "logout"->{
+                                dashboardViewModel.signOut {
+                                    onRestartActivity()
+                                }
+                            }
+                        }
 
                     }
                 },
@@ -111,6 +122,7 @@ fun PageBaseDashboard(
 fun PreviewBaseDashboard() {
     KasKuTheme {
         PageBaseDashboard(
+            dashboardViewModel = hiltViewModel<DashboardViewModel>(),
             router = rememberNavController(),
             drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
         )

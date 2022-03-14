@@ -7,6 +7,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import app.trian.kasku.domain.BudgetType
@@ -30,8 +31,10 @@ import java.time.YearMonth
 @Composable
 fun PageBudget(
     modifier: Modifier = Modifier,
-    router: NavHostController
+    router: NavHostController,
+    onRestartActivity:()->Unit={}
 ) {
+    val dashboardViewModel = hiltViewModel<DashboardViewModel>()
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
     var selectedMonth by remember {
@@ -41,6 +44,8 @@ fun PageBudget(
     PageBaseDashboard(
         drawerState=drawerState,
         router = router,
+        onRestartActivity = onRestartActivity,
+        dashboardViewModel = dashboardViewModel,
         topAppbar = {
             AppbarDashboard(
                 title = "Budget",
@@ -120,6 +125,8 @@ fun PageBudget(
 @Composable
 fun PreviewPageBudget() {
     KasKuTheme {
-        PageBudget(router = rememberNavController())
+        PageBudget(
+            router = rememberNavController()
+        )
     }
 }

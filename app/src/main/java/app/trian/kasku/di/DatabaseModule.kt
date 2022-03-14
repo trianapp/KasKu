@@ -5,6 +5,8 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
 import app.trian.kasku.data.local.KasKuDatabase
+import app.trian.kasku.data.local.dao.BankDao
+import app.trian.kasku.data.local.dao.UserDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -39,4 +41,14 @@ object DatabaseModule {
             }
         )
         .build()
+
+    @Provides
+    fun provideUserDao(
+        db:KasKuDatabase
+    ):UserDao = db.userDao()
+
+    @Provides
+    fun provideBankDao(
+        db:KasKuDatabase
+    ):BankDao = db.bankDao()
 }

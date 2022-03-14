@@ -9,6 +9,7 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import app.trian.kasku.ui.Routes
@@ -34,8 +35,10 @@ import java.time.LocalDate
 @Composable
 fun PageDaily(
     modifier: Modifier = Modifier,
-    router: NavHostController
+    router: NavHostController,
+    onRestartActivity:()->Unit={}
 ) {
+    val dashboardViewModel = hiltViewModel<DashboardViewModel>()
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
     var showDialogDatePicker by remember {
@@ -59,6 +62,8 @@ fun PageDaily(
     PageBaseDashboard(
         drawerState=drawerState,
         router = router,
+        onRestartActivity = onRestartActivity,
+        dashboardViewModel = dashboardViewModel,
         topAppbar = {
             AppbarDashboard(
                 title = "Daily",

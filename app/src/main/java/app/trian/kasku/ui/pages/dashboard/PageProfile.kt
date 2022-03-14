@@ -17,6 +17,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import app.trian.kasku.R
@@ -36,11 +37,13 @@ import kotlinx.coroutines.launch
 @Composable
 fun PageProfile(
     modifier: Modifier = Modifier,
-    router: NavHostController
+    router: NavHostController,
+    onRestartActivity:()->Unit={}
 ) {
 
 
     val ctx = LocalContext.current
+    val dashboardViewModel = hiltViewModel<DashboardViewModel>()
     val currentWidth = ctx
         .resources
         .displayMetrics.widthPixels.dp /
@@ -51,6 +54,8 @@ fun PageProfile(
     PageBaseDashboard(
         drawerState=drawerState,
         router = router,
+        onRestartActivity = onRestartActivity,
+        dashboardViewModel = dashboardViewModel,
         topAppbar = {
             AppbarProfile(
                 onNavigation = {

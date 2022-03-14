@@ -7,6 +7,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import app.trian.kasku.ui.Routes
@@ -32,8 +33,10 @@ import java.time.YearMonth
 @Composable
 fun PageHome(
     modifier: Modifier = Modifier,
-    router: NavHostController
+    router: NavHostController,
+    onRestartActivity:()->Unit={}
 ) {
+    val dashboardViewModel = hiltViewModel<DashboardViewModel>()
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
     var selectedMonth by remember {
@@ -42,6 +45,8 @@ fun PageHome(
     PageBaseDashboard(
         drawerState=drawerState,
         router = router,
+        onRestartActivity=onRestartActivity,
+        dashboardViewModel = dashboardViewModel,
         topAppbar = {
                     AppbarDashboard(
                         title = "Home",

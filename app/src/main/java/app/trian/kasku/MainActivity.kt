@@ -158,7 +158,10 @@ class MainActivity : ComponentActivity() {
                                    color = uiColor,
                                    darkIcons = true
                                )
-                               PageHome(router = router)
+                               PageHome(
+                                   router = router,
+                                   onRestartActivity = ::restartActivity
+                               )
                            }
                            composable(Routes.Dashboard.DAILY){
                                val uiColor = MaterialTheme.colors.surface
@@ -166,7 +169,10 @@ class MainActivity : ComponentActivity() {
                                    color = uiColor,
                                    darkIcons = true
                                )
-                               PageDaily(router = router)
+                               PageDaily(
+                                   router = router,
+                                   onRestartActivity = ::restartActivity
+                               )
 
                            }
                            composable(Routes.Dashboard.BUDGET){
@@ -176,7 +182,10 @@ class MainActivity : ComponentActivity() {
                                    darkIcons = true
                                )
 
-                               PageBudget(router = router)
+                               PageBudget(
+                                   router = router,
+                                   onRestartActivity = ::restartActivity
+                               )
                            }
                            composable(Routes.Dashboard.PROFILE){
                                val uiColor = MaterialTheme.colors.surface
@@ -184,7 +193,10 @@ class MainActivity : ComponentActivity() {
                                    color = uiColor,
                                    darkIcons = true
                                )
-                               PageProfile(router = router)
+                               PageProfile(
+                                   router = router,
+                                   onRestartActivity = ::restartActivity
+                               )
 
                            }
                        }
@@ -294,6 +306,12 @@ class MainActivity : ComponentActivity() {
                    }
                 }
             }
+        }
+    }
+
+    private fun restartActivity(){
+        runOnUiThread {
+            this.recreate()
         }
     }
 }
