@@ -118,5 +118,7 @@ lint/tmp/
 /play_config.json
 /play_config.json.b64
 /firebase_credentials.json
+./app/google-services.json
+
 
 Gemfile.lock
