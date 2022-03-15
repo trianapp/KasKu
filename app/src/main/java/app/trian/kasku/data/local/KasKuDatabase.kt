@@ -19,7 +19,7 @@ import app.trian.kasku.data.local.entity.User
         User::class,
         BankAccount::class
     ],
-    version = 3,
+    version = 5,
     exportSchema = true
 )
 @TypeConverters(

@@ -72,10 +72,15 @@ fun PageAddBank(
             ctx.toastError(ctx.getString(R.string.amount_cannot_empty))
             return
         }
+        if(selectedColor == null){
+            ctx.toastError(ctx.getString(R.string.color_cannot_empty))
+            return
+        }
 
         bankViewModel.saveBank(
             bankName,
-            amount.toDouble()
+            amount.toDouble(),
+            selectedColor!!
         ){
             if(it){
                 router.navigate(Routes.ADD_BANK_SUCCESS){

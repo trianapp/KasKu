@@ -23,6 +23,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import app.trian.kasku.R
+import app.trian.kasku.common.formatDate
 import app.trian.kasku.ui.Routes
 import app.trian.kasku.ui.theme.HexToJetpackColor
 import app.trian.kasku.ui.theme.KasKuTheme
@@ -104,7 +105,16 @@ fun PageAddBankSuccess(
                     .clip(MaterialTheme.shapes.medium)
                     .background(
                         brush = Brush.linearGradient(
-                            listOf(
+                            currentBankAccount?.let {
+                                listOf(
+                                    HexToJetpackColor.getColor(
+                                        it.colorStart
+                                    ),
+                                    HexToJetpackColor.getColor(
+                                        it.colorEnd
+                                    )
+                                )
+                            }?: listOf(
                                 HexToJetpackColor.getColor(
                                     listGradient[1].first
                                 ),
@@ -112,6 +122,7 @@ fun PageAddBankSuccess(
                                     listGradient[1].second
                                 )
                             )
+
                         )
                     )
                     .padding(all = 20.dp)
@@ -182,7 +193,7 @@ fun PageAddBankSuccess(
                             )
                             Spacer(modifier = modifier.height(6.dp))
                             Text(
-                                text = "04-16-19",
+                                text = currentBankAccount?.created_at?.formatDate("d-MMMM-yyyy") ?: "",
                                 style = MaterialTheme.typography.body2.copy(
                                     color = Color.White,
                                     fontWeight = FontWeight.Bold

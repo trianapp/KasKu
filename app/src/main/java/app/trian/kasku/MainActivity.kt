@@ -1,5 +1,6 @@
 package app.trian.kasku
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -311,7 +312,12 @@ class MainActivity : ComponentActivity() {
 
     private fun restartActivity(){
         runOnUiThread {
-            this.recreate()
+            Intent(this,MainActivity::class.java).apply {
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            }.also {
+                startActivity(it)
+                finish()
+            }
         }
     }
 }

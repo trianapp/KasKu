@@ -7,6 +7,7 @@ import app.trian.kasku.data.local.entity.BankAccount
 import app.trian.kasku.data.repository.design.BankRepository
 import app.trian.kasku.data.repository.design.UserRepository
 import app.trian.kasku.domain.DataState
+import app.trian.kasku.ui.theme.GradientColor
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
@@ -38,9 +39,10 @@ class BankViewModel @Inject constructor() : ViewModel() {
     fun saveBank(
         bankName:String,
         amount:Double,
+        color: GradientColor,
         callback: (Boolean)->Unit
     )=viewModelScope.launch {
-        bankRepository.saveBank(bankName, amount)
+        bankRepository.saveBank(bankName, amount,color)
             .onEach {
                 when(it){
                     is DataState.OnData -> callback(true)

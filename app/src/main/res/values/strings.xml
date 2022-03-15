@@ -60,4 +60,9 @@
     <string name="label_input_bank_account_name">Account name</string>
     <string name="placeholder_amount">0</string>
     <string name="label_input_amount">Starter amount</string>
+    <string name="color_cannot_empty">Please select one color!</string>
+    <string name="content_description_page_profile">Image Profile</string>
+    <string name="btn_update">Update</string>
+    <string name="label_email">Email</string>
+    <string name="label_date_of_birth">Date of birth</string>
 </resources>

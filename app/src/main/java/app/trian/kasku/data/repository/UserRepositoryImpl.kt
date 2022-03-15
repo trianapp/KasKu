@@ -57,13 +57,31 @@ class UserRepositoryImpl(
     override suspend fun getCurrentUserProfile(): Flow<CurrentUserModel?> = flow {
         try {
             val user = firebaseAuth.currentUser
-            val getCurrentUserLocal = userDao.getUser(user?.uid.toString())
-            emit(
-                CurrentUserModel(
-                    user = getCurrentUserLocal,
-                    authUser = user
-                )
-            )
+            if(user != null){
+                val getCurrentUserLocal = userDao.getUser(user?.uid.toString())
+                if(getCurrentUserLocal == null){
+                    val userFromCloud = firestore.collection("USER")
+                        .document(user?.uid ?: "")
+                        .get().await().toObject(User::class.java)
+                    if(userFromCloud == null){
+                        emit(null)
+                    }else{
+                        emit(CurrentUserModel(
+                            user = userFromCloud,
+                            authUser = user
+                        ))
+                    }
+                }else {
+                    emit(
+                        CurrentUserModel(
+                            user = getCurrentUserLocal,
+                            authUser = user
+                        )
+                    )
+                }
+            }else{
+                emit(null)
+            }
         }catch (e:Exception){
             emit(null)
         }
