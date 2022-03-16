@@ -1,6 +1,5 @@
 package app.trian.kasku.di
 
-import app.trian.kasku.common.DefaultDispatcherProvider
 import app.trian.kasku.common.DispatcherProvider
 import app.trian.kasku.data.local.dao.BankDao
 import app.trian.kasku.data.local.dao.UserDao
@@ -20,7 +19,7 @@ import dagger.hilt.components.SingletonComponent
 /**
  *
  * author Trian Damai
- * created_at 13/03/22 - 19.55
+ * created_at 17/03/22 - 00.44
  * site https://trian.app
  */
 @Module
@@ -29,20 +28,34 @@ import dagger.hilt.components.SingletonComponent
         SingletonComponent::class
     ]
 )
-object NetworkModule {
+object RepositoryModule {
     @Provides
-    fun provideDispatcher():DispatcherProvider= DefaultDispatcherProvider()
+    fun provideUserRepository(
+        dispatcherProvider: DispatcherProvider,
+        firebaseAuth: FirebaseAuth,
+        firestore: FirebaseFirestore,
+        firebaseMessaging: FirebaseMessaging,
+        firebaseStorage: FirebaseStorage,
+        userDao: UserDao
+    ): UserRepository = UserRepositoryImpl(
+        dispatcherProvider,
+        firebaseAuth,
+        firestore ,
+        firebaseMessaging,
+        firebaseStorage,
+        userDao
+    )
 
     @Provides
-    fun provideFirebaseMessaging():FirebaseMessaging=FirebaseMessaging.getInstance()
-
-    @Provides
-    fun provideFirestore():FirebaseFirestore = FirebaseFirestore.getInstance()
-
-    @Provides
-    fun provideFirebaseAuth():FirebaseAuth = FirebaseAuth.getInstance()
-
-    @Provides
-    fun provideFirebaseStorage(): FirebaseStorage = FirebaseStorage.getInstance()
-
+    fun provideBankRepository(
+        dispatcherProvider: DispatcherProvider,
+        firebaseAuth: FirebaseAuth,
+        firestore: FirebaseFirestore,
+        bankDao: BankDao
+    ): BankRepository = BankRepositoryImpl(
+        dispatcherProvider,
+        firebaseAuth,
+        firestore,
+        bankDao
+    )
 }
