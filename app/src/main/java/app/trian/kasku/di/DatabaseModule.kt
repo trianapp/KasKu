@@ -5,8 +5,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
 import app.trian.kasku.data.local.KasKuDatabase
-import app.trian.kasku.data.local.dao.BankDao
-import app.trian.kasku.data.local.dao.UserDao
+import app.trian.kasku.data.local.dao.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -51,4 +50,19 @@ object DatabaseModule {
     fun provideBankDao(
         db:KasKuDatabase
     ):BankDao = db.bankDao()
+
+    @Provides
+    fun provideBudgetDao(
+        db: KasKuDatabase
+    ):BudgetDao = db.budgetDao()
+
+    @Provides
+    fun provideCategoryDao(
+        db: KasKuDatabase
+    ):CategoryDao = db.categoryDao()
+
+    @Provides
+    fun provideTransaction(
+        db: KasKuDatabase
+    ):TransactionDao= db.transactionDao()
 }

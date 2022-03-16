@@ -3,10 +3,8 @@ package app.trian.kasku.data.local
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import app.trian.kasku.data.local.dao.BankDao
-import app.trian.kasku.data.local.dao.UserDao
-import app.trian.kasku.data.local.entity.BankAccount
-import app.trian.kasku.data.local.entity.User
+import app.trian.kasku.data.local.dao.*
+import app.trian.kasku.data.local.entity.*
 
 /**
  * Local Database
@@ -17,7 +15,10 @@ import app.trian.kasku.data.local.entity.User
 @Database(
     entities = [
         User::class,
-        BankAccount::class
+        BankAccount::class,
+        Budget::class,
+        Category::class,
+        Transaction::class
     ],
     version = 5,
     exportSchema = true
@@ -28,6 +29,10 @@ import app.trian.kasku.data.local.entity.User
 abstract class KasKuDatabase :RoomDatabase(){
     abstract fun userDao():UserDao
     abstract fun bankDao():BankDao
+    abstract fun budgetDao():BudgetDao
+    abstract fun categoryDao():CategoryDao
+    abstract fun transactionDao():TransactionDao
+
     companion object{
         const val DB_NAME = "KASKU"
     }
