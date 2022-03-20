@@ -166,7 +166,7 @@ fun PageProfile(
                             )
                             Spacer(modifier = modifier.height(16.dp))
                             Text(
-                                text = "Rp ${currentBankAccount?.amount}",
+                                text = "Rp ${currentBankAccount?.amount ?: "0"}",
                                 style = MaterialTheme.typography.body1.copy(
                                     color = MaterialTheme.colors.onPrimary
                                 )
@@ -177,7 +177,9 @@ fun PageProfile(
                             textColor = MaterialTheme.colors.onPrimary,
                             backgroundColor = MaterialTheme.colors.onPrimary
                         ){
+                            router.navigate(Routes.ADD_BANK){
 
+                            }
                         }
                     }
                     Spacer(modifier = modifier.height(30.dp))

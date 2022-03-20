@@ -23,11 +23,14 @@ import app.trian.kasku.ui.Routes
 import app.trian.kasku.ui.component.AppbarBasic
 import app.trian.kasku.ui.component.ItemSetting
 import app.trian.kasku.common.coloredShadow
+import app.trian.kasku.common.toastInfo
 import app.trian.kasku.ui.theme.KasKuTheme
 import compose.icons.Octicons
 import compose.icons.octicons.ArrowLeft24
 import compose.icons.octicons.Info24
 import compose.icons.octicons.Key24
+import logcat.LogPriority
+import logcat.logcat
 
 /**
  *
@@ -43,10 +46,19 @@ fun PageSetting(
     val ctx = LocalContext.current
     val itemsSetting = listOf(
         SettingModel(
+            name = "Update Profile",
+            description="Change your profile",
+            icon = Octicons.Key24,
+            action = "button",
+            type="nav",
+            route = Routes.UPDATE_PROFILE
+        ),
+        SettingModel(
             name = "Change password",
             description="Change your password",
             icon = Octicons.Key24,
-            action = "switch",
+            action = "nav",
+            type = "nav",
             route = Routes.CHANGE_PASSWORD
         ),
         SettingModel(
@@ -54,6 +66,7 @@ fun PageSetting(
             description="More about app",
             icon = Octicons.Info24,
             action = "version",
+            type = "button",
             route =""
         )
     )
@@ -151,8 +164,11 @@ fun PageSetting(
                         }
                     },
                     onClick = {
+                        logcat("tag",LogPriority.ERROR){menu.toString()}
                         if(menu.type == "nav"){
-                            router.navigate(menu.route)
+                            if(menu.route.isNotEmpty()) {
+                               router.navigate(menu.route)
+                            }
                         }
                     }
                 )

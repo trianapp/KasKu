@@ -5,6 +5,8 @@ import app.trian.kasku.data.local.dao.BankDao
 import app.trian.kasku.data.local.entity.BankAccount
 import app.trian.kasku.data.repository.design.BankRepository
 import app.trian.kasku.domain.DataState
+import app.trian.kasku.domain.models.BankAccountModel
+import app.trian.kasku.domain.models.toEntity
 import app.trian.kasku.domain.models.toModel
 import app.trian.kasku.ui.theme.GradientColor
 import com.google.firebase.auth.FirebaseAuth
@@ -13,6 +15,9 @@ import com.google.firebase.firestore.SetOptions
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.tasks.await
+import logcat.LogPriority
+import logcat.logcat
 import java.time.OffsetDateTime
 
 /**
@@ -62,9 +67,19 @@ class BankRepositoryImpl(
 
     override suspend fun getCurrentBank(): Flow<BankAccount?> = flow {
         val user = firebaseAuth.currentUser
+
         if(user != null){
             val bankAccount = bankDao.getBankAccountById(user.uid)
-            emit(bankAccount)
+
+            if(bankAccount == null){
+                val bank = firestore.collection("BANK")
+                    .document(user.uid)
+                    .get().await().toObject(BankAccountModel::class.java)
+
+                emit(bank?.toEntity())
+            }else {
+                emit(bankAccount)
+            }
         }else{
             emit(null)
         }

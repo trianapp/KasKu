@@ -9,6 +9,7 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -38,6 +39,9 @@ import app.trian.kasku.ui.theme.KasKuTheme
 import app.trian.kasku.ui.theme.listGradient
 import compose.icons.Octicons
 import compose.icons.octicons.ArrowLeft24
+import logcat.LogPriority
+import logcat.logcat
+import kotlin.math.roundToInt
 
 /**
  *
@@ -52,6 +56,8 @@ fun PageAddBank(
 ) {
     val ctx = LocalContext.current
     val bankViewModel = hiltViewModel<BankViewModel>()
+
+    val currentBank by bankViewModel.currentBankAccount.observeAsState(initial = null)
 
     var bankName by remember {
         mutableStateOf("")
@@ -95,6 +101,23 @@ fun PageAddBank(
             }
         }
     }
+    SideEffect {
+
+        currentBank?.let {
+            selectedColor = GradientColor(
+                first = it.colorStart,
+                second = it.colorEnd
+            )
+            bankName = it.bankName
+            amount = "${it.amount.roundToInt()}"
+
+
+        }
+    }
+    LaunchedEffect(key1 = Unit, block = {
+        bankViewModel.getCurrentBankAccount()
+
+    })
     Scaffold(
         topBar = {
             AppbarBasic(
@@ -149,6 +172,7 @@ fun PageAddBank(
                 FormInputPickColor(
                     label = stringResource(R.string.label_select_color),
                     onSelect = {
+                        logcat("yoo",LogPriority.ERROR){it.toString()}
                                selectedColor = it
                     },
                     selected = selectedColor
@@ -171,7 +195,6 @@ fun PageAddBank(
                     placeholder = stringResource(R.string.placeholder_amount),
                     label = stringResource(R.string.label_input_amount),
                     singleLine = true,
-                    masked = CurrencyTransformation(),
                     keyboardOptions = KeyboardOptions(
                         keyboardType = KeyboardType.Number,
                         imeAction = ImeAction.Send

@@ -53,9 +53,7 @@ fun FormInput(
     leading:@Composable (() -> Unit)? = null,
     onChange:(String)->Unit ={},
     ) {
-    var value by remember {
-        mutableStateOf(TextFieldValue(text = initialValue))
-    }
+
     var visibleObsecure by remember {
         mutableStateOf(false)
     }
@@ -72,11 +70,10 @@ fun FormInput(
             )
         )
         TextField(
-            value = value,
+            value = initialValue,
             onValueChange = {
-                if(it.text.length <= maxLength) {
-                    value = it
-                    onChange(it.text)
+                if(it.length <= maxLength) {
+                    onChange(it)
                 }
             },
             colors = TextFieldDefaults.textFieldColors(
@@ -148,9 +145,6 @@ fun FormInputWithButton(
     onSubmit:()->Unit={}
 ) {
 
-    var value by remember {
-        mutableStateOf(TextFieldValue(text = initialValue))
-    }
     var visibleObsecure by remember {
         mutableStateOf(false)
     }
@@ -172,11 +166,10 @@ fun FormInputWithButton(
             horizontalArrangement = Arrangement.SpaceBetween
         ){
             TextField(
-                value = value,
+                value =initialValue,
                 onValueChange = {
-                    if(it.text.length <= maxLength) {
-                        value = it
-                        onChange(it.text)
+                    if(it.length <= maxLength) {
+                        onChange(it)
                     }
                 },
                 colors = TextFieldDefaults.textFieldColors(
@@ -248,9 +241,6 @@ fun FormPickerWithButton(
     onSubmit:()->Unit={}
 ) {
 
-    var value by remember {
-        mutableStateOf(TextFieldValue(text = initialValue))
-    }
 
     Column(
         modifier = modifier.fillMaxWidth(),
@@ -270,8 +260,12 @@ fun FormPickerWithButton(
             horizontalArrangement = Arrangement.SpaceBetween
         ){
                 TextField(
-                    value = value,
-                    onValueChange = { },
+                    value = TextFieldValue(
+                        text = initialValue
+                    ),
+                    onValueChange = {
+
+                    },
                     colors = TextFieldDefaults.textFieldColors(
                         backgroundColor = Color.Transparent,
                     ),
@@ -324,9 +318,6 @@ fun FormInputPickColor(
         .displayMetrics.widthPixels.dp /
             LocalDensity.current.density
 
-    var selectedItem by remember {
-        mutableStateOf<GradientColor?>(selected)
-    }
 
     Column {
         Text(
@@ -347,13 +338,12 @@ fun FormInputPickColor(
                     modifier = modifier
                         .size(currentWidth / 7 - 20.dp)
                         .clickable {
-                            selectedItem = color
                             onSelect(color)
                         }
                         .clip(CircleShape)
                         .border(
-                            width = if (selectedItem?.let { it.first == color.first } == true) 2.dp else 0.dp,
-                            color = if (selectedItem?.let { it.first == color.first } == true) Color.Black else Color.Transparent,
+                            width = if (selected?.let { it.first == color.first } == true) 2.dp else 0.dp,
+                            color = if (selected?.let { it.first == color.first } == true) Color.Black else Color.Transparent,
                             shape = CircleShape
                         )
                         .background(

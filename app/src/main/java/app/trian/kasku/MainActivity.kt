@@ -304,6 +304,14 @@ class MainActivity : ComponentActivity() {
                            )
                            PageSetting(router = router)
                        }
+                       composable(Routes.UPDATE_PROFILE){
+                           val uiColor = MaterialTheme.colors.surface
+                           systemUI.setSystemBarsColor(
+                               color = uiColor,
+                               darkIcons = true
+                           )
+                           PageUpdateProfile(router = router)
+                       }
                    }
                 }
             }

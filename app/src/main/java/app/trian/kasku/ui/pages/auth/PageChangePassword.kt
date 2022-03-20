@@ -4,9 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -26,6 +24,8 @@ import app.trian.kasku.common.toastError
 import app.trian.kasku.common.toastSuccess
 import app.trian.kasku.ui.component.*
 import app.trian.kasku.ui.theme.KasKuTheme
+import compose.icons.Octicons
+import compose.icons.octicons.ArrowLeft24
 
 /**
  * Page Register
@@ -75,8 +75,17 @@ fun PageChangePassword(
     }
     Scaffold(
         topBar = {
-           AppbarBasic(title = stringResource(R.string.appbar_title_change_password)){
-                router.popBackStack()
+           AppbarBasic(
+               title = stringResource(R.string.appbar_title_change_password),
+               navigationIcon = {
+                   IconToggleButton(checked = false, onCheckedChange = {
+                       router.popBackStack()
+                   }) {
+                       Icon(imageVector = Octicons.ArrowLeft24, contentDescription = "")
+                   }
+               }
+           ){
+
            }
         }
     ) {

@@ -10,21 +10,15 @@ import java.time.OffsetDateTime
 
 data class UserModel(
     var uid:String,
-    var name:String,
-    var email:String,
     var dateOfBirth:String
 )
 
 fun User.toModel()=UserModel(
     uid = uid,
-    name = name,
-    email = email,
     dateOfBirth = dateOfBirth.fromOffsetDateTime() ?: ""
 )
 
 fun UserModel.toEntity() = User(
     uid = uid,
-    name=name,
-    email = email,
     dateOfBirth = dateOfBirth.toOffsetDateTime() ?: OffsetDateTime.now()
 )

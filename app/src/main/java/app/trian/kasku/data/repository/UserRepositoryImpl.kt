@@ -24,6 +24,8 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
+import logcat.LogPriority
+import logcat.logcat
 import java.io.ByteArrayOutputStream
 
 /**
@@ -40,7 +42,8 @@ class UserRepositoryImpl(
     private val firebaseStorage: FirebaseStorage,
     private val userDao:UserDao
 ) :UserRepository{
-    override suspend fun checkIsUserLogin(): Flow<Boolean> =flow{
+    override suspend fun checkIsUserLogin(
+    ): Flow<Boolean> =flow{
         val currentUser = firebaseAuth.currentUser
         if(currentUser == null){
             emit(false)
@@ -49,28 +52,30 @@ class UserRepositoryImpl(
         }
     }.flowOn(dispatcher.io())
 
-    override suspend fun getCurrentUser(): Flow<FirebaseUser?> =flow{
+    override suspend fun getCurrentUser(
+    ): Flow<FirebaseUser?> =flow{
         val user = firebaseAuth.currentUser
         emit(user)
     }.flowOn(dispatcher.io())
 
-    override suspend fun getCurrentUserProfile(): Flow<CurrentUserModel?> = flow {
+    override suspend fun getCurrentUserProfile(
+    ): Flow<CurrentUserModel?> = flow {
         try {
             val user = firebaseAuth.currentUser
             if(user != null){
-                val getCurrentUserLocal = userDao.getUser(user?.uid.toString())
+
+                val getCurrentUserLocal = userDao.getUser(user.uid)
+
                 if(getCurrentUserLocal == null){
                     val userFromCloud = firestore.collection("USER")
-                        .document(user?.uid ?: "")
+                        .document(user.uid)
                         .get().await().toObject(User::class.java)
-                    if(userFromCloud == null){
-                        emit(null)
-                    }else{
+
                         emit(CurrentUserModel(
                             user = userFromCloud,
                             authUser = user
                         ))
-                    }
+
                 }else {
                     emit(
                         CurrentUserModel(
@@ -80,6 +85,7 @@ class UserRepositoryImpl(
                     )
                 }
             }else{
+
                 emit(null)
             }
         }catch (e:Exception){
@@ -237,8 +243,6 @@ class UserRepositoryImpl(
                 userDao.insert(
                     User(
                         uid = user.uid,
-                        name = user.displayName!!,
-                        email=user.email!!,
                         dateOfBirth = date.toOffsetDateTime()!!
                     )
                 )

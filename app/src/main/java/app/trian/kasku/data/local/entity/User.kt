@@ -10,7 +10,5 @@ import java.time.OffsetDateTime
 data class User(
     @PrimaryKey
     var uid:String,
-    var name:String,
-    var email:String,
     var dateOfBirth:OffsetDateTime
 )

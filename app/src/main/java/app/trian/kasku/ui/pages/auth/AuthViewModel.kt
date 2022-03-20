@@ -1,9 +1,11 @@
 package app.trian.kasku.ui.pages.auth
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.trian.kasku.data.repository.design.UserRepository
 import app.trian.kasku.domain.DataState
+import app.trian.kasku.domain.models.CurrentUserModel
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.tasks.Task
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -22,6 +24,9 @@ import javax.inject.Inject
 @HiltViewModel
 class AuthViewModel @Inject constructor() : ViewModel() {
     @Inject lateinit var userRepository: UserRepository
+
+    private var _currentUserProfile = MutableLiveData<CurrentUserModel>()
+    val currentUserProfile get() = _currentUserProfile
 
 
     fun isUserLogin(
@@ -150,6 +155,14 @@ class AuthViewModel @Inject constructor() : ViewModel() {
                     }
                     DataState.OnLoading -> {}
                 }
+            }
+            .collect()
+    }
+
+    fun getCurrentUserProfile()=viewModelScope.launch {
+        userRepository.getCurrentUserProfile()
+            .onEach {
+                _currentUserProfile.postValue(it)
             }
             .collect()
     }

@@ -5,6 +5,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.ResultReceiver
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
@@ -47,6 +48,17 @@ fun Context.hideKeyboard(){
     if(view == null){
         view = View(activity)
     }
+    imm.hideSoftInputFromWindow(view.windowToken,0)
+}
+
+fun Context.showKeyboard(){
+    val activity = (this as Activity)
+    val imm = activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+    var view = activity.currentFocus
+    if(view == null){
+        view = View(activity)
+    }
+    imm.showSoftInput(view.rootView,0)
     imm.hideSoftInputFromWindow(view.windowToken,0)
 }
 

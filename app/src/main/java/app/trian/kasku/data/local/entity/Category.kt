@@ -12,7 +12,7 @@ data class Category(
     @PrimaryKey
     var uid:String,
     var name:String,
-    var icon:CategoryIconModel,
+    var icon:Int,
     var createdAt:OffsetDateTime,
     var updatedAt:OffsetDateTime
 )

@@ -27,6 +27,8 @@ object Routes {
     const val SETTINGS = "SETTINGS"
 
     const val DASHBOARD = "DASHBOARD"
+
+    const val UPDATE_PROFILE = "UPDATE_PROFILE"
     object Dashboard{
         const val HOME="HOME"
         const val DAILY = "DAILY"
