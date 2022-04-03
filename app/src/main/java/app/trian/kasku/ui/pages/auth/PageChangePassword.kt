@@ -127,10 +127,8 @@ fun PageChangePassword(
                     label = stringResource(R.string.labe_input_new_password),
                     showPasswordObsecure = true,
                     singleLine = true,
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Password,
-                        imeAction = ImeAction.Next
-                    ),
+                    keyboardType = KeyboardType.Password,
+                    imeAction = ImeAction.Next,
                 )
                 FormInputWithButton(
                     initialValue = confirmPassword,
@@ -141,18 +139,9 @@ fun PageChangePassword(
                     label = stringResource(R.string.label_input_confirm_password),
                     showPasswordObsecure = true,
                     singleLine = true,
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Password,
-                        imeAction = ImeAction.Send
-                    ),
-                    keyboardActions = KeyboardActions(
-                        onSend = {
-                            ctx.hideKeyboard()
-                            processChangePassword()
-                        }
-                    )
+                    keyboardType = KeyboardType.Password,
                 ){
-                    ctx.hideKeyboard()
+
                     processChangePassword()
                 }
             }

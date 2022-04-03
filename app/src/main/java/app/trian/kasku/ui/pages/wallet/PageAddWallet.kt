@@ -1,10 +1,7 @@
-package app.trian.kasku.ui.pages.bank
+package app.trian.kasku.ui.pages.wallet
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
@@ -12,10 +9,7 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -26,17 +20,13 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import app.trian.kasku.R 
-import app.trian.kasku.common.CurrencyTransformation
+import app.trian.kasku.R
 import app.trian.kasku.common.hideKeyboard
-import app.trian.kasku.common.numberKeyboardOption
 import app.trian.kasku.common.toastError
 import app.trian.kasku.ui.Routes
 import app.trian.kasku.ui.component.*
 import app.trian.kasku.ui.theme.GradientColor
-import app.trian.kasku.ui.theme.HexToJetpackColor
 import app.trian.kasku.ui.theme.KasKuTheme
-import app.trian.kasku.ui.theme.listGradient
 import compose.icons.Octicons
 import compose.icons.octicons.ArrowLeft24
 import logcat.LogPriority
@@ -50,12 +40,12 @@ import kotlin.math.roundToInt
  * site https://trian.app
  */
 @Composable
-fun PageAddBank(
+fun PageAddWallet(
     modifier: Modifier = Modifier,
     router: NavHostController
 ) {
     val ctx = LocalContext.current
-    val bankViewModel = hiltViewModel<BankViewModel>()
+    val bankViewModel = hiltViewModel<WalletViewModel>()
 
     val currentBank by bankViewModel.currentBankAccount.observeAsState(initial = null)
 
@@ -85,7 +75,7 @@ fun PageAddBank(
 
         bankViewModel.saveBank(
             bankName,
-            amount.toDouble(),
+            amount.toInt(),
             selectedColor!!
         ){
             if(it){
@@ -109,7 +99,7 @@ fun PageAddBank(
                 second = it.colorEnd
             )
             bankName = it.bankName
-            amount = "${it.amount.roundToInt()}"
+            amount = it.amount.toString()
 
 
         }
@@ -185,20 +175,15 @@ fun PageAddBank(
                     onChange = {
                         bankName = it
                     },
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Text,
-                        imeAction = ImeAction.Next
-                    )
+                    keyboardType = KeyboardType.Text,
+                    imeAction = ImeAction.Next
                 )
                 FormInputWithButton(
                     initialValue = amount,
                     placeholder = stringResource(R.string.placeholder_amount),
                     label = stringResource(R.string.label_input_amount),
                     singleLine = true,
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Number,
-                        imeAction = ImeAction.Send
-                    ),
+                    keyboardType = KeyboardType.Number,
                     maxLength = 13,
                     leading = {
                        Text(
@@ -212,15 +197,8 @@ fun PageAddBank(
                         amount = it
                     },
                     onSubmit = {
-                        ctx.hideKeyboard()
                         saveBankAccount()
                     },
-                    keyboardActions = KeyboardActions(
-                        onSend = {
-                            ctx.hideKeyboard()
-                            saveBankAccount()
-                        }
-                    )
 
                 )
             }
@@ -233,6 +211,6 @@ fun PageAddBank(
 @Composable
 fun PreviewPageAddBank() {
     KasKuTheme {
-        PageAddBank(router = rememberNavController())
+        PageAddWallet(router = rememberNavController())
     }
 }

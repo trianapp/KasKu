@@ -20,7 +20,7 @@ import app.trian.kasku.data.local.entity.*
         Category::class,
         Transaction::class
     ],
-    version = 7,
+    version = 8,
     exportSchema = true
 )
 @TypeConverters(

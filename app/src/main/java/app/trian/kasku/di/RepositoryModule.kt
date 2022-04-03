@@ -1,12 +1,9 @@
 package app.trian.kasku.di
 
 import app.trian.kasku.common.DispatcherProvider
-import app.trian.kasku.data.local.dao.BankDao
-import app.trian.kasku.data.local.dao.UserDao
-import app.trian.kasku.data.repository.BankRepositoryImpl
-import app.trian.kasku.data.repository.UserRepositoryImpl
-import app.trian.kasku.data.repository.design.BankRepository
-import app.trian.kasku.data.repository.design.UserRepository
+import app.trian.kasku.data.local.dao.*
+import app.trian.kasku.data.repository.*
+import app.trian.kasku.data.repository.design.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.messaging.FirebaseMessaging
@@ -57,5 +54,40 @@ object RepositoryModule {
         firebaseAuth,
         firestore,
         bankDao
+    )
+
+    @Provides
+    fun provideBudgetRepository(
+        dispatcherProvider: DispatcherProvider,
+        firestore: FirebaseFirestore,
+        firebaseAuth: FirebaseAuth,
+        budgetDao: BudgetDao
+    ):BudgetRepository = BudgetRepositoryImpl(
+        dispatcherProvider,
+        firestore,
+        firebaseAuth,
+        budgetDao
+    )
+
+    @Provides
+    fun provideCategoryRepository(
+        dispatcherProvider: DispatcherProvider,
+        firestore: FirebaseFirestore,
+        firebaseAuth: FirebaseAuth,
+        categoryDao: CategoryDao
+    ):CategoryRepository = CategoryRepositoryImpl(
+        dispatcherProvider,
+        firestore,
+        firebaseAuth,
+        categoryDao
+    )
+
+    @Provides
+    fun provideTransactionRepository(
+        dispatcherProvider: DispatcherProvider,
+        transactionDao: TransactionDao
+    ):TransactionRepository = TransactionRepositoryImpl(
+        dispatcherProvider,
+        transactionDao
     )
 }

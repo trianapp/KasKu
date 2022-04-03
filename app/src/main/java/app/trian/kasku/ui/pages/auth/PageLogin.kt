@@ -191,10 +191,8 @@ fun PageLogin(
                     placeholder = stringResource(R.string.placeholder_email),
                     label = stringResource(R.string.label_input_email),
                     singleLine = true,
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Email,
-                        imeAction = ImeAction.Next
-                    )
+                    keyboardType = KeyboardType.Email,
+                    imeAction = ImeAction.Next
                 )
                 FormInputWithButton(
                     initialValue = password,
@@ -206,19 +204,10 @@ fun PageLogin(
                     showPasswordObsecure = true,
                     singleLine = true,
                     onSubmit = {
-                        ctx.hideKeyboard()
                         processLogin()
                     },
-                    keyboardOptions= KeyboardOptions(
-                        keyboardType = KeyboardType.Password,
-                        imeAction = ImeAction.Send
-                    ),
-                    keyboardActions = KeyboardActions(
-                        onSend = {
-                            ctx.hideKeyboard()
-                            processLogin()
-                        }
-                    )
+                    keyboardType = KeyboardType.Password,
+                    imeAction = ImeAction.Send
                 )
             }
             Text(

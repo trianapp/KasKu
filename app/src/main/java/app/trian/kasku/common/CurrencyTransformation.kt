@@ -45,8 +45,3 @@ class CurrencyTransformation(
 
     }
 }
-
-val numberKeyboardOption = KeyboardOptions(
-    keyboardType = KeyboardType.Number,
-    imeAction = ImeAction.Next
-)

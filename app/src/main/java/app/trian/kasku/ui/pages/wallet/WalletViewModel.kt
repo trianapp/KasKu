@@ -1,11 +1,10 @@
-package app.trian.kasku.ui.pages.bank
+package app.trian.kasku.ui.pages.wallet
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.trian.kasku.data.local.entity.BankAccount
 import app.trian.kasku.data.repository.design.BankRepository
-import app.trian.kasku.data.repository.design.UserRepository
 import app.trian.kasku.domain.DataState
 import app.trian.kasku.ui.theme.GradientColor
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -13,7 +12,6 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import javax.security.auth.callback.Callback
 
 /**
  *
@@ -22,7 +20,7 @@ import javax.security.auth.callback.Callback
  * site https://trian.app
  */
 @HiltViewModel
-class BankViewModel @Inject constructor() : ViewModel() {
+class WalletViewModel @Inject constructor() : ViewModel() {
     @Inject lateinit var bankRepository: BankRepository
 
     private var _currentBankAccount = MutableLiveData<BankAccount?>()
@@ -38,7 +36,7 @@ class BankViewModel @Inject constructor() : ViewModel() {
 
     fun saveBank(
         bankName:String,
-        amount:Double,
+        amount:Int,
         color: GradientColor,
         callback: (Boolean)->Unit
     )=viewModelScope.launch {

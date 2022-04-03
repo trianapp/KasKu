@@ -47,6 +47,9 @@ fun PageHome(
         router = router,
         onRestartActivity=onRestartActivity,
         dashboardViewModel = dashboardViewModel,
+        onFabClicked = {
+            router.navigate(Routes.ADD_TRANSACTION)
+        },
         topAppbar = {
                     AppbarDashboard(
                         title = "Home",

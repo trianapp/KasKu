@@ -1,5 +1,8 @@
 package app.trian.kasku.data.repository.design
 
+import app.trian.kasku.data.local.entity.Budget
+import kotlinx.coroutines.flow.Flow
+
 /**
  *
  * author Trian Damai
@@ -7,4 +10,13 @@ package app.trian.kasku.data.repository.design
  * site https://trian.app
  */
 interface BudgetRepository {
+    suspend fun getListBudget(
+    ): Flow<List<Budget>>
+
+    suspend fun saveBudget(
+        category:String,
+        name:String,
+        description:String,
+        amount:Int,
+    ):Flow<String>
 }

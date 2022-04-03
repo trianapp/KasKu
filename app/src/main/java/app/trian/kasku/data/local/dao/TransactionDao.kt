@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import app.trian.kasku.data.local.entity.Transaction
+import kotlinx.coroutines.flow.Flow
 import java.time.OffsetDateTime
 
 /**
@@ -16,7 +17,7 @@ import java.time.OffsetDateTime
 interface TransactionDao {
 
     @Query("SELECT * FROM `Transaction` WHERE datetime(createdAt) BETWEEN :from AND :to ORDER BY createdAt ASC")
-    fun getTransactionFrom(from:OffsetDateTime,to:OffsetDateTime):List<Transaction>?
+    fun getTransactionFrom(from:OffsetDateTime,to:OffsetDateTime): Flow<List<Transaction>>
 
     @Insert
     fun insert(transaction: Transaction)

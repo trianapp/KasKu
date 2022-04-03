@@ -61,8 +61,11 @@ fun ItemIconCategory(
                 painter = painterResource(id = icon) ,
                 contentDescription = name,
                 modifier = modifier
+                    .size(
+                        30.dp
+                    )
                     .align(Alignment.Center),
-                contentScale = ContentScale.FillWidth
+                contentScale = ContentScale.Inside
             )
         }
     }

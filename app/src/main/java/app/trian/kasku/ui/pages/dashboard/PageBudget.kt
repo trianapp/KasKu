@@ -2,6 +2,7 @@ package app.trian.kasku.ui.pages.dashboard
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -10,11 +11,14 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import app.trian.kasku.R
+import app.trian.kasku.data.local.entity.Budget
 import app.trian.kasku.domain.BudgetType
 import app.trian.kasku.ui.Routes
 import app.trian.kasku.ui.component.AppbarDashboard
 import app.trian.kasku.ui.component.ItemListBudget
 import app.trian.kasku.ui.component.MonthPicker
+import app.trian.kasku.ui.component.ScreenEmptyState
 import app.trian.kasku.ui.theme.KasKuTheme
 import compose.icons.Octicons
 import compose.icons.octicons.*
@@ -31,6 +35,7 @@ import java.time.YearMonth
 @Composable
 fun PageBudget(
     modifier: Modifier = Modifier,
+    budgets:List<Budget> = listOf(),
     router: NavHostController,
     onRestartActivity:()->Unit={}
 ) {
@@ -46,6 +51,9 @@ fun PageBudget(
         router = router,
         onRestartActivity = onRestartActivity,
         dashboardViewModel = dashboardViewModel,
+        onFabClicked = {
+            router.navigate(Routes.CREATE_BUDGET)
+        },
         topAppbar = {
             AppbarDashboard(
                 title = "Budget",
@@ -100,22 +108,29 @@ fun PageBudget(
             )
         },
         content = {
-            LazyColumn(content = {
-                items(count = 3){
-                    index->
-                    ItemListBudget(
-                        name = "Budget name",
-                        amount = if(index / 2 == 0) "Rp 500.000" else "Rp 1.000.000",
-                        percent = 50,
-                        color = if(index / 2 == 0) MaterialTheme.colors.primary else MaterialTheme.colors.secondary,
-                        usage = "Rp 100.000",
-                        type = if(index / 2 == 0) BudgetType.EXPENSE else BudgetType.INCOME
-                    )
-                }
-                item {
-                    Spacer(modifier = modifier.height(60.dp))
-                }
-            })
+            if(budgets.isEmpty()){
+                ScreenEmptyState(
+                    image = R.drawable.bg_empty_3,
+                    title = "No budget made yet",
+                    subtitle ="You can add new budget by tapping button + below"
+                )
+            }else {
+                LazyColumn(content = {
+                    items(budgets) { budget ->
+                        ItemListBudget(
+                            name = budget.name,
+                            amount = "Rp ${budget.amount}",
+                            percent = 50,
+                            color =  MaterialTheme.colors.secondary,
+                            usage = "Rp 0",
+                            type =BudgetType.INCOME
+                        )
+                    }
+                    item {
+                        Spacer(modifier = modifier.height(60.dp))
+                    }
+                })
+            }
         }
     )
 }

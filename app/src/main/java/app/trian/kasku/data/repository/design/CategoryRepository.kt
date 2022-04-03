@@ -1,5 +1,9 @@
 package app.trian.kasku.data.repository.design
 
+import app.trian.kasku.data.local.entity.Category
+import com.google.android.datatransport.cct.StringMerger
+import kotlinx.coroutines.flow.Flow
+
 /**
  *
  * author Trian Damai
@@ -7,4 +11,11 @@ package app.trian.kasku.data.repository.design
  * site https://trian.app
  */
 interface CategoryRepository {
+    suspend fun getListCategory(
+    ):Flow<List<Category>>
+
+    suspend fun saveCategory(
+        categoryName:String,
+        icon:Int
+    ):Flow<String>
 }

@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
 interface BankRepository {
     suspend fun saveBank(
         bankName: String,
-        amount: Double,
+        amount: Int,
         color: GradientColor
     ):Flow<DataState<BankAccount>>
     suspend fun getCurrentBank():Flow<BankAccount?>

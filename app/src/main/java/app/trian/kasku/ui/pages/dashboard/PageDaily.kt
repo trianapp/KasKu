@@ -12,6 +12,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import app.trian.kasku.R
+import app.trian.kasku.data.local.entity.Transaction
 import app.trian.kasku.ui.Routes
 import app.trian.kasku.ui.component.*
 import app.trian.kasku.ui.component.calendar.DialogCalendarPickerFullScreen
@@ -35,6 +37,7 @@ import java.time.LocalDate
 @Composable
 fun PageDaily(
     modifier: Modifier = Modifier,
+    transactions:List<Transaction> = listOf(),
     router: NavHostController,
     onRestartActivity:()->Unit={}
 ) {
@@ -64,6 +67,9 @@ fun PageDaily(
         router = router,
         onRestartActivity = onRestartActivity,
         dashboardViewModel = dashboardViewModel,
+        onFabClicked = {
+            router.navigate(Routes.ADD_TRANSACTION)
+        },
         topAppbar = {
             AppbarDashboard(
                 title = "Daily",
@@ -108,22 +114,29 @@ fun PageDaily(
             )
         },
         content = {
-            LazyColumn(
-                content = {
-                    items(count = 7){
-                        index->
-                        ItemListDailyTransaction(){
-                            router.navigate(Routes.DETAIL_TRANSACTION)
+            if(transactions.isEmpty()){
+                ScreenEmptyState(
+                    image = R.drawable.bg_empty_1,
+                    title ="No transaction yet",
+                    subtitle ="you can add transaction by tapping button + below"
+                )
+            }else {
+                LazyColumn(
+                    content = {
+                        items(count = 7) { index ->
+                            ItemListDailyTransaction() {
+                                router.navigate(Routes.DETAIL_TRANSACTION)
+                            }
+                        }
+                        item {
+                            ItemTotalDailyTransaction()
+                        }
+                        item {
+                            Spacer(modifier = modifier.height(60.dp))
                         }
                     }
-                    item {
-                        ItemTotalDailyTransaction()
-                    }
-                    item {
-                        Spacer(modifier = modifier.height(60.dp))
-                    }
-                }
-            )
+                )
+            }
         }
     )
 }

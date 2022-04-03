@@ -22,12 +22,19 @@ import app.trian.kasku.ui.theme.KasKuTheme
  * created_at 10/03/22 - 21.49
  * site https://trian.app
  */
+data class ItemDetailTransactionModel(
+    var label:String,
+    var value:String,
+    var isWithAmount:Boolean=false,
+    var amountLabel:String="",
+    var amountValue:String=""
+)
 
 @Composable
 fun ItemAddTransaction(
     modifier:Modifier=Modifier,
     iconColor:Color= MaterialTheme.colors.onSurface,
-    budgetType:BudgetType=BudgetType.INCOME,
+    transactionType:String,
     amountName:String="",
     amount:String
 ) {
@@ -64,10 +71,7 @@ fun ItemAddTransaction(
                 )
                 Spacer(modifier = modifier.height(10.dp))
                 Text(
-                    text = when(budgetType){
-                        BudgetType.INCOME->"Income"
-                        BudgetType.EXPENSE->"Expense"
-                    },
+                    text = transactionType,
                     style = MaterialTheme.typography.body1.copy(
                         color = MaterialTheme.colors.onBackground
                     )
@@ -84,7 +88,7 @@ fun ItemAddTransaction(
             )
             Spacer(modifier = modifier.height(10.dp))
             Text(
-                text = amount,
+                text = "Rp $amount",
                 style = MaterialTheme.typography.body1.copy(
                     color = MaterialTheme.colors.onBackground
                 )
@@ -145,7 +149,7 @@ fun PreviewItemAddTransaction() {
     KasKuTheme {
         Column {
             ItemAddTransaction(
-                budgetType = BudgetType.EXPENSE,
+                transactionType = "Expenses",
                 amount = "Rp 1.000.000.000"
             )
             Spacer(modifier = Modifier.height(30.dp))

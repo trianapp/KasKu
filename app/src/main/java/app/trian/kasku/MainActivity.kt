@@ -10,16 +10,21 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.hilt.navigation.compose.hiltViewModel
+import app.trian.kasku.common.toastSuccess
 import app.trian.kasku.domain.BudgetType
 import app.trian.kasku.ui.Routes
-import app.trian.kasku.ui.component.calendar.Calendar
-import app.trian.kasku.ui.component.calendar.rememberCalendarState
 import app.trian.kasku.ui.pages.auth.*
-import app.trian.kasku.ui.pages.bank.PageAddBank
-import app.trian.kasku.ui.pages.bank.PageAddBankSuccess
+import app.trian.kasku.ui.pages.budget.BudgetViewModel
+import app.trian.kasku.ui.pages.wallet.PageAddWallet
+import app.trian.kasku.ui.pages.wallet.PageAddWalletSuccess
 import app.trian.kasku.ui.pages.budget.PageCreateBudget
+import app.trian.kasku.ui.pages.category.CategoryViewModel
 import app.trian.kasku.ui.pages.category.PageAddCategory
 import app.trian.kasku.ui.pages.category.PageListCategory
 import app.trian.kasku.ui.pages.dashboard.PageBudget
@@ -31,6 +36,7 @@ import app.trian.kasku.ui.pages.stat.PageStat
 import app.trian.kasku.ui.pages.transaction.PageAddTransaction
 import app.trian.kasku.ui.pages.transaction.PageAddTransactionSuccess
 import app.trian.kasku.ui.pages.transaction.PageDetailTransaction
+import app.trian.kasku.ui.pages.transaction.TransactionViewModel
 import app.trian.kasku.ui.theme.KasKuTheme
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
@@ -39,8 +45,6 @@ import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
-import logcat.LogPriority
-import logcat.logcat
 
 @ExperimentalComposeUiApi
 @ExperimentalMaterialApi
@@ -51,10 +55,10 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-
             KasKuTheme {
                 val router = rememberAnimatedNavController()
                 val systemUI = rememberSystemUiController()
+                val ctx = LocalContext.current
 
                 // A surface container using the 'background' color from the theme
                 Surface(
@@ -75,12 +79,8 @@ class MainActivity : ComponentActivity() {
                        }
                        composable(
                            Routes.ONBOARD,
-                           enterTransition = {
-                               fadeIn()
-                           },
-                           exitTransition = {
-                               fadeOut()
-                           }
+                           enterTransition = { fadeIn() },
+                           exitTransition = { fadeOut() }
                        ){
                            val uiColor = MaterialTheme.colors.surface
                            systemUI.setSystemBarsColor(
@@ -128,25 +128,19 @@ class MainActivity : ComponentActivity() {
                                color = uiColor,
                                darkIcons = true
                            )
-                           PageAddBank(router = router)
+                           PageAddWallet(router = router)
                        }
                        composable(
                            Routes.ADD_BANK_SUCCESS,
-                           enterTransition = {
-                               slideInVertically {
-                                   it
-                               }
-                           },
-                           exitTransition = {
-                               slideOutVertically { it }
-                           }
+                           enterTransition = { slideInVertically { it } },
+                           exitTransition = { slideOutVertically { it } }
                        ){
                            val uiColor = MaterialTheme.colors.surface
                            systemUI.setSystemBarsColor(
                                color = uiColor,
                                darkIcons = true
                            )
-                           PageAddBankSuccess(router = router)
+                           PageAddWalletSuccess(router = router)
                        }
                        navigation(
                            route = Routes.DASHBOARD,
@@ -165,25 +159,47 @@ class MainActivity : ComponentActivity() {
                                )
                            }
                            composable(Routes.Dashboard.DAILY){
+                               //theme
                                val uiColor = MaterialTheme.colors.surface
                                systemUI.setSystemBarsColor(
                                    color = uiColor,
                                    darkIcons = true
                                )
+
+                               //data
+                               val transactionViewModel = hiltViewModel<TransactionViewModel>()
+                               val listTransaction by transactionViewModel.listTransaction.observeAsState(
+                                   initial = emptyList()
+                               )
+
+                               //lifecycle
                                PageDaily(
+                                   transactions=listTransaction,
                                    router = router,
                                    onRestartActivity = ::restartActivity
                                )
 
                            }
                            composable(Routes.Dashboard.BUDGET){
+                               //theme
                                val uiColor = MaterialTheme.colors.surface
                                systemUI.setSystemBarsColor(
                                    color = uiColor,
                                    darkIcons = true
                                )
+                               //data
+                               val budgetViewModel = hiltViewModel<BudgetViewModel>()
+                               val listBudget by budgetViewModel.listBudget.observeAsState(
+                                   initial = emptyList()
+                               )
+
+                               //lifecycle
+                               LaunchedEffect(key1 = Unit, block ={
+                                   budgetViewModel.getListBudget()
+                               })
 
                                PageBudget(
+                                   budgets=listBudget,
                                    router = router,
                                    onRestartActivity = ::restartActivity
                                )
@@ -224,13 +240,42 @@ class MainActivity : ComponentActivity() {
                            )
                        }
                        composable(Routes.CREATE_BUDGET){
+                           //theme and style
                            val uiColor = MaterialTheme.colors.surface
                            systemUI.setSystemBarsColor(
                                color = uiColor,
                                darkIcons = true
                            )
+
+                           //data
+                           val budgetViewModel = hiltViewModel<BudgetViewModel>()
+                           val listCategory by budgetViewModel.listCategory.observeAsState(
+                               initial = emptyList()
+                           )
+
+                           LaunchedEffect(
+                               key1 = Unit,
+                               block ={
+                                   budgetViewModel.getListCategory()
+                               }
+                           )
+
                            PageCreateBudget(
+                               categories=listCategory,
                                router = router,
+                               onSubmit = {
+                                   categoryId, budgetName, budgetDescription,budgetAmount ->
+                                   budgetViewModel.saveBudget(
+                                       categoryId,
+                                       budgetName,
+                                       budgetDescription,
+                                       budgetAmount
+                                   ){
+                                       ctx.toastSuccess("New budget has been saved!")
+
+                                       router.popBackStack()
+                                   }
+                               }
                            )
                        }
                        composable(Routes.DETAIL_TRANSACTION){
@@ -243,35 +288,38 @@ class MainActivity : ComponentActivity() {
                        }
                        composable(
                            Routes.ADD_TRANSACTION,
-                           enterTransition = {
-                               slideInVertically {
-                                   it
-                               }
-
-                           },
-                           exitTransition = {
-                               slideOutVertically {
-                                   it
-                               }
-                           }
+                           enterTransition = { slideInVertically { it } },
+                           exitTransition = { slideOutVertically { it } }
                        ){
+                           //change theme
                            val uiColor = MaterialTheme.colors.surface
                            systemUI.setSystemBarsColor(
                                color = uiColor,
                                darkIcons = true
                            )
-                           PageAddTransaction(router = router)
+                           //data and viewmodel
+                           val transactionViewModel = hiltViewModel<TransactionViewModel>()
+                           val listCategory by transactionViewModel.listCategory.observeAsState(
+                               initial = emptyList()
+                           )
+
+                           //lifecycle
+                           LaunchedEffect(key1 = Unit, block = {
+                               transactionViewModel.getListCategory()
+                           })
+                           //page
+                           PageAddTransaction(
+                               router = router,
+                               categories = listCategory,
+                               onSaveTransaction = {
+
+                               }
+                           )
                        }
                        composable(
                            Routes.ADD_TRANSACTION_SUCCESS,
-                           enterTransition = {
-                               slideInVertically {
-                                   it
-                               }
-                           },
-                           exitTransition = {
-                               slideOutVertically { it }
-                           }
+                           enterTransition = { slideInVertically { it } },
+                           exitTransition = { slideOutVertically { it } }
                        ){
                            val uiColor = MaterialTheme.colors.surface
                            systemUI.setSystemBarsColor(
@@ -289,12 +337,25 @@ class MainActivity : ComponentActivity() {
                            PageListCategory(router = router)
                        }
                        composable(Routes.ADD_CATEGORY){
+                           //theme
                            val uiColor = MaterialTheme.colors.surface
                            systemUI.setSystemBarsColor(
                                color = uiColor,
                                darkIcons = true
                            )
-                           PageAddCategory(router = router)
+                           //data
+                           val categoryViewModel = hiltViewModel<CategoryViewModel>()
+                           //lifecycle
+                           PageAddCategory(
+                               router = router,
+                               onSubmit = {
+                                   categoryName, icon ->
+                                   categoryViewModel.saveCategory(categoryName,icon){
+                                       ctx.toastSuccess("Category has ben saved")
+                                       router.popBackStack()
+                                   }
+                               }
+                           )
                        }
                        composable(Routes.SETTINGS){
                            val uiColor = MaterialTheme.colors.surface

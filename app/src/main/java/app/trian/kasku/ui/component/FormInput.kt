@@ -18,12 +18,10 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.input.TextFieldValue
-import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.input.*
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import app.trian.kasku.common.hideKeyboard
 import app.trian.kasku.ui.theme.*
 import compose.icons.Octicons
 import compose.icons.octicons.ArrowRight24
@@ -48,11 +46,12 @@ fun FormInput(
     maxLength:Int=500,
     error:Boolean=false,
     masked:VisualTransformation= VisualTransformation.None,
-    keyboardOptions: KeyboardOptions=KeyboardOptions.Default,
-    keyboardActions: KeyboardActions= KeyboardActions.Default,
+    keyboardType: KeyboardType= KeyboardType.Text,
+    imeAction:ImeAction = ImeAction.Done,
     leading:@Composable (() -> Unit)? = null,
     onChange:(String)->Unit ={},
-    ) {
+) {
+    val ctx = LocalContext.current
 
     var visibleObsecure by remember {
         mutableStateOf(false)
@@ -96,8 +95,15 @@ fun FormInput(
             },
             maxLines = maxLine,
             singleLine = singleLine,
-            keyboardOptions = keyboardOptions,
-            keyboardActions = keyboardActions,
+            keyboardOptions = KeyboardOptions(
+                keyboardType = keyboardType,
+                imeAction = imeAction
+            ),
+            keyboardActions = KeyboardActions(
+                onDone = {
+                    ctx.hideKeyboard()
+                }
+            ),
             leadingIcon = leading,
             trailingIcon = {
                 if(showPasswordObsecure){
@@ -138,13 +144,13 @@ fun FormInputWithButton(
     maxLine:Int=1,
     error:Boolean=false,
     masked:VisualTransformation=VisualTransformation.None,
-    keyboardOptions: KeyboardOptions=KeyboardOptions.Default,
-    keyboardActions: KeyboardActions= KeyboardActions.Default,
+    keyboardType:KeyboardType= KeyboardType.Text,
+    imeAction:ImeAction = ImeAction.Send,
     maxLength:Int=500,
     leading:@Composable (() -> Unit)? = null,
     onSubmit:()->Unit={}
 ) {
-
+    val ctx =  LocalContext.current
     var visibleObsecure by remember {
         mutableStateOf(false)
     }
@@ -192,8 +198,16 @@ fun FormInputWithButton(
                 },
                 maxLines = maxLine,
                 singleLine = singleLine,
-                keyboardOptions = keyboardOptions,
-                keyboardActions = keyboardActions,
+                keyboardOptions = KeyboardOptions(
+                    imeAction = imeAction,
+                    keyboardType = keyboardType
+                ),
+                keyboardActions = KeyboardActions (
+                    onSend={
+                        ctx.hideKeyboard()
+                        onSubmit()
+                    }
+                ),
                 leadingIcon = leading,
                 trailingIcon = {
                     if(showPasswordObsecure){
@@ -219,12 +233,16 @@ fun FormInputWithButton(
             )
             ButtonIcon(
                 icon = icon,
-                onClick = onSubmit,
-                enabled = buttonEnabled
+                onClick = {
+                        ctx.hideKeyboard()
+                        onSubmit()
+                },
+                    enabled = buttonEnabled
             )
         }
-    }
+        }
 }
+
 @Composable
 fun FormPickerWithButton(
     initialValue:String="",
@@ -234,13 +252,13 @@ fun FormPickerWithButton(
     icon:ImageVector = Octicons.ArrowRight24,
     buttonEnabled:Boolean=true,
     masked:VisualTransformation=VisualTransformation.None,
-    keyboardOptions: KeyboardOptions=KeyboardOptions.Default,
-    keyboardActions: KeyboardActions= KeyboardActions.Default,
+    keyboardType:KeyboardType=KeyboardType.Text,
+    imeAction: ImeAction=ImeAction.Send,
     leading:@Composable (() -> Unit)? = null,
     onClick:()->Unit={},
     onSubmit:()->Unit={}
 ) {
-
+    val ctx =  LocalContext.current
 
     Column(
         modifier = modifier.fillMaxWidth(),
@@ -287,8 +305,16 @@ fun FormPickerWithButton(
                     },
                     maxLines = 100,
                     singleLine = true,
-                    keyboardOptions = keyboardOptions,
-                    keyboardActions = keyboardActions,
+                    keyboardOptions = KeyboardOptions(
+                        imeAction = ImeAction.Send,
+                        keyboardType = keyboardType
+                    ),
+                    keyboardActions = KeyboardActions (
+                        onSend={
+                            ctx.hideKeyboard()
+                            onSubmit()
+                        }
+                    ),
                     leadingIcon = leading,
                     visualTransformation= masked,
                     readOnly = true,

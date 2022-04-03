@@ -200,10 +200,8 @@ fun PageRegister(
                     onChange = {
                         name=it
                     },
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Text,
-                        imeAction = ImeAction.Next
-                    )
+                    keyboardType = KeyboardType.Text,
+                    imeAction = ImeAction.Next
                 )
                 FormInput(
                     placeholder = stringResource(R.string.placeholder_email),
@@ -213,10 +211,8 @@ fun PageRegister(
                     onChange = {
                         email = it
                     },
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Email,
-                        imeAction = ImeAction.Next
-                    )
+                    keyboardType = KeyboardType.Email,
+                    imeAction = ImeAction.Next
                 )
                 FormInputWithButton(
                     placeholder = stringResource(R.string.placeholder_password),
@@ -227,18 +223,9 @@ fun PageRegister(
                     onChange = {
                         password = it
                     },
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Password,
-                        imeAction = ImeAction.Send
-                    ),
-                    keyboardActions = KeyboardActions(
-                        onSend = {
-                            ctx.hideKeyboard()
-                            processRegister()
-                        }
-                    )
+                    keyboardType = KeyboardType.Password,
+                    imeAction = ImeAction.Send
                 ){
-                    ctx.hideKeyboard()
                     processRegister()
                 }
             }

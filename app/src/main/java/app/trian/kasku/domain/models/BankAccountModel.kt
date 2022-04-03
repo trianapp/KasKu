@@ -11,10 +11,10 @@ import java.time.OffsetDateTime
 data class BankAccountModel(
     var uid:String="",
     var bankName:String="",
-    var startAmount:Double=0.0,
+    var startAmount:Int=0,
     var colorStart:String="",
     var colorEnd:String="",
-    var amount:Double=0.0,
+    var amount:Int=0,
     var created_at:String="",
     var updated_at:String=""
 )

@@ -236,10 +236,8 @@ fun PageUpdateProfile(
                     onChange = {
                         name=it
                     },
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Text,
-                        imeAction = ImeAction.Next
-                    )
+                    keyboardType = KeyboardType.Text,
+                    imeAction = ImeAction.Next
                 )
                 FormInputWithButton(
                     placeholder = "Date of Birth",
@@ -249,15 +247,7 @@ fun PageUpdateProfile(
                     onChange = {
                         dateOfBirth = it
                     },
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Password,
-                        imeAction = ImeAction.Send
-                    ),
-                    keyboardActions = KeyboardActions(
-                        onSend = {
-
-                        }
-                    )
+                    keyboardType = KeyboardType.Password,
                 ){
 
                 }

@@ -11,10 +11,10 @@ data class BankAccount(
     @PrimaryKey
     var uid:String,
     var bankName:String,
-    var startAmount:Double,
+    var startAmount:Int,
     var colorStart:String,
     var colorEnd:String,
-    var amount:Double,
+    var amount:Int,
     var created_at:OffsetDateTime,
     var updated_at:OffsetDateTime
 )

@@ -34,7 +34,7 @@ class BankRepositoryImpl(
 ) : BankRepository {
     override suspend fun saveBank(
         bankName: String,
-        amount: Double,
+        amount: Int,
         color:GradientColor
     ): Flow<DataState<BankAccount>> =flow{
 

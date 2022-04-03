@@ -109,19 +109,9 @@ fun PageResetPassword(
                     label = stringResource(R.string.label_input_email),
                     singleLine = true,
                     onSubmit = {
-                        ctx.hideKeyboard()
                         processResetPassword()
                     },
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Email,
-                        imeAction = ImeAction.Send
-                    ),
-                    keyboardActions = KeyboardActions(
-                        onSend = {
-                            ctx.hideKeyboard()
-                            processResetPassword()
-                        }
-                    )
+                    keyboardType = KeyboardType.Email,
                 )
             }
         }

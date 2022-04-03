@@ -40,7 +40,8 @@ fun PageBaseDashboard(
     drawerState: DrawerState,
     topAppbar: @Composable ()->Unit = {},
     onRestartActivity:()->Unit={},
-    content:@Composable ()->Unit={}
+    content:@Composable ()->Unit={},
+    onFabClicked:()->Unit={}
 ) {
 
     val scope = rememberCoroutineScope()
@@ -94,9 +95,7 @@ fun PageBaseDashboard(
             isFloatingActionButtonDocked = true,
             floatingActionButton = {
                 FloatingActionButton(
-                    onClick = {
-                        router.navigate(Routes.ADD_TRANSACTION)
-                    },
+                    onClick = onFabClicked,
                     backgroundColor = MaterialTheme.colors.primary
                 ) {
                     Icon(

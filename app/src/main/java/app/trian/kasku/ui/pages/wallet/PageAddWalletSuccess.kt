@@ -1,4 +1,4 @@
-package app.trian.kasku.ui.pages.bank
+package app.trian.kasku.ui.pages.wallet
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -38,12 +38,12 @@ import compose.icons.octicons.X24
  * site https://trian.app
  */
 @Composable
-fun PageAddBankSuccess(
+fun PageAddWalletSuccess(
     modifier: Modifier = Modifier,
     router: NavHostController
 ) {
     val ctx = LocalContext.current
-    val bankViewModel = hiltViewModel<BankViewModel>()
+    val bankViewModel = hiltViewModel<WalletViewModel>()
 
     val currentBankAccount by bankViewModel.currentBankAccount.observeAsState(initial = null)
 
@@ -212,6 +212,6 @@ fun PageAddBankSuccess(
 @Composable
 fun PreviewAddbankSuccess() {
     KasKuTheme {
-        PageAddBankSuccess(router = rememberNavController())
+        PageAddWalletSuccess(router = rememberNavController())
     }
 }

@@ -13,8 +13,7 @@ data class Budget(
     var category:String,
     var name:String,
     var description:String,
-    var amount:Double,
-    var amountRemaining:Double,
+    var amount:Int,
     var updatedAt:OffsetDateTime,
     var createdAt:OffsetDateTime
 )

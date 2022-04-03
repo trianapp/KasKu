@@ -13,8 +13,7 @@ data class Transaction(
     var name:String,
     var description:String,
     var category:String,
-    var budget:String,
-    var amount:Double,
+    var amount:Int,
     var createdAt:OffsetDateTime,
     var updatedAt:OffsetDateTime
 )
