@@ -1,3 +1,5 @@
+import java.util.Properties
+import java.io.FileInputStream
 plugins {
     id("com.android.application")
     id("dagger.hilt.android.plugin")
@@ -8,6 +10,9 @@ plugins {
 }
 
 
+val keystorePropertiesFile = rootProject.file("keystore.properties")
+val keystoreProperties = Properties()
+keystoreProperties.load(FileInputStream(keystorePropertiesFile))
 
 android {
     compileSdk =32
@@ -21,6 +26,25 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary = true
+        }
+    }
+    signingConfigs {
+        /**
+         *  It's not necessary to specify, but I like to keep the debug keystore * in SCM so all our debug builds (on all workstations) use the same
+         *  key for convenience
+        create("debug") {
+        storeFile =file("debug.keystore")
+        }
+         */
+
+        //https://github.com/onmyway133/blog/issues/285
+        create("release"){
+            val filePath = keystoreProperties.getProperty("storeFile")
+            keyAlias = keystoreProperties.getProperty("keyAlias")
+            keyPassword = keystoreProperties.getProperty("keyPassword")
+            storeFile = file(filePath)
+            storePassword = keystoreProperties.getProperty("storePassword")
+
         }
     }
 
