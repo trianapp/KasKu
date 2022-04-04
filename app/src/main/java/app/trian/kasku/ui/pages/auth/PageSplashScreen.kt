@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import app.trian.kasku.common.getAppVersion
@@ -32,20 +33,29 @@ fun PageSplashScreen(
     modifier: Modifier = Modifier,
     router: NavHostController
 ) {
-    val scope = rememberCoroutineScope()
     val ctx = LocalContext.current
+    val authViewModel = hiltViewModel<AuthViewModel>()
+
     LaunchedEffect(key1 = Unit, block = {
-        scope.launch {
-            delay(1000)
-            router.navigate(Routes.ONBOARD){
-                popUpTo(Routes.SPLASH){
-                    inclusive = true
+        authViewModel.isUserLogin {
+            if(it){
+                router.navigate(Routes.DASHBOARD){
+                    popUpTo(Routes.SPLASH){
+                        inclusive = true
+                    }
+                    launchSingleTop=true
                 }
-                launchSingleTop=true
+            }else{
+                router.navigate(Routes.ONBOARD){
+                    popUpTo(Routes.SPLASH){
+                        inclusive = true
+                    }
+                    launchSingleTop=true
+                }
             }
         }
     })
-    //todo
+
     Column(
         modifier = modifier
             .fillMaxSize()

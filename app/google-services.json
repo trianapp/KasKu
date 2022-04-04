@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "543201836893",
+    "project_id": "kasku-bc375",
+    "storage_bucket": "kasku-bc375.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:543201836893:android:9034173664726b84e9b2b4",
+        "android_client_info": {
+          "package_name": "app.trian.kasku"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "543201836893-23id03rgom8bnpsg8fm9ui300lto2nt8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "app.trian.kasku",
+            "certificate_hash": "bb0176da6a89703ba44022117815b777e167f494"
+          }
+        },
+        {
+          "client_id": "543201836893-2n95d496dc1o5s06u45okiv17mlcphlo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCOPvbMWrYjHPV-iNoq_u-5h1L1DV6ioL0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "543201836893-2n95d496dc1o5s06u45okiv17mlcphlo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import app.trian.kasku.R
 import app.trian.kasku.common.coloredShadow
 import app.trian.kasku.common.dashedBorder
+import app.trian.kasku.domain.listIconCategory
 import app.trian.kasku.ui.theme.CircleIconCategory
 import app.trian.kasku.ui.theme.DisableContentColor
 import app.trian.kasku.ui.theme.KasKuTheme
@@ -38,7 +39,7 @@ import compose.icons.octicons.Plus24
 @Composable
 fun ItemSelectionBudgetAndCategory(
     modifier: Modifier=Modifier,
-    icon:Int= R.drawable.ic_category_bank,
+    icon:Int= 1,
     name:String="",
     selected:Boolean = false,
     onClick:()->Unit={}
@@ -49,6 +50,10 @@ fun ItemSelectionBudgetAndCategory(
         .displayMetrics.widthPixels.dp /
             LocalDensity.current.density
     val cardWidth = currentWidth / 2 - (currentWidth/10)
+
+    val assetCategory = listIconCategory.find {
+        it.code == icon
+    } ?: listIconCategory[0]
 
    Row(
        modifier = modifier
@@ -89,7 +94,7 @@ fun ItemSelectionBudgetAndCategory(
 
            ){
                Image(
-                   painter = painterResource(id = icon) ,
+                   painter = painterResource(id = assetCategory?.icon) ,
                    contentDescription = "",
                    modifier = modifier
                        .align(Alignment.Center)

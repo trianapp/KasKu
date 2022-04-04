@@ -1,11 +1,18 @@
+import java.util.Properties
+import java.io.FileInputStream
 plugins {
     id("com.android.application")
     id("dagger.hilt.android.plugin")
+    id("com.google.gms.google-services")
+    id("com.google.firebase.crashlytics")
     kotlin("android")
     kotlin("kapt")
 }
 
 
+val keystorePropertiesFile = rootProject.file("keystore.properties")
+val keystoreProperties = Properties()
+keystoreProperties.load(FileInputStream(keystorePropertiesFile))
 
 android {
     compileSdk =32
@@ -19,6 +26,25 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary = true
+        }
+    }
+    signingConfigs {
+        /**
+         *  It's not necessary to specify, but I like to keep the debug keystore * in SCM so all our debug builds (on all workstations) use the same
+         *  key for convenience
+        create("debug") {
+        storeFile =file("debug.keystore")
+        }
+         */
+
+        //https://github.com/onmyway133/blog/issues/285
+        create("release"){
+            val filePath = keystoreProperties.getProperty("storeFile")
+            keyAlias = keystoreProperties.getProperty("keyAlias")
+            keyPassword = keystoreProperties.getProperty("keyPassword")
+            storeFile = file(filePath)
+            storePassword = keystoreProperties.getProperty("storePassword")
+
         }
     }
 
@@ -47,6 +73,7 @@ android {
     packagingOptions {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
+            excludes += "/META-INF/DEPENDENCIES"
         }
     }
 }
@@ -115,10 +142,30 @@ dependencies {
         implementation(roomRuntime)
         implementation(roomPaging)
         implementation(roomKtx)
-//        annotationProcessor(roomCompiler)
         kapt(roomCompiler)
         testImplementation(roomTesting)
 
+    }
+
+    //firebase
+    with(Libs.Com.Google.Firebase){
+        implementation(platform(bom))
+        implementation(auth)
+        implementation(firestore)
+        implementation(storage)
+        implementation(messaging)
+        implementation(crashlytics)
+        implementation(analytics)
+
+    }
+    //google auth
+    with(Libs.Com.Google.Android.Gms){
+        implementation(auth)
+    }
+
+    //allow use await() in firebase task
+    with(Libs.Org.Jetbrains.Kotlinx){
+        implementation(googlePlayKotlinCoroutine)
     }
 
 

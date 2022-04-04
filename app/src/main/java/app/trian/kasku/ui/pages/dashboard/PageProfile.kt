@@ -7,23 +7,33 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import app.trian.kasku.R
 import app.trian.kasku.common.coloredShadow
+import app.trian.kasku.common.formatDate
 import app.trian.kasku.ui.Routes
 import app.trian.kasku.ui.component.*
+import app.trian.kasku.ui.theme.HexToJetpackColor
 import app.trian.kasku.ui.theme.KasKuTheme
+import app.trian.kasku.ui.theme.listGradient
+import coil.compose.rememberImagePainter
 import kotlinx.coroutines.launch
 
 /**
@@ -36,11 +46,13 @@ import kotlinx.coroutines.launch
 @Composable
 fun PageProfile(
     modifier: Modifier = Modifier,
-    router: NavHostController
+    router: NavHostController,
+    onRestartActivity:()->Unit={}
 ) {
 
 
     val ctx = LocalContext.current
+    val dashboardViewModel = hiltViewModel<DashboardViewModel>()
     val currentWidth = ctx
         .resources
         .displayMetrics.widthPixels.dp /
@@ -48,9 +60,22 @@ fun PageProfile(
 
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
+
+    val currentBankAccount by dashboardViewModel.currentBankAccount.observeAsState(initial = null)
+    val currentUserProfile by dashboardViewModel.currentUserProfile.observeAsState(initial = null)
+    LaunchedEffect(key1 = Unit, block = {
+        dashboardViewModel.getCurrentBankAccount()
+        dashboardViewModel.getCurrentUserProfile()
+    })
+
     PageBaseDashboard(
         drawerState=drawerState,
         router = router,
+        onRestartActivity = onRestartActivity,
+        dashboardViewModel = dashboardViewModel,
+        onFabClicked = {
+            router.navigate(Routes.ADD_TRANSACTION)
+        },
         topAppbar = {
             AppbarProfile(
                 onNavigation = {
@@ -85,10 +110,8 @@ fun PageProfile(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Image(
-                            painter = painterResource(
-                                id = R.drawable.bg_profile
-                            ),
-                            contentDescription = "",
+                            painter = rememberImagePainter(data = currentUserProfile?.authUser?.photoUrl ?:""),
+                            contentDescription = stringResource(R.string.content_description_page_profile),
                             modifier = modifier
                                 .size(currentWidth / 4)
                                 .clip(CircleShape)
@@ -96,7 +119,7 @@ fun PageProfile(
                         Spacer(modifier = modifier.width(16.dp))
                         Column {
                             Text(
-                                text = "Trian Damai",
+                                text = currentUserProfile?.authUser?.displayName ?: "",
                                 style = MaterialTheme.typography.h4.copy(
                                     color = MaterialTheme.colors.onBackground,
                                     fontWeight = FontWeight.Bold
@@ -108,7 +131,28 @@ fun PageProfile(
                     Row(modifier = modifier
                         .fillMaxWidth()
                         .clip(MaterialTheme.shapes.large)
-                        .background(MaterialTheme.colors.primary)
+                        .background(
+                            brush = Brush.linearGradient(
+                                currentBankAccount?.let {
+                                    listOf(
+                                        HexToJetpackColor.getColor(
+                                            it.colorStart
+                                        ),
+                                        HexToJetpackColor.getColor(
+                                            it.colorEnd
+                                        )
+                                    )
+                                } ?: listOf(
+                                    HexToJetpackColor.getColor(
+                                        listGradient[1].first
+                                    ),
+                                    HexToJetpackColor.getColor(
+                                        listGradient[1].second
+                                    )
+                                )
+
+                            )
+                        )
                         .coloredShadow(
                             MaterialTheme.colors.primary
                         )
@@ -118,25 +162,27 @@ fun PageProfile(
                     ) {
                         Column {
                             Text(
-                                text = "United Bank Asia",
+                                text = currentBankAccount?.bankName ?: "",
                                 style = MaterialTheme.typography.caption.copy(
                                     color = MaterialTheme.colors.onPrimary
                                 )
                             )
                             Spacer(modifier = modifier.height(16.dp))
                             Text(
-                                text = "Rp 1.000.000.000",
+                                text = "Rp ${currentBankAccount?.amount ?: "0"}",
                                 style = MaterialTheme.typography.body1.copy(
                                     color = MaterialTheme.colors.onPrimary
                                 )
                             )
                         }
                         ButtonSmallSecondary(
-                            "Update",
+                            stringResource(R.string.btn_update),
                             textColor = MaterialTheme.colors.onPrimary,
                             backgroundColor = MaterialTheme.colors.onPrimary
                         ){
+                            router.navigate(Routes.ADD_BANK){
 
+                            }
                         }
                     }
                     Spacer(modifier = modifier.height(30.dp))
@@ -148,14 +194,14 @@ fun PageProfile(
                         .padding(horizontal = 30.dp, vertical = 10.dp)
                 ) {
                     Text(
-                        text = "Email",
+                        text = stringResource(R.string.label_email),
                         style = MaterialTheme.typography.caption.copy(
                             color = MaterialTheme.colors.onSurface
                         )
                     )
                     Spacer(modifier = modifier.height(6.dp))
                     Text(
-                        text = "triandamai@gmail.com",
+                        text = currentUserProfile?.authUser?.email ?: "",
                         style = MaterialTheme.typography.body1
                     )
                 }
@@ -165,14 +211,14 @@ fun PageProfile(
                         .padding(horizontal = 30.dp, vertical = 10.dp)
                 ) {
                     Text(
-                        text = "Date of birth",
+                        text = stringResource(R.string.label_date_of_birth),
                         style = MaterialTheme.typography.caption.copy(
                             color = MaterialTheme.colors.onSurface
                         )
                     )
                     Spacer(modifier = modifier.height(6.dp))
                     Text(
-                        text = "16-09-1998",
+                        text = currentUserProfile?.user?.dateOfBirth.formatDate("dd-MMMM-yyyy"),
                         style = MaterialTheme.typography.body1
                     )
                 }

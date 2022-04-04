@@ -11,6 +11,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -76,19 +77,21 @@ fun PageOnboard(
     ) {
         Spacer(modifier = modifier.height(5.dp))
         Column (
-            modifier = modifier.fillMaxWidth().padding(
-                horizontal = 30.dp
-            ),
+            modifier = modifier
+                .fillMaxWidth()
+                .padding(
+                    horizontal = 30.dp
+                ),
             horizontalAlignment = Alignment.Start,
             verticalArrangement = Arrangement.SpaceEvenly
         ){
             Text(
-                text =title,
+                text = stringResource(title),
                 style = MaterialTheme.typography.body1
             )
             Spacer(modifier = modifier.height(10.dp))
             Text(
-                text =message,
+                text =stringResource(message),
                 style = MaterialTheme.typography.caption.copy(
                     color = MaterialTheme.colors.onSurface
                 )
@@ -112,7 +115,7 @@ fun PageOnboard(
             ) {
                 Image(
                     painter = painterResource(id = itemOnboard[page].image),
-                    contentDescription = "",
+                    contentDescription = stringResource(R.string.content_description_image_page_dashboard),
                     modifier = modifier
                         .fillMaxHeight()
                         .fillMaxWidth(fraction = 0.7f)
@@ -124,7 +127,7 @@ fun PageOnboard(
                 horizontal = 30.dp
             )
         ) {
-            ButtonPrimary("Get started"){
+            ButtonPrimary(stringResource(R.string.btn_get_started)){
                 router.navigate(Routes.LOGIN){
                     popUpTo(Routes.ONBOARD){
                         inclusive = true
@@ -139,23 +142,23 @@ fun PageOnboard(
 
 sealed class PageOnboardModel(
     var image:Int,
-    var title:String,
-    var message:String
+    var title:Int,
+    var message:Int
 ){
     object FIRST:PageOnboardModel(
         image = R.drawable.bg_onboard_1,
-        title = "Keytar sweenet",
-        message = "Portland ugh fashion axe Halvetica. Echo Park Austin gastropub roof party"
+        title = R.string.title_onboard_1,
+        message = R.string.message_onboard_1
     )
     object SECOND:PageOnboardModel(
         image = R.drawable.bg_onboard_2,
-        title = "Synth polaroid",
-        message = "In the tumultuous of cutting-in and attending to whole there"
+        title = R.string.title_onboard_2,
+        message = R.string.message_onboard_2
     )
     object THIRD:PageOnboardModel(
         image = R.drawable.bg_onboard_3,
-        title = "Retro Occupy",
-        message = "Being the savage's bawsman, that is, the person who pulled the bow-oar in."
+        title = R.string.title_onboard_3,
+        message = R.string.message_onboard_3
     )
 }
 

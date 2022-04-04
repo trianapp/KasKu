@@ -18,12 +18,10 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.input.TextFieldValue
-import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.input.*
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import app.trian.kasku.common.hideKeyboard
 import app.trian.kasku.ui.theme.*
 import compose.icons.Octicons
 import compose.icons.octicons.ArrowRight24
@@ -46,15 +44,15 @@ fun FormInput(
     singleLine:Boolean=true,
     maxLine:Int=1,
     maxLength:Int=500,
+    error:Boolean=false,
     masked:VisualTransformation= VisualTransformation.None,
-    keyboardOptions: KeyboardOptions=KeyboardOptions.Default,
-    keyboardActions: KeyboardActions= KeyboardActions.Default,
+    keyboardType: KeyboardType= KeyboardType.Text,
+    imeAction:ImeAction = ImeAction.Done,
     leading:@Composable (() -> Unit)? = null,
     onChange:(String)->Unit ={},
-    ) {
-    var value by remember {
-        mutableStateOf(TextFieldValue(text = initialValue))
-    }
+) {
+    val ctx = LocalContext.current
+
     var visibleObsecure by remember {
         mutableStateOf(false)
     }
@@ -71,15 +69,15 @@ fun FormInput(
             )
         )
         TextField(
-            value = value,
+            value = initialValue,
             onValueChange = {
-                if(it.text.length <= maxLength) {
-                    value = it
-                    onChange(it.text)
+                if(it.length <= maxLength) {
+                    onChange(it)
                 }
             },
             colors = TextFieldDefaults.textFieldColors(
                 backgroundColor = Color.Transparent,
+                errorIndicatorColor = ExpensesColor,
             ),
             textStyle =MaterialTheme.typography.body2.copy(
                 color = MaterialTheme.colors.onBackground,
@@ -97,8 +95,15 @@ fun FormInput(
             },
             maxLines = maxLine,
             singleLine = singleLine,
-            keyboardOptions = keyboardOptions,
-            keyboardActions = keyboardActions,
+            keyboardOptions = KeyboardOptions(
+                keyboardType = keyboardType,
+                imeAction = imeAction
+            ),
+            keyboardActions = KeyboardActions(
+                onDone = {
+                    ctx.hideKeyboard()
+                }
+            ),
             leadingIcon = leading,
             trailingIcon = {
                 if(showPasswordObsecure){
@@ -120,6 +125,7 @@ fun FormInput(
                 else
                     PasswordVisualTransformation()
             else masked,
+            isError = error
         )
     }
 }
@@ -136,17 +142,15 @@ fun FormInputWithButton(
     buttonEnabled:Boolean=true,
     singleLine:Boolean=true,
     maxLine:Int=1,
+    error:Boolean=false,
     masked:VisualTransformation=VisualTransformation.None,
-    keyboardOptions: KeyboardOptions=KeyboardOptions.Default,
-    keyboardActions: KeyboardActions= KeyboardActions.Default,
+    keyboardType:KeyboardType= KeyboardType.Text,
+    imeAction:ImeAction = ImeAction.Send,
     maxLength:Int=500,
     leading:@Composable (() -> Unit)? = null,
     onSubmit:()->Unit={}
 ) {
-
-    var value by remember {
-        mutableStateOf(TextFieldValue(text = initialValue))
-    }
+    val ctx =  LocalContext.current
     var visibleObsecure by remember {
         mutableStateOf(false)
     }
@@ -168,15 +172,15 @@ fun FormInputWithButton(
             horizontalArrangement = Arrangement.SpaceBetween
         ){
             TextField(
-                value = value,
+                value =initialValue,
                 onValueChange = {
-                    if(it.text.length <= maxLength) {
-                        value = it
-                        onChange(it.text)
+                    if(it.length <= maxLength) {
+                        onChange(it)
                     }
                 },
                 colors = TextFieldDefaults.textFieldColors(
                     backgroundColor = Color.Transparent,
+                    errorIndicatorColor = ExpensesColor
                 ),
                 textStyle =MaterialTheme.typography.body2.copy(
                     color = MaterialTheme.colors.onBackground,
@@ -194,8 +198,16 @@ fun FormInputWithButton(
                 },
                 maxLines = maxLine,
                 singleLine = singleLine,
-                keyboardOptions = keyboardOptions,
-                keyboardActions = keyboardActions,
+                keyboardOptions = KeyboardOptions(
+                    imeAction = imeAction,
+                    keyboardType = keyboardType
+                ),
+                keyboardActions = KeyboardActions (
+                    onSend={
+                        ctx.hideKeyboard()
+                        onSubmit()
+                    }
+                ),
                 leadingIcon = leading,
                 trailingIcon = {
                     if(showPasswordObsecure){
@@ -217,15 +229,20 @@ fun FormInputWithButton(
                     else
                         PasswordVisualTransformation()
                 else masked,
+                isError = error
             )
             ButtonIcon(
                 icon = icon,
-                onClick = onSubmit,
-                enabled = buttonEnabled
+                onClick = {
+                        ctx.hideKeyboard()
+                        onSubmit()
+                },
+                    enabled = buttonEnabled
             )
         }
-    }
+        }
 }
+
 @Composable
 fun FormPickerWithButton(
     initialValue:String="",
@@ -235,16 +252,13 @@ fun FormPickerWithButton(
     icon:ImageVector = Octicons.ArrowRight24,
     buttonEnabled:Boolean=true,
     masked:VisualTransformation=VisualTransformation.None,
-    keyboardOptions: KeyboardOptions=KeyboardOptions.Default,
-    keyboardActions: KeyboardActions= KeyboardActions.Default,
+    keyboardType:KeyboardType=KeyboardType.Text,
+    imeAction: ImeAction=ImeAction.Send,
     leading:@Composable (() -> Unit)? = null,
     onClick:()->Unit={},
     onSubmit:()->Unit={}
 ) {
-
-    var value by remember {
-        mutableStateOf(TextFieldValue(text = initialValue))
-    }
+    val ctx =  LocalContext.current
 
     Column(
         modifier = modifier.fillMaxWidth(),
@@ -264,8 +278,12 @@ fun FormPickerWithButton(
             horizontalArrangement = Arrangement.SpaceBetween
         ){
                 TextField(
-                    value = value,
-                    onValueChange = { },
+                    value = TextFieldValue(
+                        text = initialValue
+                    ),
+                    onValueChange = {
+
+                    },
                     colors = TextFieldDefaults.textFieldColors(
                         backgroundColor = Color.Transparent,
                     ),
@@ -287,8 +305,16 @@ fun FormPickerWithButton(
                     },
                     maxLines = 100,
                     singleLine = true,
-                    keyboardOptions = keyboardOptions,
-                    keyboardActions = keyboardActions,
+                    keyboardOptions = KeyboardOptions(
+                        imeAction = ImeAction.Send,
+                        keyboardType = keyboardType
+                    ),
+                    keyboardActions = KeyboardActions (
+                        onSend={
+                            ctx.hideKeyboard()
+                            onSubmit()
+                        }
+                    ),
                     leadingIcon = leading,
                     visualTransformation= masked,
                     readOnly = true,
@@ -318,9 +344,6 @@ fun FormInputPickColor(
         .displayMetrics.widthPixels.dp /
             LocalDensity.current.density
 
-    var selectedItem by remember {
-        mutableStateOf<GradientColor?>(selected)
-    }
 
     Column {
         Text(
@@ -341,13 +364,12 @@ fun FormInputPickColor(
                     modifier = modifier
                         .size(currentWidth / 7 - 20.dp)
                         .clickable {
-                            selectedItem = color
                             onSelect(color)
                         }
                         .clip(CircleShape)
                         .border(
-                            width = if (selectedItem?.let { it.first == color.first } == true) 2.dp else 0.dp,
-                            color = if (selectedItem?.let { it.first == color.first } == true) Color.Black else Color.Transparent,
+                            width = if (selected?.let { it.first == color.first } == true) 2.dp else 0.dp,
+                            color = if (selected?.let { it.first == color.first } == true) Color.Black else Color.Transparent,
                             shape = CircleShape
                         )
                         .background(

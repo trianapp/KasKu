@@ -1,23 +1,29 @@
-package app.trian.kasku.ui.pages.bank
+package app.trian.kasku.ui.pages.wallet
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import app.trian.kasku.R
+import app.trian.kasku.common.formatDate
 import app.trian.kasku.ui.Routes
 import app.trian.kasku.ui.theme.HexToJetpackColor
 import app.trian.kasku.ui.theme.KasKuTheme
@@ -32,10 +38,18 @@ import compose.icons.octicons.X24
  * site https://trian.app
  */
 @Composable
-fun PageAddBankSuccess(
+fun PageAddWalletSuccess(
     modifier: Modifier = Modifier,
     router: NavHostController
 ) {
+    val ctx = LocalContext.current
+    val bankViewModel = hiltViewModel<WalletViewModel>()
+
+    val currentBankAccount by bankViewModel.currentBankAccount.observeAsState(initial = null)
+
+    LaunchedEffect(key1 = Unit, block = {
+        bankViewModel.getCurrentBankAccount()
+    })
     Box(
         modifier = modifier
             .fillMaxSize()
@@ -48,7 +62,10 @@ fun PageAddBankSuccess(
             },
             modifier = modifier.align(Alignment.TopStart)
         ) {
-            Icon(imageVector = Octicons.X24, contentDescription = "Close")
+            Icon(
+                imageVector = Octicons.X24,
+                contentDescription = "Close"
+            )
         }
 
         Column(
@@ -88,7 +105,16 @@ fun PageAddBankSuccess(
                     .clip(MaterialTheme.shapes.medium)
                     .background(
                         brush = Brush.linearGradient(
-                            listOf(
+                            currentBankAccount?.let {
+                                listOf(
+                                    HexToJetpackColor.getColor(
+                                        it.colorStart
+                                    ),
+                                    HexToJetpackColor.getColor(
+                                        it.colorEnd
+                                    )
+                                )
+                            }?: listOf(
                                 HexToJetpackColor.getColor(
                                     listGradient[1].first
                                 ),
@@ -96,6 +122,7 @@ fun PageAddBankSuccess(
                                     listGradient[1].second
                                 )
                             )
+
                         )
                     )
                     .padding(all = 20.dp)
@@ -118,7 +145,7 @@ fun PageAddBankSuccess(
                         )
                         Spacer(modifier = modifier.height(6.dp))
                         Text(
-                            text = "United Bank Asia",
+                            text = currentBankAccount?.bankName ?: "",
                             style = MaterialTheme.typography.body2.copy(
                                 color = Color.White,
                                 fontWeight = FontWeight.Bold
@@ -140,7 +167,7 @@ fun PageAddBankSuccess(
                             )
                             Spacer(modifier = modifier.height(6.dp))
                             Text(
-                                text = "Rp 2.000.000",
+                                text = "Rp ${currentBankAccount?.startAmount}",
                                 style = MaterialTheme.typography.body2.copy(
                                     color = Color.White,
                                     fontWeight = FontWeight.Bold
@@ -166,7 +193,7 @@ fun PageAddBankSuccess(
                             )
                             Spacer(modifier = modifier.height(6.dp))
                             Text(
-                                text = "04-16-19",
+                                text = currentBankAccount?.created_at?.formatDate("d-MMMM-yyyy") ?: "",
                                 style = MaterialTheme.typography.body2.copy(
                                     color = Color.White,
                                     fontWeight = FontWeight.Bold
@@ -185,6 +212,6 @@ fun PageAddBankSuccess(
 @Composable
 fun PreviewAddbankSuccess() {
     KasKuTheme {
-        PageAddBankSuccess(router = rememberNavController())
+        PageAddWalletSuccess(router = rememberNavController())
     }
 }

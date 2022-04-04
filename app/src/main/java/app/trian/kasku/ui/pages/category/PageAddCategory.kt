@@ -8,11 +8,13 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import app.trian.kasku.common.toastError
 import app.trian.kasku.domain.CategoryIconModel
 import app.trian.kasku.domain.listIconCategory
 import app.trian.kasku.ui.component.*
@@ -26,10 +28,34 @@ import kotlinx.coroutines.launch
 @Composable
 fun PageAddCategory(
     modifier: Modifier = Modifier,
-    router: NavHostController
+    router: NavHostController,
+    onSubmit:(
+        categoryName:String,
+        icon:Int
+    )->Unit={_,_->}
 ) {
+    val ctx = LocalContext.current
     var selectedIcons by remember {
         mutableStateOf<CategoryIconModel?>(null)
+    }
+    var categoryName by remember {
+        mutableStateOf("")
+    }
+
+    fun submit(){
+        if(selectedIcons == null){
+            ctx.toastError("Please select icon for category!")
+            return
+        }
+        if(categoryName.isBlank()){
+            ctx.toastError("Please input category name!")
+            return
+        }
+
+        onSubmit(
+            categoryName,
+            selectedIcons!!.code
+        )
     }
     Scaffold(
         topBar = {
@@ -62,7 +88,7 @@ fun PageAddCategory(
                     )
             ) {
                 ButtonPrimary("Save"){
-
+                    submit()
                 }
             }
         }
@@ -84,7 +110,11 @@ fun PageAddCategory(
             ) {
                 FormInput(
                     label = "Category name",
-                    placeholder = "Category name here"
+                    placeholder = "Category name here",
+                    initialValue = categoryName,
+                    onChange = {
+                        categoryName = it
+                    }
                 )
             }
 
@@ -104,7 +134,7 @@ fun PageAddCategory(
                     content = {
                         gridItems(
                             listIconCategory,
-                            columnCount = 5
+                            columnCount = 4
                         ){
                             icon->
                             ItemIconCategory(

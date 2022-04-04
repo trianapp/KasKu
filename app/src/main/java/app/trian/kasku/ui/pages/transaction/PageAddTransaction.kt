@@ -1,33 +1,31 @@
 package app.trian.kasku.ui.pages.transaction
 
+import android.annotation.SuppressLint
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.*
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import app.trian.kasku.R
 import app.trian.kasku.common.CurrencyTransformation
-import app.trian.kasku.common.numberKeyboardOption
+import app.trian.kasku.data.local.entity.Category
 import app.trian.kasku.domain.BudgetType
 import app.trian.kasku.ui.Routes
 import app.trian.kasku.ui.component.*
 import app.trian.kasku.ui.component.calendar.DialogCalendarPicker
+import app.trian.kasku.ui.component.transaction.ScreenNameTransaction
+import app.trian.kasku.ui.component.transaction.ScreenPickTypeTransaction
 import app.trian.kasku.ui.theme.BackgroundDashboard
 import app.trian.kasku.ui.theme.KasKuTheme
 import com.google.accompanist.pager.ExperimentalPagerApi
@@ -35,8 +33,8 @@ import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
 import compose.icons.Octicons
 import compose.icons.octicons.ArrowLeft24
-import compose.icons.octicons.Plus24
 import kotlinx.coroutines.launch
+import java.time.LocalDate
 
 /**
  *
@@ -44,25 +42,45 @@ import kotlinx.coroutines.launch
  * created_at 10/03/22 - 17.14
  * site https://trian.app
  */
+@SuppressLint("MutableCollectionMutableState")
 @ExperimentalComposeUiApi
 @ExperimentalPagerApi
 @Composable
 fun PageAddTransaction(
     modifier: Modifier = Modifier,
-    router: NavHostController
+    categories:List<Category> = listOf(),
+    router: NavHostController,
+    onSaveTransaction:()->Unit={}
 ) {
     val scope = rememberCoroutineScope()
 
     val pagerState = rememberPagerState(
-        pageCount = 6,
+        pageCount = 5,
         initialPage = 0,
         infiniteLoop = false
     )
     var transactionType by remember {
         mutableStateOf(BudgetType.INCOME)
     }
+    var transactionName by remember {
+        mutableStateOf("")
+    }
+    var categoryName by remember {
+        mutableStateOf("")
+    }
+    var amount by remember {
+        mutableStateOf("")
+    }
+    var transactionDate by remember {
+        mutableStateOf<LocalDate?>(null)
+    }
+
     var dialogCalendarPicker by remember {
         mutableStateOf(false)
+    }
+
+    var itemsDetails by remember {
+        mutableStateOf<MutableList<ItemDetailTransactionModel>>(mutableListOf())
     }
 
 
@@ -131,10 +149,9 @@ fun PageAddTransaction(
              * page:
              * 0 make decision expense or income
              * 1 input transaction title/name
-             * 2 select budget
-             * 3 select category
-             * 4 input amount
-             * 5 input date
+             * 2 select category
+             * 3 input amount
+             * 4 input date
              * */
 
             Column(
@@ -158,183 +175,71 @@ fun PageAddTransaction(
                 ) {
                     when (page) {
                         0 -> {
-                            Column(
-                                modifier = modifier
-                                    .fillMaxWidth()
-                                    .fillMaxHeight()
-                                    .padding(
-                                        vertical = 30.dp,
-                                        horizontal = 30.dp
-                                    ),
-                                horizontalAlignment = Alignment.Start,
-                                verticalArrangement = Arrangement.SpaceBetween
-                            ) {
-                                Column(
-                                    modifier = modifier.fillMaxWidth(),
-                                    horizontalAlignment = Alignment.CenterHorizontally
-                                ) {
-                                    Image(
-                                        painter = painterResource(id = R.drawable.bg_onboard_3),
-                                        contentDescription = "",
-                                        modifier = modifier.fillMaxWidth(fraction = 0.5f)
-                                    )
-                                }
-                                Text(
-                                    text = "What kind of transaction it is?",
-                                    style = MaterialTheme.typography.h4.copy(
-                                        fontWeight = FontWeight.Bold,
-                                        color = MaterialTheme.colors.onBackground
-                                    ),
-                                    modifier = modifier
-                                        .fillMaxWidth(fraction = 0.8f)
-                                )
-                                Row(
-                                    modifier = modifier
-                                        .fillMaxWidth(),
-                                    horizontalArrangement = Arrangement.SpaceBetween,
-                                    verticalAlignment = Alignment.CenterVertically
-                                ) {
-                                    ItemStat(
-                                        name = "Income",
-                                        iconColor = MaterialTheme.colors.secondary
-                                    ){
-                                        transactionType = BudgetType.INCOME
-                                        nextPage()
-
+                            ScreenPickTypeTransaction(
+                                text = "What kind of transaction it is?",
+                                onExpenses = {
+                                    if(itemsDetails.size == 0) {
+                                        itemsDetails += ItemDetailTransactionModel(
+                                            label = "transaction type",
+                                            value = "Expense"
+                                        )
+                                    }else{
+                                        itemsDetails +=  itemsDetails[0].apply {
+                                            value = "Expense"
+                                        }
                                     }
-                                    ItemStat(
-                                        name = "Expense",
-                                        iconColor = MaterialTheme.colors.primary
-                                    ){
-
-                                        transactionType = BudgetType.EXPENSE
-                                        nextPage()
+                                    transactionType = BudgetType.EXPENSE
+                                    nextPage()
+                                },
+                                onIncome = {
+                                    if(itemsDetails.size == 0) {
+                                        itemsDetails += ItemDetailTransactionModel(
+                                            label = "transaction type",
+                                            value = "Income"
+                                        )
+                                    }else{
+                                        itemsDetails +=  itemsDetails[0].apply {
+                                            value = "Income"
+                                        }
                                     }
+                                    transactionType = BudgetType.INCOME
+                                    nextPage()
                                 }
-                            }
+                            )
 
                         }
                         1 -> {
-                            Column(
-                                modifier = modifier
-                                    .fillMaxWidth()
-                                    .fillMaxHeight()
-                                    .padding(
-                                        vertical = 30.dp,
-                                        horizontal = 30.dp
-                                    ),
-                                verticalArrangement = Arrangement.SpaceBetween,
-                                horizontalAlignment = Alignment.Start
-                            ) {
-                                Column {
-                                    ItemAddTransaction(
-                                        budgetType = transactionType,
-                                        amount = ""
-                                    )
-
-                                }
-                                Column {
+                            ScreenNameTransaction(
+                                itemModels = itemsDetails,
+                                inputContent = {
                                     FormInputWithButton(
                                         label = "payee name",
                                         placeholder = "Enter payee name",
+                                        initialValue = transactionName,
+                                        onChange = {
+                                            transactionName = it
+                                        }
                                     ){
+
+                                        if(itemsDetails.size >= 2) {
+                                            itemsDetails[1] = itemsDetails[1].apply {
+                                                value=transactionName
+                                            }
+                                        }else{
+                                            itemsDetails += ItemDetailTransactionModel(
+                                                label = "payee name",
+                                                value = transactionName
+                                            )
+                                        }
                                         nextPage()
                                     }
                                 }
-                            }
+                            )
                         }
                         2 -> {
-                            Column(
-                                modifier = modifier
-                                    .fillMaxWidth()
-                                    .fillMaxHeight(),
-                                verticalArrangement = Arrangement.SpaceBetween,
-                                horizontalAlignment = Alignment.Start
-                            ) {
-                                Column(
-                                    modifier = modifier
-                                        .padding(
-                                            vertical = 30.dp,
-                                            horizontal = 30.dp
-                                        )
-                                ) {
-
-                                    ItemAddTransaction(
-                                        budgetType = transactionType,
-                                        amount = ""
-                                    )
-                                    Spacer(modifier = Modifier.height(30.dp))
-                                    ItemAddTransaction(
-                                        name = "Payee name",
-                                        value = "Motorbike engine oil"
-                                    )
-                                }
-                                Column(
-                                    modifier = modifier.padding(
-                                        bottom = 30.dp
-                                    )
-                                ) {
-                                    Text(
-                                        text = "Choose Budget",
-                                        style = MaterialTheme.typography.h4.copy(
-                                            color=MaterialTheme.colors.onBackground,
-                                            fontWeight = FontWeight.Bold
-                                        ),
-                                        modifier = modifier.padding(
-                                            horizontal = 30.dp
-                                        )
-                                    )
-                                    LazyRow(content = {
-                                        item {
-                                            ItemAddSelectionBudgetAndCategory()
-                                        }
-                                        items(count = 4){
-                                            ItemSelectionBudgetAndCategory(
-                                                name = "Tabungan",
-                                            ){
-                                                nextPage()
-                                            }
-                                        }
-                                    })
-                                }
-                            }
-                        }
-                        3 -> {
-                            Column(
-                                modifier = modifier
-                                    .fillMaxWidth()
-                                    .fillMaxHeight(),
-                                verticalArrangement = Arrangement.SpaceBetween,
-                                horizontalAlignment = Alignment.Start
-                            ) {
-                                Column(
-                                    modifier = modifier
-                                        .padding(
-                                            vertical = 30.dp,
-                                            horizontal = 30.dp
-                                        )
-                                ) {
-                                    ItemAddTransaction(
-                                        budgetType = transactionType,
-                                        amount = ""
-                                    )
-                                    Spacer(modifier = Modifier.height(30.dp))
-                                    ItemAddTransaction(
-                                        name = "Payee name",
-                                        value = "Motorbike engine oil"
-                                    )
-                                    Spacer(modifier = Modifier.height(30.dp))
-                                    ItemAddTransaction(
-                                        name = "Budget name",
-                                        value = "Tabungan"
-                                    )
-
-                                }
-                                Column(
-                                    modifier = modifier.padding(
-                                        bottom = 30.dp
-                                    )
-                                ) {
+                            ScreenNameTransaction(
+                                itemModels = itemsDetails,
+                                inputContent = {
                                     Text(
                                         text = "Choose Category",
                                         style = MaterialTheme.typography.h4.copy(
@@ -351,53 +256,32 @@ fun PageAddTransaction(
                                         }
                                         items(count = 4){
                                             ItemSelectionBudgetAndCategory(
-                                                name = "Bank"
+                                                name = "Bank",
+                                                selected = false
                                             ){
+                                                if(itemsDetails.size >= 3) {
+                                                    itemsDetails[2] = itemsDetails[2].apply {
+                                                        value = "Bank"
+                                                    }
+
+                                                }else{
+                                                    itemsDetails += ItemDetailTransactionModel(
+                                                        label = "category",
+                                                        value = "Cash"
+                                                    )
+                                                }
                                                 nextPage()
                                             }
                                         }
                                     })
                                 }
-                            }
+                            )
+
                         }
-                        4 -> {
-                            Column(
-                                modifier = modifier
-                                    .fillMaxWidth()
-                                    .fillMaxHeight()
-                                    .padding(
-                                        vertical = 30.dp,
-                                        horizontal = 30.dp
-                                    ),
-                                verticalArrangement = Arrangement.SpaceBetween,
-                                horizontalAlignment = Alignment.Start
-                            ) {
-                                Column(
-                                    modifier = modifier
-
-                                ) {
-                                    ItemAddTransaction(
-                                        budgetType = transactionType,
-                                        amount = ""
-                                    )
-                                    Spacer(modifier = Modifier.height(30.dp))
-                                    ItemAddTransaction(
-                                        name = "Payee name",
-                                        value = "Motorbike engine oil"
-                                    )
-                                    Spacer(modifier = Modifier.height(30.dp))
-                                    ItemAddTransaction(
-                                        name = "Budget name",
-                                        value = "Tabungan"
-                                    )
-                                    Spacer(modifier = Modifier.height(30.dp))
-                                    ItemAddTransaction(
-                                        name = "Category",
-                                        value = "Bank"
-                                    )
-
-                                }
-                                Column {
+                        3 -> {
+                            ScreenNameTransaction(
+                                itemModels = itemsDetails,
+                                inputContent = {
                                     FormInputWithButton(
                                         label = "Amount",
                                         placeholder = "0",
@@ -413,53 +297,26 @@ fun PageAddTransaction(
                                         masked = CurrencyTransformation("#.###.###.###.###"),
                                         maxLength = 13,
                                         singleLine = true,
-                                        keyboardOptions = numberKeyboardOption
+                                        keyboardType = KeyboardType.Number,
+                                        initialValue = amount,
+                                        onChange = {
+                                            amount = it
+                                        }
                                     ){
+                                        itemsDetails[0] = itemsDetails[0].apply {
+                                            isWithAmount = true
+                                            amountValue = amount
+                                            amountLabel = "amount"
+                                        }
                                         nextPage()
                                     }
                                 }
-                            }
+                            )
                         }
-                        5 -> {
-
-                            Column(
-                                modifier = modifier
-                                    .fillMaxWidth()
-                                    .fillMaxHeight()
-                                    .padding(
-                                        vertical = 30.dp,
-                                        horizontal = 30.dp
-                                    ),
-                                verticalArrangement = Arrangement.SpaceBetween,
-                                horizontalAlignment = Alignment.Start
-                            ) {
-                                Column(
-                                    modifier = modifier
-
-                                ) {
-                                    ItemAddTransaction(
-                                        budgetType = transactionType,
-                                        amountName = "Amount",
-                                        amount = "1.000.000.000"
-                                    )
-                                    Spacer(modifier = Modifier.height(30.dp))
-                                    ItemAddTransaction(
-                                        name = "Payee name",
-                                        value = "Motorbike engine oil"
-                                    )
-                                    Spacer(modifier = Modifier.height(30.dp))
-                                    ItemAddTransaction(
-                                        name = "Budget name",
-                                        value = "Tabungan"
-                                    )
-                                    Spacer(modifier = Modifier.height(30.dp))
-                                    ItemAddTransaction(
-                                        name = "Category",
-                                        value = "Bank"
-                                    )
-
-                                }
-                                Column {
+                        4 -> {
+                            ScreenNameTransaction(
+                                itemModels = itemsDetails,
+                                inputContent = {
                                     FormPickerWithButton(
                                         label = "Date",
                                         placeholder = "Select date",
@@ -478,7 +335,7 @@ fun PageAddTransaction(
                                         }
                                     )
                                 }
-                            }
+                            )
                         }
                         else -> {
 
